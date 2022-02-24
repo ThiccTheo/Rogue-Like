@@ -16,7 +16,7 @@ Player::Player(RenderWindow* window, string src, float* deltaTime, View* view, v
 	bottomHitbox.setFillColor(Color::Red);
 	topHitbox.setPosition(sprite.getPosition().x + 1 , sprite.getPosition().y - 1);
 	bottomHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y + SPRITE_SIZE);
-	
+
 	this->window = window;
 	this->deltaTime = deltaTime;
 	this->view = view;
@@ -49,9 +49,9 @@ void Player::update() {
 		position.y += velocity.y;
 	}
 
-	if(Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr) {
+	if(Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
 		position.y -= 1.f;
-		velocity.y = -3.f;
+		velocity.y = -1.5f;
 	}
 
 	//acceleration (we need deltaTime)
