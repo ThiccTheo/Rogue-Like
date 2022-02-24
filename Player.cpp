@@ -16,7 +16,7 @@ Player::Player(RenderWindow* window, string src, float* deltaTime, View* view, v
 	bottomHitbox.setFillColor(Color::Red);
 	topHitbox.setPosition(sprite.getPosition().x + 1 , sprite.getPosition().y - 1);
 	bottomHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y + SPRITE_SIZE);
-
+	
 	this->window = window;
 	this->deltaTime = deltaTime;
 	this->view = view;
