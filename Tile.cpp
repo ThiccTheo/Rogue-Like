@@ -7,7 +7,7 @@ Tile::Tile(RenderWindow* window, vector<Tile>* tileVector)
 	this->window = window;
 }
 
-Tile::Tile(int &x, int &y, Texture* texture)
+Tile::Tile(float &x, float &y, Texture* texture)
 {
 	this->sprite.setTexture(*texture);
 	this->sprite.setPosition(x, y);
@@ -16,7 +16,7 @@ Tile::Tile(int &x, int &y, Texture* texture)
 void Tile::initTiles(int &levelPosX, int& levelPosY, Image* image) {
 	Color color;
 
-	int x = 0, y = 0;
+	float x = 0.f, y = 0.f;
 	for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 10; j++) {
 			x = POSITION_SCALAR * (j + (10 * levelPosX));

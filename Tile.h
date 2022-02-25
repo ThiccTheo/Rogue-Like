@@ -11,7 +11,7 @@ public:
 	void draw();
 	void createLevelPathing(Player* player);
 private:
-	Tile(int& j, int& i, Texture* texture);
+	Tile(float& x, float& y, Texture* texture);
 	void initTiles(int& levelPosX, int& levelPosY, Image* image);
 	Image getRoomTemplate(int& templateType);
 	vector<Tile>* tileVector = nullptr;

@@ -3,7 +3,7 @@
 #include "Tile.h"
 
 int main(){
-    srand(time(0));
+    srand(time(NULL));
     Clock dtClock;
     float deltaTime = 0.f;
     Vector2u resolution(320, 240);
