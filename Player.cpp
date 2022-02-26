@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(RenderWindow* window, string src, float* deltaTime, View* view, vector<Tile>* tileVector)
-	:GRAVITY(3),
+Player::Player(RenderWindow* window, string src, View* view, vector<Tile>* tileVector)
+	:GRAVITY(0.025),
 	TERMINAL_VELOCITY(0.f, 1.5f),
 	SPRITE_SIZE(16.f),
 	HITBOX_THICKNESS(1.f)
@@ -16,9 +16,8 @@ Player::Player(RenderWindow* window, string src, float* deltaTime, View* view, v
 	bottomHitbox.setFillColor(Color::Red);
 	topHitbox.setPosition(sprite.getPosition().x + 1 , sprite.getPosition().y - 1);
 	bottomHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y + SPRITE_SIZE);
-	
+
 	this->window = window;
-	this->deltaTime = deltaTime;
 	this->view = view;
 	this->tileVector = tileVector;
 }
@@ -41,7 +40,7 @@ void Player::update() {
 	}
 	else {
 		if (velocity.y < TERMINAL_VELOCITY.y) {
-			velocity.y += GRAVITY * *deltaTime;
+			velocity.y += GRAVITY;
 		}
 		else{
 			velocity.y = TERMINAL_VELOCITY.y;

@@ -6,7 +6,7 @@ class Tile;
 
 class Player {
 public:
-	Player(RenderWindow* window, string src, float* deltaTime, View* view, vector<Tile>* tileVector);
+	Player(RenderWindow* window, string src, View* view, vector<Tile>* tileVector);
 	Sprite sprite;
 	void draw();
 	void update();
