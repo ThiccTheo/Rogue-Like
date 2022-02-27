@@ -16,6 +16,9 @@ Player::Player(RenderWindow* window, string src, View* view, vector<Tile>* tileV
 	bottomHitbox.setFillColor(Color::Red);
 	topHitbox.setPosition(sprite.getPosition().x + 1 , sprite.getPosition().y - 1);
 	bottomHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y + SPRITE_SIZE);
+	sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
+	topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
+	bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 
 	this->window = window;
 	this->view = view;
@@ -29,6 +32,7 @@ void Player::draw() {
 }
 
 void Player::update() {
+
 	position = sprite.getPosition();
 	if (isBottomColliding() != nullptr) {
 		velocity.y = 0.f;
@@ -53,8 +57,9 @@ void Player::update() {
 		velocity.y = -1.5f;
 	}
 
-	//acceleration (we need deltaTime)
+	//acceleration
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
+		sprite.setScale(-1.f, 1.f);
 		//velocity.x -= 3.f;
 		position.x -= 1.f;
 		sprite.setPosition(position);
@@ -64,6 +69,7 @@ void Player::update() {
 
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
+		sprite.setScale(1.f, 1.f);
 		//velocity.x += 3.f;
 		position.x += 1.f;
 		sprite.setPosition(position);
@@ -75,7 +81,7 @@ void Player::update() {
 
 	sprite.setPosition(position);
 	topHitbox.setPosition(position.x + 1, position.y - 1);
-	bottomHitbox.setPosition(position.x + 1, position.y + SPRITE_SIZE);
+	bottomHitbox.setPosition(position.x + 1, position.y + 16.f);
 	view->setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
 
 }

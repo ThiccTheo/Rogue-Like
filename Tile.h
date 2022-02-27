@@ -19,7 +19,6 @@ private:
 	Player* player = nullptr;
 	Texture texture;
 	const string SRC;
-	const float POSITION_SCALAR = 16.f;
-	const int START_TILE = 1, DOWN_TILE = 2, UP_TILE = 3, UP_AND_DOWN_TILE = 4, DOOR_TILE = 5;
-	int x = 0, y = 0;
+	const float POSITION_SCALAR, SPRITE_SIZE;
+	const int START_TILE, DOWN_TILE, UP_TILE, UP_AND_DOWN_TILE, DOOR_TILE;
 };

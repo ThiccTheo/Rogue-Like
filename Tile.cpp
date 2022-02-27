@@ -1,6 +1,7 @@
 #include "Tile.h"
 Tile::Tile(RenderWindow* window, vector<Tile>* tileVector)
-	:SRC("Tile/Sprite.png")
+	:SRC("Tile/Sprite.png"), SPRITE_SIZE(16.f), POSITION_SCALAR(16.f),
+	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
 	texture.loadFromFile(SRC);
 	this->tileVector = tileVector;
@@ -8,8 +9,11 @@ Tile::Tile(RenderWindow* window, vector<Tile>* tileVector)
 }
 
 Tile::Tile(float &x, float &y, Texture* texture)
+	:SRC("Tile/Sprite.png"), SPRITE_SIZE(16.f), POSITION_SCALAR(16.f),
+	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
 	this->sprite.setTexture(*texture);
+	this->sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->sprite.setPosition(x, y);
 }
 
@@ -62,7 +66,6 @@ void Tile::createLevelPathing(Player* player) {
 		roomMatrix[i + 1][pos] = UP_TILE;
 	}
 
-	//these do while loops control the start and end placement. The start and ends are always left and right tiles but with special properties
 	do {
 		pos = rand() % 4;
 	} while (roomMatrix[0][pos] == 2);
@@ -85,41 +88,55 @@ void Tile::createLevelPathing(Player* player) {
 }
 
 Image Tile::getRoomTemplate(int& templateType) {
+
 	Image image;
+	int randomPick = 0;
 
-	Image door;
-	door.loadFromFile("Image/DoorTest.png");
+	/*----------------------------------------*/
 
-	Image zero;
-	zero.loadFromFile("Image/ZeroTest.png");
+	Image door_1;
+	door_1.loadFromFile("Image/DoorTest.png");
 
-	Image one1;
-	one1.loadFromFile("Image/OneTest.png");
+	Image door_array[] = {door_1,};
 
-	Image two1;
-	two1.loadFromFile("Image/TwoTest.png");
+	/*----------------------------------------*/
 
-	Image three1;
-	three1.loadFromFile("Image/ThreeTest.png");
+	Image left_right_1;
+	left_right_1.loadFromFile("Image/ZeroTest.png");
 
-	//for now, I'm only using one image for each template
-	if (templateType == 0) {
-		image = zero;
-	}
-	else if (templateType == 1) {
-		image = door;
-	}
-	else if (templateType == 2) {
-		image = one1;
-	}
-	else if (templateType == 3){
-		image = two1;
-	}
-	else if (templateType == 4){
-		image = three1;
-	}
-	else if (templateType == 5) {
-		image = zero;
+	Image left_right_array[] = {left_right_1,};
+
+	/*----------------------------------------*/
+
+	Image left_right_down_1;
+	left_right_down_1.loadFromFile("Image/OneTest.png");
+
+	Image left_right_down_array[] = {left_right_down_1,};
+
+	/*----------------------------------------*/
+
+	Image left_right_up_1;
+	left_right_up_1.loadFromFile("Image/TwoTest.png");
+
+	Image left_right_up_array[] = {left_right_up_1};
+
+	/*----------------------------------------*/
+
+	Image all_1;
+	all_1.loadFromFile("Image/ThreeTest.png");
+
+	Image all_array[] = {all_1,};
+
+	/*----------------------------------------*/
+
+	switch(templateType) {
+		case 0: image = left_right_array[randomPick]; break;
+		case 1: image = door_array[randomPick]; break;
+		case 2: image = left_right_down_array[randomPick]; break;
+		case 3: image = left_right_up_array[randomPick]; break;
+		case 4: image = all_array[randomPick]; break;
+		case 5: image = left_right_1; break;
+		default: left_right_array[randomPick];
 	}
 
 	return image;

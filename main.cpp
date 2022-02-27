@@ -4,7 +4,6 @@
 
 int main(){
     srand(time(NULL));
-    Clock dtClock;
 
     Vector2u resolution(320, 240);
     RenderWindow window(VideoMode(resolution.x, resolution.y), "Rouge Like", Style::Default);
