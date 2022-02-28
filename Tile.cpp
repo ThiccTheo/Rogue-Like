@@ -1,6 +1,6 @@
 #include "Tile.h"
 Tile::Tile(RenderWindow* window, vector<Tile>* tileVector)
-	:SRC("Tile/Sprite.png"), SPRITE_SIZE(16.f), POSITION_SCALAR(16.f),
+	:SRC("Tile/Sprite.png"), SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
 	texture.loadFromFile(SRC);
@@ -9,15 +9,16 @@ Tile::Tile(RenderWindow* window, vector<Tile>* tileVector)
 }
 
 Tile::Tile(float &x, float &y, Texture* texture)
-	:SRC("Tile/Sprite.png"), SPRITE_SIZE(16.f), POSITION_SCALAR(16.f),
+	:SRC("Tile/Sprite.png"), SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
+	this->sprite.setScale(1.5, 1.5);
 	this->sprite.setTexture(*texture);
 	this->sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->sprite.setPosition(x, y);
 }
 
-void Tile::initTiles(int &levelPosX, int& levelPosY, Image* image) {
+void Tile::initTiles(int &levelPosX, int& levelPosY, const Image& image) {
 	Color color;
 
 	float x = 0.f, y = 0.f;
@@ -26,7 +27,7 @@ void Tile::initTiles(int &levelPosX, int& levelPosY, Image* image) {
 			x = POSITION_SCALAR * (j + (10 * levelPosX));
 			y = POSITION_SCALAR * (i + (8 * levelPosY));
 
-			color = image->getPixel(j, i);
+			color = image.getPixel(j, i);
 
 			if (color == Color::Red) {
 				tileVector->push_back(Tile(x, y, &texture));
@@ -81,7 +82,7 @@ void Tile::createLevelPathing(Player* player) {
 		for (int j = 0; j < 4; j++) {
 			cout << roomMatrix[i][j] << ", ";
 			image = getRoomTemplate(roomMatrix[i][j]);
-			initTiles(j, i, &image);
+			initTiles(j, i, image);
 		}
 		cout << endl;
 	}
@@ -91,53 +92,83 @@ Image Tile::getRoomTemplate(int& templateType) {
 
 	Image image;
 	int randomPick = 0;
+	int length = 0;
 
 	/*----------------------------------------*/
 
-	Image door_1;
-	door_1.loadFromFile("Image/DoorTest.png");
+	Image DOOR1;
+	DOOR1.loadFromFile("Image/DOOR_Test.png");
 
-	Image door_array[] = {door_1,};
-
-	/*----------------------------------------*/
-
-	Image left_right_1;
-	left_right_1.loadFromFile("Image/ZeroTest.png");
-
-	Image left_right_array[] = {left_right_1,};
+	Image DOOR_array[] = {DOOR1,};
 
 	/*----------------------------------------*/
 
-	Image left_right_down_1;
-	left_right_down_1.loadFromFile("Image/OneTest.png");
+	Image LR1;
+	LR1.loadFromFile("Image/LR_Test.png");
 
-	Image left_right_down_array[] = {left_right_down_1,};
-
-	/*----------------------------------------*/
-
-	Image left_right_up_1;
-	left_right_up_1.loadFromFile("Image/TwoTest.png");
-
-	Image left_right_up_array[] = {left_right_up_1};
+	Image LR_array[] = {LR1,};
 
 	/*----------------------------------------*/
 
-	Image all_1;
-	all_1.loadFromFile("Image/ThreeTest.png");
+	Image LRD1;
+	LRD1.loadFromFile("Image/LRD_Test.png");
 
-	Image all_array[] = {all_1,};
+	Image LRD_array[] = {LRD1,};
 
 	/*----------------------------------------*/
 
-	switch(templateType) {
-		case 0: image = left_right_array[randomPick]; break;
-		case 1: image = door_array[randomPick]; break;
-		case 2: image = left_right_down_array[randomPick]; break;
-		case 3: image = left_right_up_array[randomPick]; break;
-		case 4: image = all_array[randomPick]; break;
-		case 5: image = left_right_1; break;
-		default: left_right_array[randomPick];
+	Image LRU1;
+	LRU1.loadFromFile("Image/LRU_Test.png");
+
+	Image LRU_array[] = {LRU1};
+
+	/*----------------------------------------*/
+
+	Image ALL1;
+	ALL1.loadFromFile("Image/ALL_Test.png");
+
+	Image ALL_array[] = {ALL1,};
+
+	/*----------------------------------------*/
+
+	switch (templateType) {
+		case 0: 
+			length = sizeof(LR_array) / sizeof(LR_array[0]);
+			randomPick = rand() % length;
+			image = LR_array[randomPick]; 
+			break;
+		case 1: 
+			length = sizeof(DOOR_array) / sizeof(DOOR_array[0]);
+			randomPick = rand() % length;
+			image = DOOR_array[randomPick];
+			break;
+		case 2: 
+			length = sizeof(LRD_array) / sizeof(LRD_array[0]);
+			randomPick = rand() % length;
+			image = LRD_array[randomPick];
+			break;
+		case 3:
+			length = sizeof(LRU_array) / sizeof(LRU_array[0]);
+			randomPick = rand() % length;
+			image = LRU_array[randomPick];
+			break;
+		case 4:
+			length = sizeof(ALL_array) / sizeof(ALL_array[0]);
+			randomPick = rand() % length;
+			image = ALL_array[randomPick];
+			break;
+		case 5:
+			length = sizeof(LR_array) / sizeof(LR_array[0]);
+			randomPick = rand() % length;
+			image = LR_array[randomPick];
+			break;
+		default: 
+			length = sizeof(LR_array) / sizeof(LR_array[0]);
+			randomPick = rand() % length;
+			LR_array[randomPick];
 	}
+	
+	if(rand() % 2 == 1) image.flipHorizontally();
 
 	return image;
 

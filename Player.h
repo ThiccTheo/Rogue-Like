@@ -22,6 +22,6 @@ private:
 	Vector2f velocity, position;
 	const float GRAVITY;
 	const Vector2f TERMINAL_VELOCITY;
-	const float SPRITE_SIZE, HITBOX_THICKNESS;
+	const float SPRITE_SIZE, HITBOX_THICKNESS, TILE_SIZE;
 	RectangleShape topHitbox, bottomHitbox;
 };

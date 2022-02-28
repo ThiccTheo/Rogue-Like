@@ -4,7 +4,8 @@ Player::Player(RenderWindow* window, string src, View* view, vector<Tile>* tileV
 	:GRAVITY(0.025),
 	TERMINAL_VELOCITY(0.f, 1.5f),
 	SPRITE_SIZE(16.f),
-	HITBOX_THICKNESS(1.f)
+	HITBOX_THICKNESS(1.f),
+	TILE_SIZE(24.f)
 {
 	texture.loadFromFile(src);
 	sprite.setTexture(texture);
@@ -40,7 +41,7 @@ void Player::update() {
 	}
 	else if (isTopColliding() != nullptr) {
 		velocity.y = 0.f;
-		position.y = isTopColliding()->sprite.getPosition().y + SPRITE_SIZE + 1;
+		position.y = isTopColliding()->sprite.getPosition().y + TILE_SIZE + 1;
 	}
 	else {
 		if (velocity.y < TERMINAL_VELOCITY.y) {
@@ -54,7 +55,7 @@ void Player::update() {
 
 	if(Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
 		position.y -= 1.f;
-		velocity.y = -1.5f;
+		velocity.y = -2.f;
 	}
 
 	//acceleration

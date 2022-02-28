@@ -12,7 +12,7 @@ public:
 	void createLevelPathing(Player* player);
 private:
 	Tile(float& x, float& y, Texture* texture);
-	void initTiles(int& levelPosX, int& levelPosY, Image* image);
+	void initTiles(int& levelPosX, int& levelPosY, const Image& image);
 	Image getRoomTemplate(int& templateType);
 	vector<Tile>* tileVector = nullptr;
 	RenderWindow* window = nullptr;
