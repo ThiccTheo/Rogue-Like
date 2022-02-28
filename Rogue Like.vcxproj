@@ -143,12 +143,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>

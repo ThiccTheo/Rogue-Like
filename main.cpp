@@ -1,9 +1,10 @@
 #include "Common.h"
 #include "Player.h"
 #include "Tile.h"
+#include "Enemy.h"
 
 int main(){
-    srand(time(NULL));
+    srand(time(0));
 
     Vector2u resolution(320, 240);
     RenderWindow window(VideoMode(resolution.x, resolution.y), "Rouge Like", Style::Default);
@@ -16,6 +17,10 @@ int main(){
     Tile tile(&window, &tileVector);
 
     Player player(&window, "Player/sprite.png", &view, &tileVector);
+
+    vector<Skeleton> skeletonVector;
+    Skeleton skeleton(&window, &skeletonVector, "Skeleton/sprite.png");
+    skeletonVector.push_back(skeleton);
 
     tile.createLevelPathing(&player);
 
@@ -35,6 +40,7 @@ int main(){
         window.clear(Color::White);
         window.setView(view);
         player.draw();
+        skeleton.draw();
         tile.draw();
         window.display();
         player.update();

@@ -1,4 +1,5 @@
 #include "Tile.h"
+
 Tile::Tile(RenderWindow* window, vector<Tile>* tileVector)
 	:SRC("Tile/Sprite.png"), SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
@@ -29,10 +30,10 @@ void Tile::initTiles(int &levelPosX, int& levelPosY, const Image& image) {
 
 			color = image.getPixel(j, i);
 
-			if (color == Color::Red) {
+			if (color == Color(255, 0, 0, 255)) {
 				tileVector->push_back(Tile(x, y, &texture));
 			}
-			else if (color == Color::Blue) {
+			else if (color == Color(0, 0, 255, 255)) {
 				player->sprite.setPosition(x, y);
 			}
         }
@@ -104,7 +105,7 @@ Image Tile::getRoomTemplate(int& templateType) {
 	/*----------------------------------------*/
 
 	Image LR1;
-	LR1.loadFromFile("Image/LR/LR1.png");
+	LR1.loadFromFile("Image/LR/LR_Test.png");
 
 	Image LR_array[] = {LR1,};
 
