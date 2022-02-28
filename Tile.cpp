@@ -97,35 +97,35 @@ Image Tile::getRoomTemplate(int& templateType) {
 	/*----------------------------------------*/
 
 	Image DOOR1;
-	DOOR1.loadFromFile("Image/DOOR_Test.png");
+	DOOR1.loadFromFile("Image/DOOR/DOOR_Test.png");
 
 	Image DOOR_array[] = {DOOR1,};
 
 	/*----------------------------------------*/
 
 	Image LR1;
-	LR1.loadFromFile("Image/LR_Test.png");
+	LR1.loadFromFile("Image/LR/LR1.png");
 
 	Image LR_array[] = {LR1,};
 
 	/*----------------------------------------*/
 
 	Image LRD1;
-	LRD1.loadFromFile("Image/LRD_Test.png");
+	LRD1.loadFromFile("Image/LRD/LRD_Test.png");
 
 	Image LRD_array[] = {LRD1,};
 
 	/*----------------------------------------*/
 
 	Image LRU1;
-	LRU1.loadFromFile("Image/LRU_Test.png");
+	LRU1.loadFromFile("Image/LRU/LRU_Test.png");
 
 	Image LRU_array[] = {LRU1};
 
 	/*----------------------------------------*/
 
 	Image ALL1;
-	ALL1.loadFromFile("Image/ALL_Test.png");
+	ALL1.loadFromFile("Image/ALL/ALL_Test.png");
 
 	Image ALL_array[] = {ALL1,};
 

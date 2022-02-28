@@ -10,6 +10,7 @@ public:
 	Sprite sprite;
 	void draw();
 	void update();
+	int jumpCounter;
 private:
 	vector<Tile>* tileVector = nullptr;
 	Tile* isSideColliding();

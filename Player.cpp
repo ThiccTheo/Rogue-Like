@@ -20,6 +20,7 @@ Player::Player(RenderWindow* window, string src, View* view, vector<Tile>* tileV
 	sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
+	jumpCounter = 0;
 
 	this->window = window;
 	this->view = view;
@@ -53,9 +54,12 @@ void Player::update() {
 		position.y += velocity.y;
 	}
 
-	if(Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
-		position.y -= 1.f;
-		velocity.y = -2.f;
+	if (Keyboard::isKeyPressed(Keyboard::W) && jumpCounter == 0) {
+		jumpCounter++;
+		if (Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
+			position.y -= 1.f;
+			velocity.y = -1.75f;
+		}
 	}
 
 	//acceleration

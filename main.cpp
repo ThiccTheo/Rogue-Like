@@ -25,6 +25,11 @@ int main(){
         while (window.pollEvent(event)){
             if (event.type == Event::Closed)
                 window.close();
+            if (event.type == Event::KeyReleased) {
+                if (event.key.code == Keyboard::W) {
+                    player.jumpCounter = 0;
+                }
+            }
         }
         
         window.clear(Color::White);
