@@ -1,7 +1,7 @@
 #include "Common.h"
 #include "Player.h"
 #include "Tile.h"
-#include "Enemy.h"
+#include "Skeleton.h"
 
 int main(){
     srand(time(0));
@@ -12,15 +12,16 @@ int main(){
 
     View view;
     view.setSize(resolution.x, resolution.y);
-    
-    vector<Tile> tileVector;
-    Tile tile(&window, &tileVector);
-
-    Player player(&window, "Player/sprite.png", &view, &tileVector);
 
     vector<Skeleton> skeletonVector;
-    Skeleton skeleton(&window, &skeletonVector, "Skeleton/sprite.png");
-    skeletonVector.push_back(skeleton);
+    Skeleton skeleton(&window, &skeletonVector);
+
+    vector<Tile> tileVector;
+    Tile tile(&window, &tileVector, &skeletonVector);
+
+    Player player(&window, &view, &tileVector);
+
+ 
 
     tile.createLevelPathing(&player);
 
@@ -37,7 +38,7 @@ int main(){
             }
         }
         
-        window.clear(Color::White);
+        window.clear(Color::Magenta);
         window.setView(view);
         player.draw();
         skeleton.draw();

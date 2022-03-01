@@ -6,19 +6,18 @@ class Tile;
 
 class Player {
 public:
-	Player(RenderWindow* window, string src, View* view, vector<Tile>* tileVector);
+	Player(RenderWindow* window, View* view, vector<Tile>* tileVector);
 	Sprite sprite;
 	void draw();
 	void update();
 	int jumpCounter;
 private:
 	vector<Tile>* tileVector = nullptr;
+	View* view = nullptr;
+	RenderWindow* window = nullptr;
 	Tile* isSideColliding();
 	Tile* isTopColliding();
 	Tile* isBottomColliding();
-	View* view = nullptr;
-	float* deltaTime = nullptr;
-	RenderWindow* window = nullptr;
 	Texture texture;
 	Vector2f velocity, position;
 	const float GRAVITY;

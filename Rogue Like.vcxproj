@@ -150,7 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Tile.h" />

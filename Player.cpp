@@ -1,16 +1,16 @@
 #include "Player.h"
 
-Player::Player(RenderWindow* window, string src, View* view, vector<Tile>* tileVector)
+Player::Player(RenderWindow* window, View* view, vector<Tile>* tileVector)
 	:GRAVITY(0.025),
 	TERMINAL_VELOCITY(0.f, 1.5f),
 	SPRITE_SIZE(16.f),
 	HITBOX_THICKNESS(1.f),
 	TILE_SIZE(24.f)
 {
-	texture.loadFromFile(src);
+	texture.loadFromFile("Player/sprite.png");
 	sprite.setTexture(texture);
 	//temporary debugging position
-	sprite.setPosition(0.f, -50.f);
+	sprite.setPosition(0.f, -60.f);
 	topHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
 	bottomHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
 	topHitbox.setFillColor(Color::Red);
