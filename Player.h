@@ -1,6 +1,7 @@
 #pragma once
 #include "Common.h"
 #include "Tile.h"
+#include "ResourceManager.h"
 
 class Tile;
 
@@ -18,7 +19,6 @@ private:
 	Tile* isSideColliding();
 	Tile* isTopColliding();
 	Tile* isBottomColliding();
-	Texture texture;
 	Vector2f velocity, position;
 	const float GRAVITY;
 	const Vector2f TERMINAL_VELOCITY;

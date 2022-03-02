@@ -4,18 +4,17 @@ Tile::Tile(RenderWindow* window, vector<Tile>* tileVector, vector<Skeleton>* ske
 	:SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
-	texture.loadFromFile("Tile/Sprite.png");
 	this->tileVector = tileVector;
 	this->window = window;
 	this->skeletonVector = skeletonVector;
 }
 
-Tile::Tile(float& x, float& y, Texture* texture)
+Tile::Tile(float& x, float& y)
 	:SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
 	this->sprite.setScale(1.5, 1.5);
-	this->sprite.setTexture(*texture);
+	this->sprite.setTexture(ResourceManager::tileTexture);
 	this->sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->sprite.setPosition(x, y);
 }
@@ -32,10 +31,13 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			color = image.getPixel(j, i);
 
 			if (color == Color(255, 0, 0, 255)) {
-				tileVector->push_back(Tile(x, y, &texture));
+				tileVector->push_back(Tile(x, y));
 			}
 			else if (color == Color(0, 0, 255, 255)) {
 				player->sprite.setPosition(x, y);
+			}
+			else if (color == Color::White) {
+				skeletonVector->push_back(Skeleton(x, y));
 			}
 		}
 	}

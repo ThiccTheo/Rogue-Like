@@ -1,5 +1,6 @@
 #pragma once
 #include "Common.h"
+#include "ResourceManager.h"
 
 class Skeleton {
 public:
@@ -9,7 +10,6 @@ public:
 	void update();
 	Sprite sprite;
 private:
-	Texture texture;
 	RenderWindow* window = nullptr;
 	vector<Skeleton>* skeletonVector = nullptr;
 	const float SPRITE_SIZE;

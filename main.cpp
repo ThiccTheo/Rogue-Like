@@ -6,6 +6,8 @@
 int main(){
     srand(time(0));
 
+    ResourceManager::loadMedia();
+
     Vector2u resolution(320, 240);
     RenderWindow window(VideoMode(resolution.x, resolution.y), "Rouge Like", Style::Default);
     window.setFramerateLimit(120);

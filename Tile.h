@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Player.h"
 #include "Skeleton.h"
+#include "ResourceManager.h"
 
 class Player;
 
@@ -12,14 +13,13 @@ public:
 	void draw();
 	void createLevelPathing(Player* player);
 private:
-	Tile(float& x, float& y, Texture* texture);
+	Tile(float& x, float& y);
 	void initTiles(int& levelPosX, int& levelPosY, const Image& image);
 	Image getRoomTemplate(int& templateType);
 	vector<Tile>* tileVector = nullptr;
 	vector<Skeleton>* skeletonVector = nullptr;
 	RenderWindow* window = nullptr;
 	Player* player = nullptr;
-	Texture texture;
 	const float POSITION_SCALAR, SPRITE_SIZE;
 	const int START_TILE, DOWN_TILE, UP_TILE, UP_AND_DOWN_TILE, DOOR_TILE;
 };

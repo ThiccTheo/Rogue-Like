@@ -7,8 +7,7 @@ Player::Player(RenderWindow* window, View* view, vector<Tile>* tileVector)
 	HITBOX_THICKNESS(1.f),
 	TILE_SIZE(24.f)
 {
-	texture.loadFromFile("Player/sprite.png");
-	sprite.setTexture(texture);
+	sprite.setTexture(ResourceManager::playerTexture);
 	//temporary debugging position
 	sprite.setPosition(0.f, -60.f);
 	topHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
