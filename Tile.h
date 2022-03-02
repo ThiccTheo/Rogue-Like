@@ -6,6 +6,8 @@
 
 class Player;
 
+class Skeleton;
+
 class Tile {
 public:
 	Sprite sprite;
@@ -20,6 +22,6 @@ private:
 	vector<Skeleton>* skeletonVector = nullptr;
 	RenderWindow* window = nullptr;
 	Player* player = nullptr;
-	const float POSITION_SCALAR, SPRITE_SIZE;
+	const float POSITION_SCALAR, SPRITE_SIZE, SCALE;
 	const int START_TILE, DOWN_TILE, UP_TILE, UP_AND_DOWN_TILE, DOOR_TILE;
 };

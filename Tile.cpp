@@ -1,7 +1,7 @@
 #include "Tile.h"
 
 Tile::Tile(RenderWindow* window, vector<Tile>* tileVector, vector<Skeleton>* skeletonVector)
-	:SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
+	:SPRITE_SIZE(24.f), POSITION_SCALAR(24.f), SCALE(1.5),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
 	this->tileVector = tileVector;
@@ -10,12 +10,12 @@ Tile::Tile(RenderWindow* window, vector<Tile>* tileVector, vector<Skeleton>* ske
 }
 
 Tile::Tile(float& x, float& y)
-	:SPRITE_SIZE(24.f), POSITION_SCALAR(24.f),
+	:SPRITE_SIZE(24.f), POSITION_SCALAR(24.f), SCALE(1.5),
 	START_TILE(1), DOWN_TILE(2), UP_TILE(3), UP_AND_DOWN_TILE(4), DOOR_TILE(5)
 {
-	this->sprite.setScale(1.5, 1.5);
+	this->sprite.setScale(SCALE, SCALE);
 	this->sprite.setTexture(ResourceManager::tileTexture);
-	this->sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
+	this->sprite.setOrigin(SPRITE_SIZE / (POSITION_SCALAR / 8.f), 0.f);
 	this->sprite.setPosition(x, y);
 }
 
@@ -33,11 +33,13 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			if (color == Color(255, 0, 0, 255)) {
 				tileVector->push_back(Tile(x, y));
 			}
-			else if (color == Color(0, 0, 255, 255)) {
-				player->sprite.setPosition(x, y);
-			}
-			else if (color == Color::White) {
+			else if (color == Color(0, 255, 0, 255)) {
+				y += 8.f;
 				skeletonVector->push_back(Skeleton(x, y));
+			}
+			else if (color == Color(0, 0, 255, 255)) {
+				y += 8.f;
+				player->sprite.setPosition(x, y);
 			}
 		}
 	}
@@ -108,7 +110,7 @@ Image Tile::getRoomTemplate(int& templateType) {
 	/*----------------------------------------*/
 
 	Image LR1;
-	LR1.loadFromFile("Image/LR/LR_Test.png");
+	LR1.loadFromFile("Image/LR/LR1.png");
 
 	Image LR_array[] = { LR1, };
 
