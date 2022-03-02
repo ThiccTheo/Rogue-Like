@@ -95,7 +95,6 @@ void Tile::createLevelPathing(Player* player) {
 }
 
 Image Tile::getRoomTemplate(int& templateType) {
-
 	Image image;
 	int randomPick = 0;
 	int length = 0;
