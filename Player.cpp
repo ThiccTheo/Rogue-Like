@@ -1,9 +1,14 @@
 #include "Player.h"
 
-Player::Player(RenderWindow* window, View* view, vector<Tile>* tileVector)
-	:GRAVITY(0.025), TERMINAL_VELOCITY(0.f, 1.5f),
-	SPRITE_SIZE(16.f), HITBOX_THICKNESS(1.f), TILE_SIZE(24.f)
-{
+const float Player::GRAVITY = 0.025;
+const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f, Player::TILE_SIZE = 24.f;
+const Vector2f Player::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
+Sprite Player::sprite;
+RectangleShape Player::topHitbox, Player::bottomHitbox;
+Vector2f Player::velocity, Player::position;
+int Player::jumpCounter;
+
+void Player::init() {
 	sprite.setTexture(ResourceManager::playerTexture);
 	//temporary debugging position
 	sprite.setPosition(0.f, -50.f);
@@ -11,22 +16,19 @@ Player::Player(RenderWindow* window, View* view, vector<Tile>* tileVector)
 	bottomHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
 	topHitbox.setFillColor(Color::Red);
 	bottomHitbox.setFillColor(Color::Red);
-	topHitbox.setPosition(sprite.getPosition().x + 1 , sprite.getPosition().y - 1);
+	topHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y - 1);
 	bottomHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y + SPRITE_SIZE);
 	sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	jumpCounter = 0;
-
-	this->window = window;
-	this->view = view;
-	this->tileVector = tileVector;
 }
 
-void Player::draw() {
-	window->draw(topHitbox);
-	window->draw(bottomHitbox);
-	window->draw(sprite);
+void Player::draw() 
+{
+	Game::window.draw(topHitbox);
+	Game::window.draw(bottomHitbox);
+	Game::window.draw(sprite);
 }
 
 void Player::update() {
@@ -83,15 +85,15 @@ void Player::update() {
 	sprite.setPosition(position);
 	topHitbox.setPosition(position.x + 1, position.y - 1);
 	bottomHitbox.setPosition(position.x + 1, position.y + 16.f);
-	view->setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
+	Game::view.setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
 
 }
 
 Tile* Player::isSideColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < tileVector->size(); i++) {
-		if (sprite.getGlobalBounds().intersects(tileVector->at(i).sprite.getGlobalBounds())) {
-			collider = &tileVector->at(i);
+	for (int i = 0; i < Tile::tileVector.size(); i++) {
+		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+			collider = &Tile::tileVector[i];
 			return collider;
 		}
 	}
@@ -100,9 +102,9 @@ Tile* Player::isSideColliding() {
 
 Tile* Player::isTopColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < tileVector->size(); i++) {
-		if (topHitbox.getGlobalBounds().intersects(tileVector->at(i).sprite.getGlobalBounds())) {
-			collider = &tileVector->at(i);
+	for (int i = 0; i < Tile::tileVector.size(); i++) {
+		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+			collider = &Tile::tileVector[i];
 			return collider;
 		}
 	}
@@ -111,9 +113,9 @@ Tile* Player::isTopColliding() {
 
 Tile* Player::isBottomColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < tileVector->size(); i++) {
-		if (bottomHitbox.getGlobalBounds().intersects(tileVector->at(i).sprite.getGlobalBounds())) {
-			collider = &tileVector->at(i);
+	for (int i = 0; i < Tile::tileVector.size(); i++) {
+		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+			collider = &Tile::tileVector[i];
 			return collider;
 		}
 	}
