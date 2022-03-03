@@ -5,7 +5,6 @@
 
 int main(){
     srand(time(0));
-    Clock clock;
     ResourceManager::loadMedia();
 
     Vector2u resolution(320, 240);
@@ -38,7 +37,6 @@ int main(){
                 }
             }
         }
-        //cout << 1 / clock.restart().asSeconds()<<endl;
         window.clear(Color::White);
         window.setView(view);
         skeleton.draw();

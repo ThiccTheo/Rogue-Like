@@ -13,6 +13,7 @@ public:
 	void update();
 	Sprite sprite;
 	void getTileVector(vector<Tile>* tileVector);
+	static vector<Skeleton> sv;
 private:
 	RenderWindow* window = nullptr;
 	vector<Skeleton>* skeletonVector = nullptr;

@@ -21,4 +21,5 @@ void ResourceManager::loadMedia() {
 	LRD1.loadFromFile("Image/LRD/LRD_Test.png");
 	LRU1.loadFromFile("Image/LRU/LRU_Test.png");
 	ALL1.loadFromFile("Image/ALL/ALL_Test.png");
+	EXIT1.loadFromFile("Image/LR/LR1.png");
 }

@@ -134,7 +134,7 @@ Image Tile::getRoomTemplate(int& templateType) {
 		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
 		randomPick = rand() % length;*/
 		//image = ResourceManager::LR_array[randomPick];
-		image = ResourceManager::LR1;
+		image = ResourceManager::EXIT1;
 		break;
 	default:
 		/*length = sizeof(LR_array) / sizeof(LR_array[0]);

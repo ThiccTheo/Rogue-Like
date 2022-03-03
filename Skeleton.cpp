@@ -1,5 +1,7 @@
 #include "Skeleton.h"
 
+vector<Skeleton> Skeleton::sv;
+
 Skeleton::Skeleton(RenderWindow* window, vector<Skeleton>* skeletonVector) 
 	:SPRITE_SIZE(16.f), HITBOX_THICKNESS(1.f),
 	GRAVITY(0.025), TERMINAL_VELOCITY(0.f, 1.5f),
