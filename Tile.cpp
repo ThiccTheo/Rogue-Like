@@ -99,78 +99,48 @@ Image Tile::getRoomTemplate(int& templateType) {
 	int randomPick = 0;
 	int length = 0;
 
-	/*----------------------------------------*/
-
-	Image DOOR1;
-	DOOR1.loadFromFile("Image/DOOR/DOOR_Test.png");
-
-	Image DOOR_array[] = { DOOR1, };
-
-	/*----------------------------------------*/
-
-	Image LR1;
-	LR1.loadFromFile("Image/LR/LR1.png");
-
-	Image LR_array[] = { LR1, };
-
-	/*----------------------------------------*/
-
-	Image LRD1;
-	LRD1.loadFromFile("Image/LRD/LRD_Test.png");
-
-	Image LRD_array[] = { LRD1, };
-
-	/*----------------------------------------*/
-
-	Image LRU1;
-	LRU1.loadFromFile("Image/LRU/LRU_Test.png");
-
-	Image LRU_array[] = { LRU1 };
-
-	/*----------------------------------------*/
-
-	Image ALL1;
-	ALL1.loadFromFile("Image/ALL/ALL_Test.png");
-
-	Image ALL_array[] = { ALL1, };
-
-	/*----------------------------------------*/
-
 	switch (templateType) {
 	case 0:
-		length = sizeof(LR_array) / sizeof(LR_array[0]);
-		randomPick = rand() % length;
-		image = LR_array[randomPick];
+		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
+		randomPick = rand() % length;*/
+		//image = ResourceManager::LR_array[randomPick];
+		image = ResourceManager::LR1;
 		break;
 	case 1:
-		length = sizeof(DOOR_array) / sizeof(DOOR_array[0]);
-		randomPick = rand() % length;
-		image = DOOR_array[randomPick];
+		/*length = sizeof(DOOR_array) / sizeof(DOOR_array[0]);
+		randomPick = rand() % length;*/
+		//image = ResourceManager::DOOR_array[randomPick];
+		image = ResourceManager::START1;
 		break;
 	case 2:
-		length = sizeof(LRD_array) / sizeof(LRD_array[0]);
-		randomPick = rand() % length;
-		image = LRD_array[randomPick];
+		/*length = sizeof(LRD_array) / sizeof(LRD_array[0]);
+		randomPick = rand() % length;*/
+		//image = ResourceManager::LRD_array[randomPick];
+		image = ResourceManager::LRD1;
 		break;
 	case 3:
-		length = sizeof(LRU_array) / sizeof(LRU_array[0]);
-		randomPick = rand() % length;
-		image = LRU_array[randomPick];
+		/*length = sizeof(LRU_array) / sizeof(LRU_array[0]);
+		randomPick = rand() % length;*/
+		//image = ResourceManager::LRU_array[randomPick];
+		image = ResourceManager::LRU1;
 		break;
 	case 4:
-		length = sizeof(ALL_array) / sizeof(ALL_array[0]);
-		randomPick = rand() % length;
-		image = ALL_array[randomPick];
+		/*length = sizeof(ALL_array) / sizeof(ALL_array[0]);
+		randomPick = rand() % length;*/
+		//image = ResourceManager::ALL_array[randomPick];
+		image = ResourceManager::ALL1;
 		break;
 	case 5:
-		length = sizeof(LR_array) / sizeof(LR_array[0]);
-		randomPick = rand() % length;
-		image = LR_array[randomPick];
+		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
+		randomPick = rand() % length;*/
+		//image = ResourceManager::LR_array[randomPick];
+		image = ResourceManager::LR1;
 		break;
 	default:
-		length = sizeof(LR_array) / sizeof(LR_array[0]);
-		randomPick = rand() % length;
-		LR_array[randomPick];
+		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
+		randomPick = rand() % length;*/
+		//ResourceManager::LR_array[randomPick];
+		image = ResourceManager::LR1;
 	}
 
 	if (rand() % 2 == 1) image.flipHorizontally();
