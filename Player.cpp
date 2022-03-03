@@ -86,6 +86,7 @@ void Player::update() {
 	topHitbox.setPosition(position.x + 1, position.y - 1);
 	bottomHitbox.setPosition(position.x + 1, position.y + 16.f);
 	Game::view.setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
+	Game::cullingPoint.setPosition(Game::view.getCenter());
 
 }
 

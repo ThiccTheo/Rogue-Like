@@ -40,7 +40,9 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 
 void Tile::draw() {
 	for (int i = 0; i < tileVector.size(); i++) {
-		Game::window.draw(tileVector[i].sprite);
+		if (tileVector[i].sprite.getGlobalBounds().intersects(Game::cullingPoint.getGlobalBounds())) {
+			Game::window.draw(tileVector[i].sprite);
+		}
 	}
 }
 

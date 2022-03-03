@@ -23,81 +23,92 @@ Skeleton::Skeleton(float& x, float& y){
 
 void Skeleton::draw(){
 	for (int i = 0; i < skeletonVector.size(); i++) {
-		Game::window.draw(skeletonVector.at(i).bottomHitbox);
-		Game::window.draw(skeletonVector.at(i).topHitbox);
-		Game::window.draw(skeletonVector.at(i).sprite);
+		if (skeletonVector[i].sprite.getGlobalBounds().intersects(Game::cullingPoint.getGlobalBounds())) {
+			Game::window.draw(skeletonVector[i].bottomHitbox);
+			Game::window.draw(skeletonVector[i].topHitbox);
+			Game::window.draw(skeletonVector[i].sprite);
+		}
 	}
 }
 
-//void Skeleton::update(){
-//	//skeletonVector->at(i).sprite
-//
-//	for (int i = 0; i < skeletonVector->size(); i++) {
-//		skeletonVector->at(i).position = skeletonVector->at(i).sprite.getPosition();
-//
-//		if (isBottomColliding() != nullptr) {
-//			skeletonVector->at(i).velocity.y = 0.f;
-//			skeletonVector->at(i).position.y = isBottomColliding()->sprite.getPosition().y - SPRITE_SIZE;
-//		}
-//		else if (isTopColliding() != nullptr) {
-//			skeletonVector->at(i).velocity.y = 0.f;
-//			skeletonVector->at(i).position.y = isTopColliding()->sprite.getPosition().y + TILE_SIZE + 1;
-//		}
-//		else {
-//			if (skeletonVector->at(i).velocity.y < TERMINAL_VELOCITY.y) {
-//				skeletonVector->at(i).velocity.y += GRAVITY;
-//			}
-//			else {
-//				skeletonVector->at(i).velocity.y = TERMINAL_VELOCITY.y;
-//			}
-//			skeletonVector->at(i).position.y += skeletonVector->at(i).velocity.y;
-//		}
-//
-//
-//		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-//		skeletonVector->at(i).sprite.setPosition(skeletonVector->at(i).position);
-//		skeletonVector->at(i).topHitbox.setPosition(skeletonVector->at(i).position.x + 1, skeletonVector->at(i).position.y - 1);
-//		skeletonVector->at(i).bottomHitbox.setPosition(skeletonVector->at(i).position.x + 1, skeletonVector->at(i).position.y + 16.f);
-//	}
-//}
+void Skeleton::update(){
+	for (int i = 0; i < skeletonVector.size(); i++) {
+		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
+		if (isBottomColliding() != nullptr) {
+			isBottomColliding()->velocity.y = 0.f;
+			isBottomColliding()->position.y = isBottomColliding()->collidingTile->sprite.getPosition().y - SPRITE_SIZE;
+		}
+		else if (isTopColliding() != nullptr) {
+			isBottomColliding()->velocity.y = 0.f;
+			isBottomColliding()->position.y = isTopColliding()->collidingTile->sprite.getPosition().y + TILE_SIZE + 1;
+		}
+		else {
+			if (skeletonVector[i].velocity.y < TERMINAL_VELOCITY.y) {
+				skeletonVector[i].velocity.y += GRAVITY;
+			}
+			else {
+				skeletonVector[i].velocity.y = TERMINAL_VELOCITY.y;
+			}
+			skeletonVector[i].position.y += skeletonVector[i].velocity.y;
+		}
 
+		skeletonVector[i].position.x += 0.1f;
 
-//Tile* Skeleton::isSideColliding() {
-//	Tile* collider = nullptr;
-//	for (int i = 0; i < tileVector->size(); i++) {
-//		for (int j = 0; j < skeletonVector->size(); j++) {
-//			if (skeletonVector->at(j).sprite.getGlobalBounds().intersects(tileVector->at(i).sprite.getGlobalBounds())) {
-//				collider = &tileVector->at(i);
-//				return collider;
-//			}
-//		}
-//	}
-//	return collider;
-//}
-//
-//Tile* Skeleton::isTopColliding() {
-//	Tile* collider = nullptr;
-//	for (int i = 0; i < tileVector->size(); i++) {
-//		for (int j = 0; j < skeletonVector->size(); j++) {
-//			if (skeletonVector->at(j).topHitbox.getGlobalBounds().intersects(tileVector->at(i).sprite.getGlobalBounds())) {
-//				collider = &tileVector->at(i);
-//				return collider;
-//			}
-//		}
-//	}
-//	return collider;
-//}
-//
-//Tile* Skeleton::isBottomColliding() {
-//	Tile* collider = nullptr;
-//	for (int i = 0; i < tileVector->size(); i++) {
-//		for (int j = 0; j < skeletonVector->size(); j++) {
-//			if (skeletonVector->at(j).bottomHitbox.getGlobalBounds().intersects(tileVector->at(i).sprite.getGlobalBounds())) {
-//				collider = &tileVector->at(i);
-//				return collider;
-//			}
-//		}
-//	}
-//	return collider;
-//}
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		skeletonVector[i].sprite.setPosition(skeletonVector[i].position);
+		skeletonVector[i].topHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y - 1);
+		skeletonVector[i].bottomHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y + 16.f);
+	}
+}
+
+Skeleton* Skeleton::isSideColliding() {
+	Skeleton* collider = nullptr;
+	for (int i = 0; i < Tile::tileVector.size(); i++) {
+		for (int j = 0; j < skeletonVector.size(); j++) {
+			if (skeletonVector[j].sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+				skeletonVector[j].collidingTile = &Tile::tileVector[i];
+				collider = &skeletonVector[j];
+				return collider;
+			}
+			else {
+				skeletonVector[j].collidingTile = nullptr;
+			}
+		}
+	}
+	return collider;
+}
+
+Skeleton* Skeleton::isTopColliding() {
+	Skeleton* collider = nullptr;
+	for (int i = 0; i < Tile::tileVector.size(); i++) {
+		for (int j = 0; j < skeletonVector.size(); j++) {
+			if (skeletonVector[j].topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+				skeletonVector[j].collidingTile = &Tile::tileVector[i];
+				collider = &skeletonVector[j];
+				return collider;
+			}
+			else {
+				skeletonVector[j].collidingTile = nullptr;
+			}
+		}
+	}
+	return collider;
+}
+
+Skeleton* Skeleton::isBottomColliding() {
+	Skeleton* collider = nullptr;
+	for (int i = 0; i < Tile::tileVector.size(); i++) {
+		for (int j = 0; j < skeletonVector.size(); j++) {
+			if (skeletonVector[j].bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+				skeletonVector[j].collidingTile = &Tile::tileVector[i];
+				collider = &skeletonVector[j];
+				return collider;
+			}
+			else {
+				skeletonVector[j].collidingTile = nullptr;
+			}
+		}
+	}
+	return collider;
+}

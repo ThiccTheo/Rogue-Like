@@ -17,8 +17,9 @@ private:
 	static const float SPRITE_SIZE, HITBOX_THICKNESS, TILE_SIZE, GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
 	Vector2f position, velocity;
+	Tile* collidingTile = nullptr;
 	RectangleShape topHitbox, bottomHitbox;
-	Tile* isSideColliding();
-	Tile* isTopColliding();
-	Tile* isBottomColliding();
+	static Skeleton* isSideColliding();
+	static Skeleton* isTopColliding();
+	static Skeleton* isBottomColliding();
 };
