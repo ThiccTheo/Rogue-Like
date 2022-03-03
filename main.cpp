@@ -29,7 +29,7 @@ int main(){
         }
         Game::window.clear(Color::White);
         Game::window.setView(Game::view);
-        Game::window.draw(Game::cullingPoint);
+ 
         Skeleton::draw();
         Player::draw();
         Tile::draw();
