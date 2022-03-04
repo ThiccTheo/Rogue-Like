@@ -7,6 +7,9 @@ Sprite Player::sprite;
 RectangleShape Player::topHitbox, Player::bottomHitbox;
 Vector2f Player::velocity, Player::position;
 int Player::jumpCounter;
+string Player::animationType;
+Clock Player::animationClock;
+int Player::walkFrame = 0;
 
 void Player::init() {
 	sprite.setTexture(ResourceManager::playerTexture);
@@ -22,12 +25,18 @@ void Player::init() {
 	topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	jumpCounter = 0;
+	animationType = "idle";
 }
 
 void Player::draw() 
 {
-	//Game::window.draw(topHitbox);
-	//Game::window.draw(bottomHitbox);
+	if (animationType == "idle") {
+		sprite.setTextureRect(IntRect(0, 0, 16, 16));
+	}
+	else if (animationType == "walk") {
+		walkAnimation();
+	}
+
 	Game::window.draw(sprite);
 }
 
@@ -62,6 +71,7 @@ void Player::update() {
 
 	//acceleration
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
+		animationType = "walk";
 		sprite.setScale(-1.f, 1.f);
 		//velocity.x -= 3.f;
 		position.x -= 1.f;
@@ -72,6 +82,7 @@ void Player::update() {
 
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
+		animationType = "walk";
 		sprite.setScale(1.f, 1.f);
 		//velocity.x += 3.f;
 		position.x += 1.f;
@@ -79,6 +90,10 @@ void Player::update() {
 		if (isSideColliding() != nullptr) {
 			position.x -= 1.f;
 		}
+	}
+
+	if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D)) {
+		animationType = "idle";
 	}
 	//else{} (decay)
 
@@ -121,4 +136,22 @@ Tile* Player::isBottomColliding() {
 		}
 	}
 	return collider;
+}
+
+void Player::walkAnimation() {
+	if (walkFrame == 0) {
+		sprite.setTextureRect(IntRect(16, 0, 16, 16));
+	}
+
+	else if (walkFrame == 1) {
+		sprite.setTextureRect(IntRect(32, 0, 16, 16));
+	}
+
+	if (animationClock.getElapsedTime().asSeconds() > 0.10) {
+		walkFrame++;
+		if (walkFrame > 1) {
+			walkFrame = 0;
+		}
+		animationClock.restart();
+	}
 }

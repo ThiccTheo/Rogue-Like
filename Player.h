@@ -22,4 +22,8 @@ private:
 	static const Vector2f TERMINAL_VELOCITY;
 	static const float SPRITE_SIZE, HITBOX_THICKNESS, TILE_SIZE;
 	static RectangleShape topHitbox, bottomHitbox;
+	static string animationType;
+	static Clock animationClock;
+	static void walkAnimation();
+	static int walkFrame;
 };

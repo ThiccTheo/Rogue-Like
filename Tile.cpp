@@ -91,50 +91,15 @@ void Tile::createLevelPathing() {
 Image Tile::getRoomTemplate(int& templateType) {
 	Image image;
 	int randomPick = 0;
-	int length = 0;
 
 	switch (templateType) {
-	case 0:
-		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
-		randomPick = rand() % length;*/
-		//image = ResourceManager::LR_array[randomPick];
-		image = ResourceManager::LR1;
-		break;
-	case 1:
-		/*length = sizeof(DOOR_array) / sizeof(DOOR_array[0]);
-		randomPick = rand() % length;*/
-		//image = ResourceManager::DOOR_array[randomPick];
-		image = ResourceManager::START1;
-		break;
-	case 2:
-		/*length = sizeof(LRD_array) / sizeof(LRD_array[0]);
-		randomPick = rand() % length;*/
-		//image = ResourceManager::LRD_array[randomPick];
-		image = ResourceManager::LRD1;
-		break;
-	case 3:
-		/*length = sizeof(LRU_array) / sizeof(LRU_array[0]);
-		randomPick = rand() % length;*/
-		//image = ResourceManager::LRU_array[randomPick];
-		image = ResourceManager::LRU1;
-		break;
-	case 4:
-		/*length = sizeof(ALL_array) / sizeof(ALL_array[0]);
-		randomPick = rand() % length;*/
-		//image = ResourceManager::ALL_array[randomPick];
-		image = ResourceManager::ALL1;
-		break;
-	case 5:
-		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
-		randomPick = rand() % length;*/
-		//image = ResourceManager::LR_array[randomPick];
-		image = ResourceManager::EXIT1;
-		break;
-	default:
-		/*length = sizeof(LR_array) / sizeof(LR_array[0]);
-		randomPick = rand() % length;*/
-		//ResourceManager::LR_array[randomPick];
-		image = ResourceManager::LR1;
+	case 0: /*randomPick = rand() % ResourceManager::LR_size; image = ResourceManager::LR_array[randomPick]; break; */ image = ResourceManager::LR1; break;
+	case 1: /*randomPick = rand() % ResourceManager::START_size; image = ResourceManager::START_array[randomPick]; break;*/image = ResourceManager::START1; break;
+	case 2: /*randomPick = rand() % ResourceManager::LRD_size; image = ResourceManager::LRD_array[randomPick]; break;*/image = ResourceManager::LRD1; break;
+	case 3: /*randomPick = rand() % ResourceManager::LRU_size; image = ResourceManager::LRU_array[randomPick]; break;*/image = ResourceManager::LRU1; break;
+	case 4: /*randomPick = rand() % ResourceManager::ALL_size; image = ResourceManager::ALL_array[randomPick]; break;*/image = ResourceManager::ALL1; break;
+	case 5: /*randomPick = rand() % ResourceManager::EXIT_size; image = ResourceManager::EXIT_array[randomPick]; break;*/image = ResourceManager::EXIT1; break;
+	default: /*randomPick = rand() % ResourceManager::LR_size; image = ResourceManager::LR_array[randomPick];*/image = ResourceManager::LR1; break;
 	}
 
 	if (rand() % 2 == 1) image.flipHorizontally();
