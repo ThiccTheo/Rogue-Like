@@ -147,7 +147,7 @@ void Player::walkAnimation() {
 		sprite.setTextureRect(IntRect(32, 0, 16, 16));
 	}
 
-	if (animationClock.getElapsedTime().asSeconds() > 0.10) {
+	if (animationClock.getElapsedTime().asSeconds() > 0.15) {
 		walkFrame++;
 		if (walkFrame > 1) {
 			walkFrame = 0;
