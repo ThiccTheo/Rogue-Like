@@ -36,6 +36,9 @@ void Player::draw()
 	else if (animationType == "walk") {
 		walkAnimation();
 	}
+	else if (animationType == "jump") {
+		sprite.setTextureRect(IntRect(48, 0, 16, 16));
+	}
 
 	Game::window.draw(sprite);
 }
@@ -66,12 +69,18 @@ void Player::update() {
 		if (Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
 			position.y -= 1.f;
 			velocity.y = -1.75f;
+			animationType = "jump";
 		}
 	}
 
 	//acceleration
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		animationType = "walk";
+		if (velocity.y == 0) {
+			animationType = "walk";
+		}
+		else if (animationType != "jump") {
+			animationType = "idle";
+		}
 		sprite.setScale(-1.f, 1.f);
 		//velocity.x -= 3.f;
 		position.x -= 1.f;
@@ -82,7 +91,12 @@ void Player::update() {
 
 	}
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
-		animationType = "walk";
+		if (velocity.y == 0) {
+			animationType = "walk";
+		}
+		else if (animationType != "jump") {
+			animationType = "idle";
+		}
 		sprite.setScale(1.f, 1.f);
 		//velocity.x += 3.f;
 		position.x += 1.f;
@@ -92,8 +106,14 @@ void Player::update() {
 		}
 	}
 
-	if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D)) {
+	if (velocity.y == 0.f && animationType == "jump" && Keyboard::isKeyPressed(Keyboard::W)) {
 		animationType = "idle";
+	}
+
+	if (velocity.y == 0.f) {
+		if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::W)) {
+			animationType = "idle";
+		}
 	}
 	//else{} (decay)
 
@@ -147,7 +167,7 @@ void Player::walkAnimation() {
 		sprite.setTextureRect(IntRect(32, 0, 16, 16));
 	}
 
-	if (animationClock.getElapsedTime().asSeconds() > 0.15) {
+	if (animationClock.getElapsedTime().asSeconds() > 0.125) {
 		walkFrame++;
 		if (walkFrame > 1) {
 			walkFrame = 0;
