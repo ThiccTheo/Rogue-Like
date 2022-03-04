@@ -26,8 +26,8 @@ void Player::init() {
 
 void Player::draw() 
 {
-	Game::window.draw(topHitbox);
-	Game::window.draw(bottomHitbox);
+	//Game::window.draw(topHitbox);
+	//Game::window.draw(bottomHitbox);
 	Game::window.draw(sprite);
 }
 

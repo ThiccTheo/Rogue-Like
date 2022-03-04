@@ -18,6 +18,7 @@ private:
 	static const Vector2f TERMINAL_VELOCITY;
 	Vector2f position, velocity;
 	Tile* collidingTile = nullptr;
+	char dir;
 	RectangleShape topHitbox, bottomHitbox;
 	static Skeleton* isSideColliding();
 	static Skeleton* isTopColliding();

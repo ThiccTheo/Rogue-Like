@@ -6,7 +6,8 @@
 #include "Game.h"
 
 int main(){
-    srand(time(0));
+    srand(unsigned int(time(NULL)));
+    Clock c;
     ResourceManager::loadMedia();
 
     Game::setup();
@@ -36,7 +37,7 @@ int main(){
 
         Game::window.display();
 
-        //Skeleton::update();
+        Skeleton::update();
         Player::update();
     }
 

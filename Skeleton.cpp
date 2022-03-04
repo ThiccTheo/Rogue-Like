@@ -7,6 +7,7 @@ const Vector2f Skeleton::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 vector<Skeleton> Skeleton::skeletonVector;
 
 Skeleton::Skeleton(float& x, float& y){
+	this->dir = 'R';
 	this->sprite.setTexture(ResourceManager::skeletonTexture);
 	this->sprite.setPosition(x, y);
 	this->topHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
@@ -24,24 +25,27 @@ Skeleton::Skeleton(float& x, float& y){
 void Skeleton::draw(){
 	for (int i = 0; i < skeletonVector.size(); i++) {
 		if (skeletonVector[i].sprite.getGlobalBounds().intersects(Game::cullingPoint.getGlobalBounds())) {
-			Game::window.draw(skeletonVector[i].bottomHitbox);
-			Game::window.draw(skeletonVector[i].topHitbox);
+			//Game::window.draw(skeletonVector[i].bottomHitbox);
+			//Game::window.draw(skeletonVector[i].topHitbox);
 			Game::window.draw(skeletonVector[i].sprite);
 		}
 	}
 }
 
 void Skeleton::update(){
+	Skeleton* skeletonPtr = nullptr;
 	for (int i = 0; i < skeletonVector.size(); i++) {
 		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
-		if (isBottomColliding() != nullptr) {
-			isBottomColliding()->velocity.y = 0.f;
-			isBottomColliding()->position.y = isBottomColliding()->collidingTile->sprite.getPosition().y - SPRITE_SIZE;
+		skeletonPtr = isBottomColliding();
+		if (skeletonPtr != nullptr) {
+			skeletonPtr->velocity.y = 0.f;
+			skeletonPtr->position.y = skeletonPtr->collidingTile->sprite.getPosition().y - SPRITE_SIZE;
+			skeletonPtr = isTopColliding();
 		}
-		else if (isTopColliding() != nullptr) {
-			isBottomColliding()->velocity.y = 0.f;
-			isBottomColliding()->position.y = isTopColliding()->collidingTile->sprite.getPosition().y + TILE_SIZE + 1;
+		else if (skeletonPtr != nullptr) {
+			skeletonPtr->velocity.y = 0.f;
+			skeletonPtr->position.y = skeletonPtr->collidingTile->sprite.getPosition().y + TILE_SIZE + 1;
 		}
 		else {
 			if (skeletonVector[i].velocity.y < TERMINAL_VELOCITY.y) {
@@ -53,7 +57,28 @@ void Skeleton::update(){
 			skeletonVector[i].position.y += skeletonVector[i].velocity.y;
 		}
 
-		skeletonVector[i].position.x += 0.1f;
+		if (skeletonVector[i].dir == 'R') {
+			skeletonVector[i].sprite.setScale(1.f, 1.f);
+			skeletonVector[i].velocity.x = 0.1f;
+		}
+		else if (skeletonVector[i].dir == 'L') {
+			skeletonVector[i].sprite.setScale(-1.f, 1.f);
+			skeletonVector[i].velocity.x = -0.1f;
+		}
+
+		skeletonPtr = isSideColliding();
+		if (skeletonPtr != nullptr) {
+			skeletonPtr->velocity.x *= -1.f;
+			if (skeletonPtr->dir == 'R') {
+				skeletonPtr->dir = 'L';
+			}
+			else if (skeletonPtr->dir == 'L') {
+				skeletonPtr->dir = 'R';
+			}
+		}
+
+		skeletonPtr = nullptr;
+		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		skeletonVector[i].sprite.setPosition(skeletonVector[i].position);
