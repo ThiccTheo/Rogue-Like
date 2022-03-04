@@ -51,7 +51,7 @@ void Player::update() {
 		position.y = isBottomColliding()->sprite.getPosition().y - SPRITE_SIZE;
 	}
 	else if (isTopColliding() != nullptr) {
-		velocity.y = 0.f;
+		velocity.y = 0.1f;
 		position.y = isTopColliding()->sprite.getPosition().y + TILE_SIZE + 1;
 	}
 	else {
@@ -68,7 +68,7 @@ void Player::update() {
 		jumpCounter++;
 		if (Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
 			position.y -= 1.f;
-			velocity.y = -1.75f;
+			velocity.y = -1.80f;
 			animationType = "jump";
 		}
 	}
