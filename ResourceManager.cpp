@@ -28,5 +28,5 @@ void ResourceManager::loadMedia() {
 	LRD_array[0].loadFromFile("Image/LRD/LRD_Test.png");
 	LRU_array[0].loadFromFile("Image/LRU/LRU_Test.png");
 	ALL_array[0].loadFromFile("Image/ALL/ALL_Test.png");
-	EXIT_array[0].loadFromFile("Image/LR/LR1.png");
+	EXIT_array[0].loadFromFile("Image/EXIT/EXIT_Test.png");
 }

@@ -44,7 +44,9 @@ void Player::draw()
 }
 
 void Player::update() {
-	Tile* tilePtr = nullptr;
+	Tile* topCollider = nullptr;
+	Tile* bottomCollider = nullptr;
+	Tile* sideCollider = nullptr;
 	position = sprite.getPosition();
 
 	if (velocity.y < TERMINAL_VELOCITY.y) {
@@ -57,20 +59,23 @@ void Player::update() {
 	
 	topHitbox.setPosition(position.x + 1, position.y - 1);
 	bottomHitbox.setPosition(position.x + 1, position.y + 16.f);
-
-	if (isBottomColliding() != nullptr) {
+	
+	bottomCollider = isBottomColliding();
+	if (bottomCollider != nullptr && bottomCollider->isPassable == false) {
 		velocity.y = 0.f;
-		position.y = isBottomColliding()->sprite.getPosition().y - SPRITE_SIZE;
+		position.y = bottomCollider->sprite.getPosition().y - SPRITE_SIZE;
 	}
-	else if (isTopColliding() != nullptr) {
+
+	topCollider = isTopColliding();
+	if (topCollider != nullptr && topCollider->isPassable == false) {
 		velocity.y = 0.1f;
-		position.y = isTopColliding()->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
+		position.y = topCollider->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
 	}
 
-
+	bottomCollider = isBottomColliding();
 	if (Keyboard::isKeyPressed(Keyboard::W) && jumpCounter == 0) {
 		jumpCounter++;
-		if (Keyboard::isKeyPressed(Keyboard::W) && isTopColliding() == nullptr && isBottomColliding() != nullptr) {
+		if (Keyboard::isKeyPressed(Keyboard::W) && bottomCollider != nullptr && bottomCollider->isPassable == false) {
 			position.y -= 1.f;
 			velocity.y = -1.80f;
 			animationType = "jump";
@@ -84,9 +89,9 @@ void Player::update() {
 		sprite.setScale(-1.f, 1.f);
 		position.x -= 1.f;
 		sprite.setPosition(position);
-		tilePtr = isSideColliding();
-		if (tilePtr != nullptr) {
-			position.x = tilePtr->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+		sideCollider = isSideColliding();
+		if (sideCollider != nullptr && sideCollider->isPassable == false) {
+			position.x = sideCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 		}
 	}
 
@@ -97,9 +102,9 @@ void Player::update() {
 		sprite.setScale(1.f, 1.f);
 		position.x += 1.f;
 		sprite.setPosition(position);
-		tilePtr = isSideColliding();
-		if (tilePtr != nullptr) {
-			position.x = tilePtr->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+		sideCollider = isSideColliding();
+		if (sideCollider != nullptr && sideCollider->isPassable == false) {
+			position.x = sideCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 		}
 	}
 
@@ -123,6 +128,10 @@ void Player::update() {
 	Game::view.setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
 	Game::cullingPoint.setPosition(Game::view.getCenter());
 
+	sideCollider = isSideColliding();
+	if (sideCollider != nullptr && sideCollider->type == "exit" && Keyboard::isKeyPressed(Keyboard::Space)) {
+		Game::loadLevel();
+	}
 }
 
 Tile* Player::isSideColliding() {

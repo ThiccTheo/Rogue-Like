@@ -5,15 +5,32 @@ const int Tile::START_TILE = 1, Tile::DOWN_TILE = 2, Tile::UP_TILE = 3, Tile::UP
 
 vector<Tile> Tile::tileVector;
 
-Tile::Tile(float& x, float& y){
+Tile::Tile(float& x, float& y, string type, bool isPassable){
 	this->sprite.setScale(SCALE, SCALE);
 	this->sprite.setTexture(ResourceManager::tileTexture);
 	this->sprite.setOrigin(SPRITE_SIZE / (POSITION_SCALAR / 8.f), 0.f);
 	this->sprite.setPosition(x, y);
+	this->isPassable = isPassable;
+	this->type = type;
+	if (type == "stone") {
+		this->sprite.setTextureRect(IntRect(0, 0, 16, 16));
+	}
+	else if (type == "start") {
+		this->sprite.setTextureRect(IntRect(16, 0, 16, 16));
+	}
+	else if (type == "exit") {
+		this->sprite.setTextureRect(IntRect(32, 0, 16, 16));
+	}
 }
 
 void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	Color color;
+	/*
+	stone: #ff0000 | 255, 0, 0
+	skeleton: #00ff00 | 0, 255, 0
+	start: #0000ff | 0, 0, 255
+	exit: #ffff00 | 255, 255, 0
+	*/
 
 	float x = 0.f, y = 0.f;
 	for (int i = 0; i < 8; i++) {
@@ -23,16 +40,21 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 
 			color = image.getPixel(j, i);
 
-			if (color == Color(255, 0, 0, 255)) {
-				tileVector.push_back(Tile(x, y));
+			if (color == Color(255, 0, 0)) {
+				tileVector.push_back(Tile(x, y, "stone", false));
 			}
-			else if (color == Color(0, 255, 0, 255)) {
+			else if (color == Color(0, 255, 0)) {
 				y += 8.f;
 				Skeleton::skeletonVector.push_back(Skeleton(x, y));
 			}
-			else if (color == Color(0, 0, 255, 255)) {
+			else if (color == Color(0, 0, 255)) {
 				y += 8.f;
 				Player::sprite.setPosition(x, y);
+				y -= 8.f;
+				tileVector.push_back(Tile(x, y, "start", true));
+			}
+			else if (color == Color(255, 255, 0)) {
+				tileVector.push_back(Tile(x, y, "exit", true));
 			}
 		}
 	}
@@ -58,7 +80,7 @@ void Tile::createLevelPathing() {
 
 	for (int i = 0; i < 3; i++) {
 		pos = rand() % 4;
-		if (i > 0 && roomMatrix[i - 1][pos] == 2) {
+		if (i > 0 && (roomMatrix[i - 1][pos] == DOWN_TILE || roomMatrix[i - 1][pos] == UP_AND_DOWN_TILE)) {
 			roomMatrix[i][pos] = UP_AND_DOWN_TILE;
 		}
 		else {

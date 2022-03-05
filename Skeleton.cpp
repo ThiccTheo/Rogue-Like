@@ -32,17 +32,21 @@ void Skeleton::draw(){
 }
 
 void Skeleton::update(){
-	Tile* tilePtr = nullptr;
+	Tile* topCollider = nullptr;
+	Tile* bottomCollider = nullptr;
+	Tile* sideCollider = nullptr;
 	for (int i = 0; i < skeletonVector.size(); i++) {
 		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
-		if (skeletonVector[i].isBottomColliding() != nullptr) {
+		bottomCollider = skeletonVector[i].isBottomColliding();
+		if (bottomCollider != nullptr && bottomCollider->isPassable == false) {
 			skeletonVector[i].velocity.y = 0.f;
-			skeletonVector[i].position.y = skeletonVector[i].isBottomColliding()->sprite.getPosition().y - SPRITE_SIZE;
+			skeletonVector[i].position.y = bottomCollider->sprite.getPosition().y - SPRITE_SIZE;
+			topCollider = skeletonVector[i].isTopColliding();
 		}
-		else if (skeletonVector[i].isTopColliding() != nullptr) {
+		else if (topCollider != nullptr && topCollider->isPassable == false) {
 			skeletonVector[i].velocity.y = 0.1f;
-			skeletonVector[i].position.y = skeletonVector[i].isTopColliding()->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
+			skeletonVector[i].position.y = topCollider->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
 		}
 		else {
 			if (skeletonVector[i].velocity.y < TERMINAL_VELOCITY.y) {
@@ -65,15 +69,15 @@ void Skeleton::update(){
 
 		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
 
-		tilePtr = skeletonVector[i].isSideColliding();
-		if (tilePtr != nullptr) {
+		sideCollider = skeletonVector[i].isSideColliding();
+		if (sideCollider != nullptr && sideCollider->isPassable == false) {
 			if (skeletonVector[i].dir == 'R') {
 				skeletonVector[i].dir = 'L';
-				skeletonVector[i].position.x = tilePtr->sprite.getPosition().x - ((SPRITE_SIZE/2) + (Tile::SPRITE_SIZE/2));
+				skeletonVector[i].position.x = sideCollider->sprite.getPosition().x - ((SPRITE_SIZE/2) + (Tile::SPRITE_SIZE/2));
 			}
 			else if (skeletonVector[i].dir == 'L') {
 				skeletonVector[i].dir = 'R';
-				skeletonVector[i].position.x = tilePtr->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+				skeletonVector[i].position.x = sideCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 			}
 		}
 

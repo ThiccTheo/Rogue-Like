@@ -1,5 +1,7 @@
 #pragma once
 #include "Common.h"
+#include "Tile.h"
+#include "Skeleton.h"
 
 class Game {
 public:
@@ -7,6 +9,7 @@ public:
 	static View view;
 	static RectangleShape cullingPoint;
 	static void setup();
+	static void loadLevel();
 private:
 	static const float WIDTH;
 	static const float HEIGHT;

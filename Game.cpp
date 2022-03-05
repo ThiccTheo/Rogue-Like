@@ -15,3 +15,10 @@ void Game::setup() {
 	cullingPoint.setFillColor(Color::Red);
 	cullingPoint.setOrigin(WIDTH / 2.f, HEIGHT / 2.f);
 }
+
+void Game::loadLevel() {
+	Tile::tileVector.clear();
+	Skeleton::skeletonVector.clear();
+	cout << "\033[H\033[J";
+	Tile::createLevelPathing();
+}

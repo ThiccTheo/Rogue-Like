@@ -15,8 +15,10 @@ public:
 	static void createLevelPathing();
 	static vector<Tile> tileVector;
 	static const float SPRITE_SIZE;
+	bool isPassable;
+	string type;
 private:
-	Tile(float& x, float& y);
+	Tile(float& x, float& y, string type, bool isPassable);
 	static void initTiles(int& levelPosX, int& levelPosY, const Image& image);
 	static Image getRoomTemplate(int& templateType);
 	static const float POSITION_SCALAR, SCALE;

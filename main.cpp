@@ -12,7 +12,7 @@ int main(){
 
     Game::setup();
     Player::init();
-    Tile::createLevelPathing();
+    Game::loadLevel();
 
     while (Game::window.isOpen()){
         Event event;
@@ -31,9 +31,9 @@ int main(){
         Game::window.clear(Color::White);
         Game::window.setView(Game::view);
  
+        Tile::draw();
         Skeleton::draw();
         Player::draw();
-        Tile::draw();
 
         Game::window.display();
 
