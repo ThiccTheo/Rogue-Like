@@ -33,19 +33,17 @@ void Skeleton::draw(){
 }
 
 void Skeleton::update(){
-	Skeleton* skeletonPtr = nullptr;
+	Tile* tilePtr = nullptr;
 	for (int i = 0; i < skeletonVector.size(); i++) {
 		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
-		skeletonPtr = isBottomColliding();
-		if (skeletonPtr != nullptr) {
-			skeletonPtr->velocity.y = 0.f;
-			skeletonPtr->position.y = skeletonPtr->collidingTile->sprite.getPosition().y - SPRITE_SIZE;
-			skeletonPtr = isTopColliding();
+		if (skeletonVector[i].isBottomColliding() != nullptr) {
+			skeletonVector[i].velocity.y = 0.f;
+			skeletonVector[i].position.y = skeletonVector[i].isBottomColliding()->sprite.getPosition().y - SPRITE_SIZE;
 		}
-		else if (skeletonPtr != nullptr) {
-			skeletonPtr->velocity.y = 0.f;
-			skeletonPtr->position.y = skeletonPtr->collidingTile->sprite.getPosition().y + TILE_SIZE + 1;
+		else if (skeletonVector[i].isTopColliding() != nullptr) {
+			skeletonVector[i].velocity.y = 0.1f;
+			skeletonVector[i].position.y = skeletonVector[i].isTopColliding()->sprite.getPosition().y + TILE_SIZE + 1;
 		}
 		else {
 			if (skeletonVector[i].velocity.y < TERMINAL_VELOCITY.y) {
@@ -66,73 +64,54 @@ void Skeleton::update(){
 			skeletonVector[i].velocity.x = -0.1f;
 		}
 
-		skeletonPtr = isSideColliding();
-		if (skeletonPtr != nullptr) {
-			skeletonPtr->velocity.x *= -1.f;
-			if (skeletonPtr->dir == 'R') {
-				skeletonPtr->dir = 'L';
+		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
+
+		tilePtr = skeletonVector[i].isSideColliding();
+		if (tilePtr != nullptr) {
+			if (skeletonVector[i].dir == 'R') {
+				skeletonVector[i].dir = 'L';
+				skeletonVector[i].position.x = tilePtr->sprite.getPosition().x - ((SPRITE_SIZE/2) + (TILE_SIZE/2));
 			}
-			else if (skeletonPtr->dir == 'L') {
-				skeletonPtr->dir = 'R';
+			else if (skeletonVector[i].dir == 'L') {
+				skeletonVector[i].dir = 'R';
+				skeletonVector[i].position.x = tilePtr->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (TILE_SIZE / 2));
 			}
 		}
 
-		skeletonPtr = nullptr;
-		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
-
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		skeletonVector[i].sprite.setPosition(skeletonVector[i].position);
 		skeletonVector[i].topHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y - 1);
 		skeletonVector[i].bottomHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y + 16.f);
 	}
 }
 
-Skeleton* Skeleton::isSideColliding() {
-	Skeleton* collider = nullptr;
+Tile* Skeleton::isSideColliding() {
+	Tile* collider = nullptr;
 	for (int i = 0; i < Tile::tileVector.size(); i++) {
-		for (int j = 0; j < skeletonVector.size(); j++) {
-			if (skeletonVector[j].sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
-				skeletonVector[j].collidingTile = &Tile::tileVector[i];
-				collider = &skeletonVector[j];
-				return collider;
-			}
-			else {
-				skeletonVector[j].collidingTile = nullptr;
-			}
+		if(sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())){
+			collider = &Tile::tileVector[i];
+			return collider;
 		}
 	}
 	return collider;
 }
 
-Skeleton* Skeleton::isTopColliding() {
-	Skeleton* collider = nullptr;
+Tile* Skeleton::isTopColliding() {
+	Tile* collider = nullptr;
 	for (int i = 0; i < Tile::tileVector.size(); i++) {
-		for (int j = 0; j < skeletonVector.size(); j++) {
-			if (skeletonVector[j].topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
-				skeletonVector[j].collidingTile = &Tile::tileVector[i];
-				collider = &skeletonVector[j];
-				return collider;
-			}
-			else {
-				skeletonVector[j].collidingTile = nullptr;
-			}
+		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+			collider = &Tile::tileVector[i];
+			return collider;
 		}
 	}
 	return collider;
 }
 
-Skeleton* Skeleton::isBottomColliding() {
-	Skeleton* collider = nullptr;
+Tile* Skeleton::isBottomColliding() {
+	Tile* collider = nullptr;
 	for (int i = 0; i < Tile::tileVector.size(); i++) {
-		for (int j = 0; j < skeletonVector.size(); j++) {
-			if (skeletonVector[j].bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
-				skeletonVector[j].collidingTile = &Tile::tileVector[i];
-				collider = &skeletonVector[j];
-				return collider;
-			}
-			else {
-				skeletonVector[j].collidingTile = nullptr;
-			}
+		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+			collider = &Tile::tileVector[i];
+			return collider;
 		}
 	}
 	return collider;

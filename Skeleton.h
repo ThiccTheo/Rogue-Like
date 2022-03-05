@@ -20,7 +20,7 @@ private:
 	Tile* collidingTile = nullptr;
 	char dir;
 	RectangleShape topHitbox, bottomHitbox;
-	static Skeleton* isSideColliding();
-	static Skeleton* isTopColliding();
-	static Skeleton* isBottomColliding();
+	Tile* isSideColliding();
+	Tile* isTopColliding();
+	Tile* isBottomColliding();
 };
