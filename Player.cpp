@@ -81,9 +81,6 @@ void Player::update() {
 		if (velocity.y == 0) {
 			animationType = "walk";
 		}
-		else if (animationType != "jump") {
-			animationType = "idle";
-		}
 		sprite.setScale(-1.f, 1.f);
 		position.x -= 1.f;
 		sprite.setPosition(position);
@@ -97,9 +94,6 @@ void Player::update() {
 		if (velocity.y == 0) {
 			animationType = "walk";
 		}
-		else if (animationType != "jump") {
-			animationType = "idle";
-		}
 		sprite.setScale(1.f, 1.f);
 		position.x += 1.f;
 		sprite.setPosition(position);
@@ -110,6 +104,10 @@ void Player::update() {
 	}
 
 	if (velocity.y == 0.f && animationType == "jump" && Keyboard::isKeyPressed(Keyboard::W)) {
+		animationType = "idle";
+	}
+
+	if (velocity.y != 0.f && animationType != "jump") {
 		animationType = "idle";
 	}
 
