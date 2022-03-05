@@ -20,7 +20,7 @@ private:
 	static Vector2f velocity, position;
 	static const float GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
-	static const float SPRITE_SIZE, HITBOX_THICKNESS, TILE_SIZE;
+	static const float SPRITE_SIZE, HITBOX_THICKNESS;
 	static RectangleShape topHitbox, bottomHitbox;
 	static string animationType;
 	static Clock animationClock;

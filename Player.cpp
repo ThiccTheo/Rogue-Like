@@ -1,7 +1,7 @@
 #include "Player.h"
 
 const float Player::GRAVITY = 0.025;
-const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f, Player::TILE_SIZE = 24.f;
+const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f;
 const Vector2f Player::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 Sprite Player::sprite;
 RectangleShape Player::topHitbox, Player::bottomHitbox;
@@ -44,25 +44,29 @@ void Player::draw()
 }
 
 void Player::update() {
-
+	Tile* tilePtr = nullptr;
 	position = sprite.getPosition();
+
+	if (velocity.y < TERMINAL_VELOCITY.y) {
+		velocity.y += GRAVITY;
+	}
+	else {
+		velocity.y = TERMINAL_VELOCITY.y;
+	}
+	position.y += velocity.y;
+	
+	topHitbox.setPosition(position.x + 1, position.y - 1);
+	bottomHitbox.setPosition(position.x + 1, position.y + 16.f);
+
 	if (isBottomColliding() != nullptr) {
 		velocity.y = 0.f;
 		position.y = isBottomColliding()->sprite.getPosition().y - SPRITE_SIZE;
 	}
 	else if (isTopColliding() != nullptr) {
 		velocity.y = 0.1f;
-		position.y = isTopColliding()->sprite.getPosition().y + TILE_SIZE + 1;
+		position.y = isTopColliding()->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
 	}
-	else {
-		if (velocity.y < TERMINAL_VELOCITY.y) {
-			velocity.y += GRAVITY;
-		}
-		else{
-			velocity.y = TERMINAL_VELOCITY.y;
-		}
-		position.y += velocity.y;
-	}
+
 
 	if (Keyboard::isKeyPressed(Keyboard::W) && jumpCounter == 0) {
 		jumpCounter++;
@@ -73,7 +77,6 @@ void Player::update() {
 		}
 	}
 
-	//acceleration
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
 		if (velocity.y == 0) {
 			animationType = "walk";
@@ -82,14 +85,14 @@ void Player::update() {
 			animationType = "idle";
 		}
 		sprite.setScale(-1.f, 1.f);
-		//velocity.x -= 3.f;
 		position.x -= 1.f;
 		sprite.setPosition(position);
-		if (isSideColliding() != nullptr) {
-			position.x += 1.f;
+		tilePtr = isSideColliding();
+		if (tilePtr != nullptr) {
+			position.x = tilePtr->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 		}
-
 	}
+
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
 		if (velocity.y == 0) {
 			animationType = "walk";
@@ -98,11 +101,11 @@ void Player::update() {
 			animationType = "idle";
 		}
 		sprite.setScale(1.f, 1.f);
-		//velocity.x += 3.f;
 		position.x += 1.f;
 		sprite.setPosition(position);
-		if (isSideColliding() != nullptr) {
-			position.x -= 1.f;
+		tilePtr = isSideColliding();
+		if (tilePtr != nullptr) {
+			position.x = tilePtr->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 		}
 	}
 
@@ -115,7 +118,6 @@ void Player::update() {
 			animationType = "idle";
 		}
 	}
-	//else{} (decay)
 
 	sprite.setPosition(position);
 	topHitbox.setPosition(position.x + 1, position.y - 1);

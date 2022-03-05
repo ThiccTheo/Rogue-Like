@@ -14,7 +14,7 @@ public:
 	Sprite sprite;
 	static vector<Skeleton> skeletonVector;
 private:
-	static const float SPRITE_SIZE, HITBOX_THICKNESS, TILE_SIZE, GRAVITY;
+	static const float SPRITE_SIZE, HITBOX_THICKNESS, GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
 	Vector2f position, velocity;
 	Tile* collidingTile = nullptr;
