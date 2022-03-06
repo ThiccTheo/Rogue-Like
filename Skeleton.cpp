@@ -32,21 +32,20 @@ void Skeleton::draw(){
 }
 
 void Skeleton::update(){
-	Tile* topCollider = nullptr;
-	Tile* bottomCollider = nullptr;
-	Tile* sideCollider = nullptr;
+	Tile* tileCollider = nullptr;
+
 	for (int i = 0; i < skeletonVector.size(); i++) {
 		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
-		bottomCollider = skeletonVector[i].isBottomColliding();
-		if (bottomCollider != nullptr && bottomCollider->isPassable == false) {
+		tileCollider = skeletonVector[i].isBottomColliding();
+		if (tileCollider != nullptr && tileCollider->isPassable == false) {
 			skeletonVector[i].velocity.y = 0.f;
-			skeletonVector[i].position.y = bottomCollider->sprite.getPosition().y - SPRITE_SIZE;
-			topCollider = skeletonVector[i].isTopColliding();
+			skeletonVector[i].position.y = tileCollider->sprite.getPosition().y - SPRITE_SIZE;
+			tileCollider = skeletonVector[i].isTopColliding();
 		}
-		else if (topCollider != nullptr && topCollider->isPassable == false) {
+		else if (tileCollider != nullptr && tileCollider->isPassable == false) {
 			skeletonVector[i].velocity.y = 0.1f;
-			skeletonVector[i].position.y = topCollider->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
+			skeletonVector[i].position.y = tileCollider->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
 		}
 		else {
 			if (skeletonVector[i].velocity.y < TERMINAL_VELOCITY.y) {
@@ -69,15 +68,15 @@ void Skeleton::update(){
 
 		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
 
-		sideCollider = skeletonVector[i].isSideColliding();
-		if (sideCollider != nullptr && sideCollider->isPassable == false) {
+		tileCollider = skeletonVector[i].isSideColliding();
+		if (tileCollider != nullptr && tileCollider->isPassable == false) {
 			if (skeletonVector[i].dir == 'R') {
 				skeletonVector[i].dir = 'L';
-				skeletonVector[i].position.x = sideCollider->sprite.getPosition().x - ((SPRITE_SIZE/2) + (Tile::SPRITE_SIZE/2));
+				skeletonVector[i].position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE/2) + (Tile::SPRITE_SIZE/2));
 			}
 			else if (skeletonVector[i].dir == 'L') {
 				skeletonVector[i].dir = 'R';
-				skeletonVector[i].position.x = sideCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+				skeletonVector[i].position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 			}
 		}
 
