@@ -6,8 +6,7 @@
 #include "Game.h"
 
 int main(){
-    srand(unsigned int(time(NULL)));
-    Clock c;
+    srand(static_cast<unsigned int>(time(NULL)));
     ResourceManager::loadMedia();
 
     Game::setup();

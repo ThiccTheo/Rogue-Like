@@ -23,10 +23,10 @@ void ResourceManager::loadMedia() {
 	playerTexture.loadFromFile("Player/SpriteSheet.png");
 	skeletonTexture.loadFromFile("Skeleton/SpriteSheet.png");
 
-	START_array[0].loadFromFile("Image/START/START_Test.png");
+	START_array[0].loadFromFile("Image/START/START1.png");
 	LR_array[0].loadFromFile("Image/LR/LR1.png");
-	LRD_array[0].loadFromFile("Image/LRD/LRD_Test.png");
-	LRU_array[0].loadFromFile("Image/LRU/LRU_Test.png");
-	ALL_array[0].loadFromFile("Image/ALL/ALL_Test.png");
-	EXIT_array[0].loadFromFile("Image/EXIT/EXIT_Test.png");
+	LRD_array[0].loadFromFile("Image/LRD/LRD1.png");
+	LRU_array[0].loadFromFile("Image/LRU/LRU1.png");
+	ALL_array[0].loadFromFile("Image/ALL/ALL1.png");
+	EXIT_array[0].loadFromFile("Image/EXIT/EXIT1.png");
 }

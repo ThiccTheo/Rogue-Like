@@ -57,7 +57,7 @@ void Player::update() {
 	position.y += velocity.y;
 	
 	topHitbox.setPosition(position.x + 1, position.y - 1);
-	bottomHitbox.setPosition(position.x + 1, position.y + 16.f);
+	bottomHitbox.setPosition(position.x + 1, position.y + SPRITE_SIZE);
 	
 	tileCollider = isBottomColliding();
 	if (tileCollider != nullptr && tileCollider->isPassable == false) {
@@ -76,7 +76,7 @@ void Player::update() {
 		jumpCounter++;
 		if (Keyboard::isKeyPressed(Keyboard::W) && tileCollider != nullptr && tileCollider->isPassable == false) {
 			position.y -= 1.f;
-			velocity.y = -1.80f;
+			velocity.y = -1.7f;
 			animationType = "jump";
 		}
 	}
