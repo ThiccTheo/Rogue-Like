@@ -9,6 +9,7 @@ vector<Skeleton> Skeleton::skeletonVector;
 Skeleton::Skeleton(float& x, float& y){
 	this->dir = 'R';
 	this->sprite.setTexture(ResourceManager::skeletonTexture);
+	this->sprite.setTextureRect(IntRect(0, 0, 16, 16));
 	this->sprite.setPosition(x, y);
 	this->topHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
 	this->bottomHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
@@ -19,13 +20,18 @@ Skeleton::Skeleton(float& x, float& y){
 	this->sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
+	this->walkFrame = 0;
 }
 
 void Skeleton::draw(){
-	for (int i = 0; i < skeletonVector.size(); i++) {
+	for (size_t i = 0; i < skeletonVector.size(); i++) {
 		if (skeletonVector[i].sprite.getGlobalBounds().intersects(Game::cullingPoint.getGlobalBounds())) {
-			//Game::window.draw(skeletonVector[i].bottomHitbox);
-			//Game::window.draw(skeletonVector[i].topHitbox);
+			if (skeletonVector[i].animationType == "idle") {
+				skeletonVector[i].sprite.setTextureRect(IntRect(0, 0, 16, 16));
+			}
+			else if (skeletonVector[i].animationType == "walk") {
+				skeletonVector[i].walkAnimation();
+			}
 			Game::window.draw(skeletonVector[i].sprite);
 		}
 	}
@@ -34,7 +40,7 @@ void Skeleton::draw(){
 void Skeleton::update(){
 	Tile* tileCollider = nullptr;
 
-	for (int i = 0; i < skeletonVector.size(); i++) {
+	for (size_t i = 0; i < skeletonVector.size(); i++) {
 		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
 		tileCollider = skeletonVector[i].isBottomColliding();
@@ -59,11 +65,11 @@ void Skeleton::update(){
 
 		if (skeletonVector[i].dir == 'R') {
 			skeletonVector[i].sprite.setScale(1.f, 1.f);
-			skeletonVector[i].velocity.x = 0.5f;
+			skeletonVector[i].velocity.x = 1.0f;
 		}
 		else if (skeletonVector[i].dir == 'L') {
 			skeletonVector[i].sprite.setScale(-1.f, 1.f);
-			skeletonVector[i].velocity.x = -0.5f;
+			skeletonVector[i].velocity.x = -1.0f;
 		}
 
 		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
@@ -80,6 +86,13 @@ void Skeleton::update(){
 			}
 		}
 
+		if (skeletonVector[i].velocity.y != 0) {
+			skeletonVector[i].animationType = "idle";
+		}
+		else {
+			skeletonVector[i].animationType = "walk";
+		}
+
 		skeletonVector[i].sprite.setPosition(skeletonVector[i].position);
 		skeletonVector[i].topHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y - 1);
 		skeletonVector[i].bottomHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y + 16.f);
@@ -88,7 +101,7 @@ void Skeleton::update(){
 
 Tile* Skeleton::isSideColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < Tile::tileVector.size(); i++) {
+	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if(sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())){
 			collider = &Tile::tileVector[i];
 			return collider;
@@ -99,7 +112,7 @@ Tile* Skeleton::isSideColliding() {
 
 Tile* Skeleton::isTopColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < Tile::tileVector.size(); i++) {
+	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
 			collider = &Tile::tileVector[i];
 			return collider;
@@ -110,11 +123,29 @@ Tile* Skeleton::isTopColliding() {
 
 Tile* Skeleton::isBottomColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < Tile::tileVector.size(); i++) {
+	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
 			collider = &Tile::tileVector[i];
 			return collider;
 		}
 	}
 	return collider;
+}
+
+void Skeleton::walkAnimation() {
+	if (walkFrame == 0) {
+		sprite.setTextureRect(IntRect(16, 0, 16, 16));
+	}
+
+	else if (walkFrame == 1) {
+		sprite.setTextureRect(IntRect(32, 0, 16, 16));
+	}
+
+	if (animationClock.getElapsedTime().asSeconds() > 0.15) {
+		walkFrame++;
+		if (walkFrame > 1) {
+			walkFrame = 0;
+		}
+		animationClock.restart();
+	}
 }

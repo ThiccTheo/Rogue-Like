@@ -81,19 +81,6 @@ void Player::update() {
 		}
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		if (velocity.y == 0) {
-			animationType = "walk";
-		}
-		sprite.setScale(-1.f, 1.f);
-		position.x -= 1.f;
-		sprite.setPosition(position);
-		tileCollider = isSideColliding();
-		if (tileCollider != nullptr && tileCollider->isPassable == false) {
-			position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
-		}
-	}
-
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
 		if (velocity.y == 0) {
 			animationType = "walk";
@@ -104,6 +91,19 @@ void Player::update() {
 		tileCollider = isSideColliding();
 		if (tileCollider != nullptr && tileCollider->isPassable == false) {
 			position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+		}
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::A)) {
+		if (velocity.y == 0) {
+			animationType = "walk";
+		}
+		sprite.setScale(-1.f, 1.f);
+		position.x -= 1.f;
+		sprite.setPosition(position);
+		tileCollider = isSideColliding();
+		if (tileCollider != nullptr && tileCollider->isPassable == false) {
+			position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
 		}
 	}
 
@@ -135,7 +135,7 @@ void Player::update() {
 
 Tile* Player::isSideColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < Tile::tileVector.size(); i++) {
+	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
 			collider = &Tile::tileVector[i];
 			return collider;
@@ -146,7 +146,7 @@ Tile* Player::isSideColliding() {
 
 Tile* Player::isTopColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < Tile::tileVector.size(); i++) {
+	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
 			collider = &Tile::tileVector[i];
 			return collider;
@@ -157,7 +157,7 @@ Tile* Player::isTopColliding() {
 
 Tile* Player::isBottomColliding() {
 	Tile* collider = nullptr;
-	for (int i = 0; i < Tile::tileVector.size(); i++) {
+	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
 			collider = &Tile::tileVector[i];
 			return collider;

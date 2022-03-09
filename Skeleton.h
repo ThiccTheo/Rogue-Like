@@ -14,6 +14,7 @@ public:
 	Sprite sprite;
 	static vector<Skeleton> skeletonVector;
 private:
+	string animationType;
 	static const float SPRITE_SIZE, HITBOX_THICKNESS, GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
 	Vector2f position, velocity;
@@ -23,4 +24,7 @@ private:
 	Tile* isSideColliding();
 	Tile* isTopColliding();
 	Tile* isBottomColliding();
+	void walkAnimation();
+	Clock animationClock;
+	int walkFrame;
 };
