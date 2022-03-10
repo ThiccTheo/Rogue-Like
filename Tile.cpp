@@ -158,8 +158,8 @@ Tile::Tile(int& x, int& y, bool isSolid, string type) {
 	this->spriteDimensions = Vector2f(240.f, 192.f);
 	//240 x 192 pixels per room
 	//image needs to be 80 x 64 pixels
-	float scale = 3.f;
 	this->isSolid = isSolid;
+	this->type = type;
 	this->sprite.setTexture(ResourceManager::backgroundTexture);
 	if (this->isSolid == true) {
 		this->sprite.setTextureRect(IntRect(0, 0, 80, 64));
@@ -167,7 +167,7 @@ Tile::Tile(int& x, int& y, bool isSolid, string type) {
 	else if (this->isSolid == false) {
 		this->sprite.setTextureRect(IntRect(80, 0, 80, 64));
 	}
-	this->sprite.setScale(scale, scale);
+	this->sprite.setScale(3.f, 3.f);
 	this->sprite.setOrigin(40.f, 0.f);
 	this->sprite.setPosition(-132 + (x * 240 ), -192 + (y * 192));
 }
