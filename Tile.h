@@ -13,12 +13,14 @@ public:
 	Sprite sprite;
 	static void draw();
 	static void createLevelPathing();
+	static void setupBackground();
 	static vector<Tile> tileVector;
-	static const float SPRITE_SIZE;
-	bool isPassable;
+	Vector2f spriteDimensions;
+	bool isSolid;
 	string type;
 private:
-	Tile(float& x, float& y, string type, bool isPassable);
+	Tile(float& x, float& y, string type, bool isSolid);
+	Tile(int& x, int& y, bool isSolid);
 	static void initTiles(int& levelPosX, int& levelPosY, const Image& image);
 	static Image getRoomTemplate(int& templateType);
 	static const float POSITION_SCALAR, SCALE;

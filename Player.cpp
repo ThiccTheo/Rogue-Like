@@ -59,22 +59,22 @@ void Player::update() {
 	topHitbox.setPosition(position.x + 1, position.y - 1);
 	bottomHitbox.setPosition(position.x + 1, position.y + SPRITE_SIZE);
 	
-	tileCollider = isBottomColliding();
-	if (tileCollider != nullptr && tileCollider->isPassable == false) {
+	tileCollider = isBottomColliding(true);
+	if (tileCollider != nullptr) {
 		velocity.y = 0.f;
 		position.y = tileCollider->sprite.getPosition().y - SPRITE_SIZE;
 	}
 
-	tileCollider = isTopColliding();
-	if (tileCollider != nullptr && tileCollider->isPassable == false) {
+	tileCollider = isTopColliding(true);
+	if (tileCollider != nullptr) {
 		velocity.y = 0.1f;
-		position.y = tileCollider->sprite.getPosition().y + Tile::SPRITE_SIZE + 1;
+		position.y = tileCollider->sprite.getPosition().y + tileCollider->spriteDimensions.y + 1;
 	}
 
-	tileCollider = isBottomColliding();
+	tileCollider = isBottomColliding(true);
 	if (Keyboard::isKeyPressed(Keyboard::W) && jumpCounter == 0) {
 		jumpCounter++;
-		if (Keyboard::isKeyPressed(Keyboard::W) && tileCollider != nullptr && tileCollider->isPassable == false) {
+		if (Keyboard::isKeyPressed(Keyboard::W) && tileCollider != nullptr) {
 			position.y -= 1.f;
 			velocity.y = -1.7f;
 			animationType = "jump";
@@ -88,9 +88,9 @@ void Player::update() {
 		sprite.setScale(1.f, 1.f);
 		position.x += 1.f;
 		sprite.setPosition(position);
-		tileCollider = isSideColliding();
-		if (tileCollider != nullptr && tileCollider->isPassable == false) {
-			position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+		tileCollider = isSideColliding(true);
+		if (tileCollider != nullptr) {
+			position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 		}
 	}
 
@@ -101,14 +101,10 @@ void Player::update() {
 		sprite.setScale(-1.f, 1.f);
 		position.x -= 1.f;
 		sprite.setPosition(position);
-		tileCollider = isSideColliding();
-		if (tileCollider != nullptr && tileCollider->isPassable == false) {
-			position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (Tile::SPRITE_SIZE / 2));
+		tileCollider = isSideColliding(true);
+		if (tileCollider != nullptr) {
+			position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 		}
-	}
-
-	if (velocity.y == 0.f && animationType == "jump" && Keyboard::isKeyPressed(Keyboard::W)) {
-		animationType = "idle";
 	}
 
 	if (velocity.y != 0.f && animationType != "jump") {
@@ -116,6 +112,9 @@ void Player::update() {
 	}
 
 	if (velocity.y == 0.f) {
+		if (animationType == "jump" && Keyboard::isKeyPressed(Keyboard::W)) {
+			animationType = "idle";
+		}
 		if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::W)) {
 			animationType = "idle";
 		}
@@ -127,16 +126,16 @@ void Player::update() {
 	Game::view.setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
 	Game::cullingPoint.setPosition(Game::view.getCenter());
 
-	tileCollider = isSideColliding();
+	tileCollider = isSideColliding(false);
 	if (tileCollider != nullptr && tileCollider->type == "exit" && Keyboard::isKeyPressed(Keyboard::Space)) {
 		Game::loadLevel();
 	}
 }
 
-Tile* Player::isSideColliding() {
+Tile* Player::isSideColliding(bool isSolid) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
 			collider = &Tile::tileVector[i];
 			return collider;
 		}
@@ -144,10 +143,10 @@ Tile* Player::isSideColliding() {
 	return collider;
 }
 
-Tile* Player::isTopColliding() {
+Tile* Player::isTopColliding(bool isSolid) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
 			collider = &Tile::tileVector[i];
 			return collider;
 		}
@@ -155,10 +154,10 @@ Tile* Player::isTopColliding() {
 	return collider;
 }
 
-Tile* Player::isBottomColliding() {
+Tile* Player::isBottomColliding(bool isSolid) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds())) {
+		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
 			collider = &Tile::tileVector[i];
 			return collider;
 		}

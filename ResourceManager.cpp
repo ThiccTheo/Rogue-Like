@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 
 Texture ResourceManager::tileTexture;
+Texture ResourceManager::backgroundTexture;
 Texture ResourceManager::playerTexture;
 Texture ResourceManager::skeletonTexture;
 
@@ -20,6 +21,7 @@ Image ResourceManager::EXIT_array[ResourceManager::EXIT_size] = {Image()};
 
 void ResourceManager::loadMedia() {
 	tileTexture.loadFromFile("Tile/SpriteSheet.png");
+	backgroundTexture.loadFromFile("Background/SpriteSheet.png");
 	playerTexture.loadFromFile("Player/SpriteSheet.png");
 	skeletonTexture.loadFromFile("Skeleton/SpriteSheet.png");
 

@@ -6,6 +6,7 @@ public:
 	static void loadMedia();
 
 	static Texture tileTexture;
+	static Texture backgroundTexture;
 	static Texture playerTexture;
 	static Texture skeletonTexture;
 

@@ -14,9 +14,9 @@ public:
 	static void update();
 	static int jumpCounter;
 private:
-	static Tile* isSideColliding();
-	static Tile* isTopColliding();
-	static Tile* isBottomColliding();
+	static Tile* isSideColliding(bool isSolid);
+	static Tile* isTopColliding(bool isSolid);
+	static Tile* isBottomColliding(bool isSolid);
 	static Vector2f velocity, position;
 	static const float GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;

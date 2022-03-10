@@ -21,9 +21,9 @@ private:
 	Tile* collidingTile = nullptr;
 	char dir;
 	RectangleShape topHitbox, bottomHitbox;
-	Tile* isSideColliding();
-	Tile* isTopColliding();
-	Tile* isBottomColliding();
+	Tile* isSideColliding(bool isSolid);
+	Tile* isTopColliding(bool isSolid);
+	Tile* isBottomColliding(bool isSolid);
 	void walkAnimation();
 	Clock animationClock;
 	int walkFrame;

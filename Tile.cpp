@@ -1,17 +1,19 @@
 #include "Tile.h"
 
-const float  Tile::POSITION_SCALAR = 24.f, Tile::SPRITE_SIZE = 24.f, Tile::SCALE = 1.5;
+const float  Tile::POSITION_SCALAR = 24.f, Tile::SCALE = 1.5;
 const int Tile::START_TILE = 1, Tile::DOWN_TILE = 2, Tile::UP_TILE = 3, Tile::UP_AND_DOWN_TILE = 4, Tile::DOOR_TILE = 5;
 
 vector<Tile> Tile::tileVector;
 
-Tile::Tile(float& x, float& y, string type, bool isPassable){
+Tile::Tile(float& x, float& y, string type, bool isSolid){
+	this->spriteDimensions = Vector2f(24.f, 24.f);
 	this->sprite.setScale(SCALE, SCALE);
 	this->sprite.setTexture(ResourceManager::tileTexture);
-	this->sprite.setOrigin(SPRITE_SIZE / (POSITION_SCALAR / 8.f), 0.f);
+	this->sprite.setOrigin(spriteDimensions.x / (POSITION_SCALAR / 8.f), 0.f);
 	this->sprite.setPosition(x, y);
-	this->isPassable = isPassable;
+	this->isSolid = isSolid;
 	this->type = type;
+
 	if (type == "stone") {
 		this->sprite.setTextureRect(IntRect(0, 0, 16, 16));
 	}
@@ -25,6 +27,8 @@ Tile::Tile(float& x, float& y, string type, bool isPassable){
 
 void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	Color color;
+	float x = 0.f, y = 0.f;
+
 	/*
 	stone: #ff0000 | 255, 0, 0
 	skeleton: #00ff00 | 0, 255, 0
@@ -32,7 +36,6 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	exit: #ffff00 | 255, 255, 0
 	*/
 
-	float x = 0.f, y = 0.f;
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 10; j++) {
 			x = POSITION_SCALAR * (j + (10 * levelPosX));
@@ -41,7 +44,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			color = image.getPixel(j, i);
 
 			if (color == Color(255, 0, 0)) {
-				tileVector.push_back(Tile(x, y, "stone", false));
+				tileVector.push_back(Tile(x, y, "stone", true));
 			}
 			else if (color == Color(0, 255, 0)) {
 				y += 8.f;
@@ -51,10 +54,10 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 				y += 8.f;
 				Player::sprite.setPosition(x, y);
 				y -= 8.f;
-				tileVector.push_back(Tile(x, y, "start", true));
+				tileVector.push_back(Tile(x, y, "start", false));
 			}
 			else if (color == Color(255, 255, 0)) {
-				tileVector.push_back(Tile(x, y, "exit", true));
+				tileVector.push_back(Tile(x, y, "exit", false));
 			}
 		}
 	}
@@ -106,22 +109,21 @@ void Tile::createLevelPathing() {
 			image = getRoomTemplate(roomMatrix[i][j]);
 			initTiles(j, i, image);
 		}
-		cout << endl;
+		cout << '\n';
 	}
 }
 
 Image Tile::getRoomTemplate(int& templateType) {
 	Image image;
-	int randomPick = 0;
 
 	switch (templateType) {
-		case 0: randomPick = rand() % ResourceManager::LR_size; image = ResourceManager::LR_array[randomPick]; break;  
-		case 1: randomPick = rand() % ResourceManager::START_size; image = ResourceManager::START_array[randomPick]; break;
-		case 2: randomPick = rand() % ResourceManager::LRD_size; image = ResourceManager::LRD_array[randomPick]; break;
-		case 3: randomPick = rand() % ResourceManager::LRU_size; image = ResourceManager::LRU_array[randomPick]; break;
-		case 4: randomPick = rand() % ResourceManager::ALL_size; image = ResourceManager::ALL_array[randomPick]; break;
-		case 5: randomPick = rand() % ResourceManager::EXIT_size; image = ResourceManager::EXIT_array[randomPick]; break;
-		default: randomPick = rand() % ResourceManager::LR_size; image = ResourceManager::LR_array[randomPick];
+		case 0: image = ResourceManager::LR_array[rand() % ResourceManager::LR_size]; break;
+		case 1: image = ResourceManager::START_array[rand() % ResourceManager::START_size]; break;
+		case 2: image = ResourceManager::LRD_array[rand() % ResourceManager::LRD_size]; break;
+		case 3: image = ResourceManager::LRU_array[rand() % ResourceManager::LRU_size]; break;
+		case 4: image = ResourceManager::ALL_array[rand() % ResourceManager::ALL_size]; break;
+		case 5: image = ResourceManager::EXIT_array[rand() % ResourceManager::EXIT_size]; break;
+		default: image = ResourceManager::LR_array[rand() % ResourceManager::LR_size];
 	}
 
 	if (rand() % 2 == 1) image.flipHorizontally();
@@ -130,3 +132,42 @@ Image Tile::getRoomTemplate(int& templateType) {
 
 }
 
+void Tile::setupBackground() {
+	int backgroundArray[6][6] = {
+		{1, 1, 1, 1, 1, 1},
+		{1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1, 1},
+	};
+
+	for (int i = 0; i < 6; i++) {
+		for (int j = 0; j < 6; j++) {
+			if (backgroundArray[i][j] == 0) {
+				tileVector.push_back(Tile(j, i, false));
+			}
+			else if (backgroundArray[i][j] == 1) {
+				tileVector.push_back(Tile(j, i, true));
+			}
+		}
+	}
+}
+
+Tile::Tile(int& x, int& y, bool isSolid) {
+	this->spriteDimensions = Vector2f(240.f, 192.f);
+	//240 x 192 pixels per room
+	//image needs to be 80 x 64 pixels
+	float scale = 3.f;
+	this->isSolid = isSolid;
+	this->sprite.setTexture(ResourceManager::backgroundTexture);
+	if (this->isSolid == true) {
+		this->sprite.setTextureRect(IntRect(0, 0, 80, 64));
+	}
+	else if (this->isSolid == false) {
+		this->sprite.setTextureRect(IntRect(80, 0, 80, 64));
+	}
+	this->sprite.setScale(scale, scale);
+	this->sprite.setOrigin(40.f, 0.f);
+	this->sprite.setPosition(-132 + (x * 240 ), -192 + (y * 192));
+}
