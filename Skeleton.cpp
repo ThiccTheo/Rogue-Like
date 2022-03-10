@@ -43,11 +43,11 @@ void Skeleton::update(){
 	for (size_t i = 0; i < skeletonVector.size(); i++) {
 		skeletonVector[i].position = skeletonVector[i].sprite.getPosition();
 
-		tileCollider = skeletonVector[i].isBottomColliding(true);
+		tileCollider = skeletonVector[i].isBottomColliding(true, "");
 		if (tileCollider != nullptr) {
 			skeletonVector[i].velocity.y = 0.f;
 			skeletonVector[i].position.y = tileCollider->sprite.getPosition().y - SPRITE_SIZE;
-			tileCollider = skeletonVector[i].isTopColliding(true);
+			tileCollider = skeletonVector[i].isTopColliding(true, "");
 		}
 		else if (tileCollider != nullptr) {
 			skeletonVector[i].velocity.y = 0.1f;
@@ -74,7 +74,7 @@ void Skeleton::update(){
 
 		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
 
-		tileCollider = skeletonVector[i].isSideColliding(true);
+		tileCollider = skeletonVector[i].isSideColliding(true, "");
 		if (tileCollider != nullptr) {
 			if (skeletonVector[i].dir == 'R') {
 				skeletonVector[i].dir = 'L';
@@ -99,34 +99,52 @@ void Skeleton::update(){
 	}
 }
 
-Tile* Skeleton::isSideColliding(bool isSolid) {
+Tile* Skeleton::isSideColliding(bool isSolid, string type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if(sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid){
-			collider = &Tile::tileVector[i];
-			return collider;
+			if (type != "" && type == Tile::tileVector[i].type) {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
+			else if (type == "") {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
 		}
 	}
 	return collider;
 }
 
-Tile* Skeleton::isTopColliding(bool isSolid) {
+Tile* Skeleton::isTopColliding(bool isSolid, string type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			collider = &Tile::tileVector[i];
-			return collider;
+			if (type != "" && type == Tile::tileVector[i].type) {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
+			else if (type == "") {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
 		}
 	}
 	return collider;
 }
 
-Tile* Skeleton::isBottomColliding(bool isSolid) {
+Tile* Skeleton::isBottomColliding(bool isSolid, string type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			collider = &Tile::tileVector[i];
-			return collider;
+			if (type != "" && type == Tile::tileVector[i].type) {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
+			else if (type == "") {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
 		}
 	}
 	return collider;

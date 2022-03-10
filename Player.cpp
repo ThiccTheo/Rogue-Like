@@ -59,19 +59,19 @@ void Player::update() {
 	topHitbox.setPosition(position.x + 1, position.y - 1);
 	bottomHitbox.setPosition(position.x + 1, position.y + SPRITE_SIZE);
 	
-	tileCollider = isBottomColliding(true);
+	tileCollider = isBottomColliding(true, "");
 	if (tileCollider != nullptr) {
 		velocity.y = 0.f;
 		position.y = tileCollider->sprite.getPosition().y - SPRITE_SIZE;
 	}
 
-	tileCollider = isTopColliding(true);
+	tileCollider = isTopColliding(true, "");
 	if (tileCollider != nullptr) {
 		velocity.y = 0.1f;
 		position.y = tileCollider->sprite.getPosition().y + tileCollider->spriteDimensions.y + 1;
 	}
 
-	tileCollider = isBottomColliding(true);
+	tileCollider = isBottomColliding(true, "");
 	if (Keyboard::isKeyPressed(Keyboard::W) && jumpCounter == 0) {
 		jumpCounter++;
 		if (Keyboard::isKeyPressed(Keyboard::W) && tileCollider != nullptr) {
@@ -88,7 +88,7 @@ void Player::update() {
 		sprite.setScale(1.f, 1.f);
 		position.x += 1.f;
 		sprite.setPosition(position);
-		tileCollider = isSideColliding(true);
+		tileCollider = isSideColliding(true, "");
 		if (tileCollider != nullptr) {
 			position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 		}
@@ -101,7 +101,7 @@ void Player::update() {
 		sprite.setScale(-1.f, 1.f);
 		position.x -= 1.f;
 		sprite.setPosition(position);
-		tileCollider = isSideColliding(true);
+		tileCollider = isSideColliding(true, "");
 		if (tileCollider != nullptr) {
 			position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 		}
@@ -126,40 +126,58 @@ void Player::update() {
 	Game::view.setCenter(sprite.getPosition().x + SPRITE_SIZE / 2, sprite.getPosition().y + SPRITE_SIZE / 2);
 	Game::cullingPoint.setPosition(Game::view.getCenter());
 
-	tileCollider = isSideColliding(false);
-	if (tileCollider != nullptr && tileCollider->type == "exit" && Keyboard::isKeyPressed(Keyboard::Space)) {
+	tileCollider = isSideColliding(false, "exit");
+	if (tileCollider != nullptr && Keyboard::isKeyPressed(Keyboard::Space)) {
 		Game::loadLevel();
 	}
 }
 
-Tile* Player::isSideColliding(bool isSolid) {
+Tile* Player::isSideColliding(bool isSolid, string type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			collider = &Tile::tileVector[i];
-			return collider;
+			if (type != "" && type == Tile::tileVector[i].type) {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
+			else if (type == "") {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
 		}
 	}
 	return collider;
 }
 
-Tile* Player::isTopColliding(bool isSolid) {
+Tile* Player::isTopColliding(bool isSolid, string type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			collider = &Tile::tileVector[i];
-			return collider;
+			if (type != "" && type == Tile::tileVector[i].type) {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
+			else if (type == "") {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
 		}
 	}
 	return collider;
 }
 
-Tile* Player::isBottomColliding(bool isSolid) {
+Tile* Player::isBottomColliding(bool isSolid, string type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			collider = &Tile::tileVector[i];
-			return collider;
+			if (type != "" && type == Tile::tileVector[i].type) {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
+			else if (type == "") {
+				collider = &Tile::tileVector[i];
+				return collider;
+			}
 		}
 	}
 	return collider;
