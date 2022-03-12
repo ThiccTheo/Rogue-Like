@@ -145,21 +145,20 @@ void Tile::setupBackground() {
 	for (int i = 0; i < 6; i++) {
 		for (int j = 0; j < 6; j++) {
 			if (backgroundArray[i][j] == 0) {
-				tileVector.push_back(Tile(j, i, false, "background"));
+				tileVector.push_back(Tile(j, i, false));
 			}
 			if (backgroundArray[i][j] == 1) {
-				tileVector.push_back(Tile(j, i, true, "background"));
+				tileVector.push_back(Tile(j, i, true));
 			}
 		}
 	}
 }
 
-Tile::Tile(int& x, int& y, bool isSolid, string type) {
+Tile::Tile(int& x, int& y, bool isSolid) {
 	this->spriteDimensions = Vector2f(240.f, 192.f);
 	//240 x 192 pixels per room
 	//image needs to be 80 x 64 pixels
 	this->isSolid = isSolid;
-	this->type = type;
 	this->sprite.setTexture(ResourceManager::backgroundTexture);
 	if (this->isSolid == true) {
 		this->sprite.setTextureRect(IntRect(0, 0, 80, 64));

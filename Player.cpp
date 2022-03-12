@@ -1,20 +1,25 @@
 #include "Player.h"
 
-const float Player::GRAVITY = 0.025;
-const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f;
-const Vector2f Player::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 Sprite Player::sprite;
 RectangleShape Player::topHitbox, Player::bottomHitbox;
 Vector2f Player::velocity, Player::position;
-int Player::jumpCounter;
-string Player::animationType;
+
+string Player::animationType = "idle";
 Clock Player::animationClock;
+
+const float Player::GRAVITY = 0.025;
+const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f;
+const Vector2f Player::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
+
+int Player::jumpCounter = 0;
 int Player::walkFrame = 0;
+int Player::health = 3;
+int Player::iFrameCycles = 0;
+int Player::iFrameCounter = 0;
+bool Player::showIFrames;
 
 void Player::init() {
 	sprite.setTexture(ResourceManager::playerTexture);
-	//temporary debugging position
-	sprite.setPosition(0.f, -50.f);
 	topHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
 	bottomHitbox.setSize(Vector2f(SPRITE_SIZE - 2, HITBOX_THICKNESS));
 	topHitbox.setFillColor(Color::Red);
@@ -24,12 +29,11 @@ void Player::init() {
 	sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
-	jumpCounter = 0;
-	animationType = "idle";
 }
 
 void Player::draw() 
 {
+
 	if (animationType == "idle") {
 		sprite.setTextureRect(IntRect(0, 0, 16, 16));
 	}
@@ -40,11 +44,27 @@ void Player::draw()
 		sprite.setTextureRect(IntRect(48, 0, 16, 16));
 	}
 
-	Game::window.draw(sprite);
+	if (showIFrames == false) {
+		Game::window.draw(sprite);
+	}
+	else if (showIFrames == true) {
+		if (iFrameCounter >= 5) {
+			Game::window.draw(sprite);
+			iFrameCounter = 0;
+			iFrameCycles++;
+		}
+		if (iFrameCycles >= 15) {
+			iFrameCycles = 0;
+			iFrameCounter = 0;
+			showIFrames = false;
+		}
+
+	}
 }
 
 void Player::update() {
 	Tile* tileCollider = nullptr;
+	iFrameCounter++;
 
 	position = sprite.getPosition();
 
@@ -129,6 +149,10 @@ void Player::update() {
 	tileCollider = isSideColliding(false, "exit");
 	if (tileCollider != nullptr && Keyboard::isKeyPressed(Keyboard::Space)) {
 		Game::loadLevel();
+	}
+
+	if (health <= 0) {
+		health = 0;
 	}
 }
 

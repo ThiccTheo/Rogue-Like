@@ -20,6 +20,7 @@ Image ResourceManager::ALL_array[ResourceManager::ALL_size] = {Image()};
 Image ResourceManager::EXIT_array[ResourceManager::EXIT_size] = {Image()};
 
 void ResourceManager::loadMedia() {
+
 	tileTexture.loadFromFile("Tile/SpriteSheet.png");
 	backgroundTexture.loadFromFile("Background/SpriteSheet.png");
 	playerTexture.loadFromFile("Player/SpriteSheet.png");

@@ -8,11 +8,13 @@ class Tile;
 
 class Player {
 public:
+	static int health;
 	static Sprite sprite;
 	static void init();
 	static void draw();
 	static void update();
 	static int jumpCounter;
+	static bool showIFrames;
 private:
 	static Tile* isSideColliding(bool isSolid, string type);
 	static Tile* isTopColliding(bool isSolid, string type);
@@ -26,4 +28,6 @@ private:
 	static Clock animationClock;
 	static void walkAnimation();
 	static int walkFrame;
+	static int iFrameCounter;
+	static int iFrameCycles;
 };

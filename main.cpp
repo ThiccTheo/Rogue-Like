@@ -4,12 +4,14 @@
 #include "Skeleton.h"
 #include "ResourceManager.h"
 #include "Game.h"
+#include "GUI.h"
 
 int main(){
     srand(static_cast<unsigned int>(time(NULL)));
     ResourceManager::loadMedia();
 
     Game::setup();
+    GUI::init();
     Player::init();
     Game::loadLevel();
 
@@ -27,13 +29,14 @@ int main(){
                 }
             }
         }
+
         Game::window.clear(Color::White);
         Game::window.setView(Game::view);
- 
+        
         Tile::draw();
         Skeleton::draw();
         Player::draw();
-
+        GUI::UAD();
         Game::window.display();
 
         Skeleton::update();

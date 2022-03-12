@@ -20,7 +20,7 @@ public:
 	string type;
 private:
 	Tile(float& x, float& y, string type, bool isSolid);
-	Tile(int& x, int& y, bool isSolid, string type);
+	Tile(int& x, int& y, bool isSolid);
 	static void initTiles(int& levelPosX, int& levelPosY, const Image& image);
 	static Image getRoomTemplate(int& templateType);
 	static const float POSITION_SCALAR, SCALE;

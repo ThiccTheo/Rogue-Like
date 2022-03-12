@@ -96,6 +96,11 @@ void Skeleton::update(){
 		skeletonVector[i].sprite.setPosition(skeletonVector[i].position);
 		skeletonVector[i].topHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y - 1);
 		skeletonVector[i].bottomHitbox.setPosition(skeletonVector[i].position.x + 1, skeletonVector[i].position.y + 16.f);
+
+		if (skeletonVector[i].sprite.getGlobalBounds().intersects(Player::sprite.getGlobalBounds()) && Player::showIFrames == false) {
+			Player::health--;
+			Player::showIFrames = true;
+		}
 	}
 }
 
