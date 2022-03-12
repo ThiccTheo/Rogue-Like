@@ -9,6 +9,7 @@ public:
 	static Texture backgroundTexture;
 	static Texture playerTexture;
 	static Texture skeletonTexture;
+	static Texture chestTexture;
 
 	static const int START_size;
 	static const int LR_size;

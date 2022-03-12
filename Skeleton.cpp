@@ -1,7 +1,7 @@
 #include "Skeleton.h"
 
 const float Skeleton::SPRITE_SIZE = 16.f, Skeleton::HITBOX_THICKNESS = 1.f;
-const float Skeleton::GRAVITY = 0.025;
+const float Skeleton::GRAVITY = 0.025f;
 const Vector2f Skeleton::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 
 vector<Skeleton> Skeleton::skeletonVector;
@@ -104,7 +104,7 @@ void Skeleton::update(){
 	}
 }
 
-Tile* Skeleton::isSideColliding(bool isSolid, string type) {
+Tile* Skeleton::isSideColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if(sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid){
@@ -121,7 +121,7 @@ Tile* Skeleton::isSideColliding(bool isSolid, string type) {
 	return collider;
 }
 
-Tile* Skeleton::isTopColliding(bool isSolid, string type) {
+Tile* Skeleton::isTopColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
@@ -138,7 +138,7 @@ Tile* Skeleton::isTopColliding(bool isSolid, string type) {
 	return collider;
 }
 
-Tile* Skeleton::isBottomColliding(bool isSolid, string type) {
+Tile* Skeleton::isBottomColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {

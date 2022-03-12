@@ -5,7 +5,7 @@ const int Tile::START_TILE = 1, Tile::DOWN_TILE = 2, Tile::UP_TILE = 3, Tile::UP
 
 vector<Tile> Tile::tileVector;
 
-Tile::Tile(float& x, float& y, string type, bool isSolid){
+Tile::Tile(float& x, float& y, string&& type, bool isSolid){
 	this->spriteDimensions = Vector2f(24.f, 24.f);
 	this->sprite.setScale(SCALE, SCALE);
 	this->sprite.setTexture(ResourceManager::tileTexture);
@@ -168,5 +168,5 @@ Tile::Tile(int& x, int& y, bool isSolid) {
 	}
 	this->sprite.setScale(3.f, 3.f);
 	this->sprite.setOrigin(40.f, 0.f);
-	this->sprite.setPosition(-132 + (x * 240 ), -192 + (y * 192));
+	this->sprite.setPosition(static_cast<float>(- 132 + (x * 240)), static_cast<float>(- 192 + (y * 192)));
 }

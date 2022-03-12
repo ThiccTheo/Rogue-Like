@@ -4,6 +4,7 @@ Texture ResourceManager::tileTexture;
 Texture ResourceManager::backgroundTexture;
 Texture ResourceManager::playerTexture;
 Texture ResourceManager::skeletonTexture;
+Texture ResourceManager::chestTexture;
 
 const int ResourceManager::START_size = 1;
 const int ResourceManager::LR_size = 1;

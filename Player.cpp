@@ -7,7 +7,7 @@ Vector2f Player::velocity, Player::position;
 string Player::animationType = "idle";
 Clock Player::animationClock;
 
-const float Player::GRAVITY = 0.025;
+const float Player::GRAVITY = 0.025f;
 const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f;
 const Vector2f Player::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 
@@ -138,6 +138,9 @@ void Player::update() {
 		if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::W)) {
 			animationType = "idle";
 		}
+		if (Keyboard::isKeyPressed(Keyboard::W) && animationType == "walk" && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D)) {
+			animationType = "idle";
+		}
 	}
 
 	sprite.setPosition(position);
@@ -156,7 +159,7 @@ void Player::update() {
 	}
 }
 
-Tile* Player::isSideColliding(bool isSolid, string type) {
+Tile* Player::isSideColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
@@ -173,7 +176,7 @@ Tile* Player::isSideColliding(bool isSolid, string type) {
 	return collider;
 }
 
-Tile* Player::isTopColliding(bool isSolid, string type) {
+Tile* Player::isTopColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
@@ -190,7 +193,7 @@ Tile* Player::isTopColliding(bool isSolid, string type) {
 	return collider;
 }
 
-Tile* Player::isBottomColliding(bool isSolid, string type) {
+Tile* Player::isBottomColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;
 	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
 		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {

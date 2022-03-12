@@ -16,9 +16,9 @@ public:
 	static int jumpCounter;
 	static bool showIFrames;
 private:
-	static Tile* isSideColliding(bool isSolid, string type);
-	static Tile* isTopColliding(bool isSolid, string type);
-	static Tile* isBottomColliding(bool isSolid, string type);
+	static Tile* isSideColliding(bool isSolid, string&& type);
+	static Tile* isTopColliding(bool isSolid, string&& type);
+	static Tile* isBottomColliding(bool isSolid, string&& type);
 	static Vector2f velocity, position;
 	static const float GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
