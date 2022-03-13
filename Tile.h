@@ -4,6 +4,9 @@
 #include "Skeleton.h"
 #include "ResourceManager.h"
 #include "Chest.h"
+#include "Slime.h"
+
+class Slime;
 
 class Player;
 

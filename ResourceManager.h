@@ -11,6 +11,7 @@ public:
 	static Texture skeletonTexture;
 	static Texture chestTexture;
 	static Texture swordTexture;
+	static Texture slimeTexture;
 
 	static const int START_size;
 	static const int LR_size;

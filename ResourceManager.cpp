@@ -6,6 +6,7 @@ Texture ResourceManager::playerTexture;
 Texture ResourceManager::skeletonTexture;
 Texture ResourceManager::chestTexture;
 Texture ResourceManager::swordTexture;
+Texture ResourceManager::slimeTexture;
 
 const int ResourceManager::START_size = 1;
 const int ResourceManager::LR_size = 1;
@@ -23,17 +24,18 @@ Image ResourceManager::EXIT_array[ResourceManager::EXIT_size] = {Image()};
 
 void ResourceManager::loadMedia() {
 
-	tileTexture.loadFromFile("Tile/SpriteSheet.png");
-	backgroundTexture.loadFromFile("Background/SpriteSheet.png");
-	playerTexture.loadFromFile("Player/SpriteSheet.png");
-	skeletonTexture.loadFromFile("Skeleton/SpriteSheet.png");
-	chestTexture.loadFromFile("Chest/SpriteSheet.png");
-	swordTexture.loadFromFile("Sword/SpriteSheet.png");
+	tileTexture.loadFromFile("ResourceManager/TileSpriteSheet.png");
+	backgroundTexture.loadFromFile("ResourceManager/Background.png");
+	playerTexture.loadFromFile("ResourceManager/PlayerSpriteSheet.png");
+	skeletonTexture.loadFromFile("ResourceManager/SkeletonSpriteSheet.png");
+	chestTexture.loadFromFile("ResourceManager/ChestSpriteSheet.png");
+	swordTexture.loadFromFile("ResourceManager/SwordSpriteSheet.png");
+	slimeTexture.loadFromFile("ResourceManager/SlimeSpriteSheet.png");
 
-	START_array[0].loadFromFile("Image/START/START1.png");
-	LR_array[0].loadFromFile("Image/LR/LR1.png");
-	LRD_array[0].loadFromFile("Image/LRD/LRD1.png");
-	LRU_array[0].loadFromFile("Image/LRU/LRU1.png");
-	ALL_array[0].loadFromFile("Image/ALL/ALL1.png");
-	EXIT_array[0].loadFromFile("Image/EXIT/EXIT1.png");
+	START_array[0].loadFromFile("ResourceManager/START/START1.png");
+	LR_array[0].loadFromFile("ResourceManager/LR/LR1.png");
+	LRD_array[0].loadFromFile("ResourceManager/LRD/LRD1.png");
+	LRU_array[0].loadFromFile("ResourceManager/LRU/LRU1.png");
+	ALL_array[0].loadFromFile("ResourceManager/ALL/ALL1.png");
+	EXIT_array[0].loadFromFile("ResourceManager/EXIT/EXIT1.png");
 }

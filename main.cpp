@@ -7,6 +7,7 @@
 #include "GUI.h"
 #include "Chest.h"
 #include "Sword.h"
+#include "Slime.h"
 
 int main(){
     srand(static_cast<unsigned int>(time(NULL)));
@@ -44,12 +45,14 @@ int main(){
         Tile::draw();
         Chest::draw();
         Skeleton::draw();
+        Slime::draw();
         Sword::draw();
         Player::draw();
         GUI::draw();
         Game::window.display();
 
         Skeleton::update();
+        Slime::update();
         Player::update();
         Sword::update();
         

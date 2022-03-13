@@ -37,6 +37,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	start: #0000ff | 0, 0, 255
 	exit: #ffff00 | 255, 255, 0
 	chest: #ff00ff | 255, 0, 255
+	slime: #800080 | 128, 0, 128
 	*/
 
 
@@ -66,6 +67,10 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			else if (color == Color(255, 0, 255)) {
 				y += 8.f;
 				if (rand() % 5 >= 0) Chest::chestVector.push_back(Chest(x, y));
+			}
+			else if (color == Color(128, 0, 128)) {
+				y += 8.f;
+				if (rand() % 5 >= 0) Slime::slimeVector.push_back(Slime(x, y));
 			}
 		}
 	}

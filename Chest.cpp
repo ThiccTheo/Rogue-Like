@@ -22,9 +22,10 @@ void Chest::draw(){
 }
 
 void Chest::dropLoot() {
-	int rnJesus = rand() % 3;
+	int rnJesus = rand() % 4;
 	if (rnJesus == 0) Player::xp += 2;
 	else if (rnJesus == 1) { if (Sword::damage < Sword::MAX_DAMAGE) Sword::damage++; else Player::xp += 5; }
-	else if (rnJesus == 2) { if (Player::speed < Player::TERMINAL_VELOCITY.x) Player::speed += 0.1; else Player::xp += 5; }
+	else if (rnJesus == 2) { if (Player::speed < Player::TERMINAL_VELOCITY.x) Player::speed += 0.1f; else Player::xp += 5; }
+	else if (rnJesus == 3) { if (Sword::clickDelay > 0.f) Sword::clickDelay -= 0.1f; else Player::xp += 5; }
 	
 }

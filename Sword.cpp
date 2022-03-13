@@ -1,6 +1,7 @@
 #include "Sword.h"
 
 Clock Sword::animationClock;
+Clock Sword::delayTimer;
 Sprite Sword::sprite;
 
 int Sword::damage = 1;
@@ -11,7 +12,7 @@ const int Sword::MAX_DAMAGE = 5;
 
 bool Sword::showSword = false;
 
-float Sword::clickDelay = 1.f;
+float Sword::clickDelay = 0.5f;
 
 void Sword::init() {
 	sprite.setTexture(ResourceManager::swordTexture);
@@ -23,10 +24,14 @@ void Sword::update() {
 	sprite.setPosition((Player::sprite.getPosition().x + (Player::sprite.getScale()).x * 11), Player::sprite.getPosition().y - 5);
 	if (Mouse::isButtonPressed(Mouse::Left) && clickCounter == 0) {
 		clickCounter++;
-		if (Mouse::isButtonPressed(Mouse::Left)) {
+		if (Mouse::isButtonPressed(Mouse::Left) && delayTimer.getElapsedTime().asSeconds() >= clickDelay) {
 			Player::animationType = "melee";
 			showSword = true;
+			delayTimer.restart();
 		}
+	}
+	if (showSword == true && Player::animationType == "idle") {
+		showSword = false;
 	}
 }
 	

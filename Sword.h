@@ -17,6 +17,7 @@ public:
 	static int damage;
 	static const int MAX_DAMAGE;
 private:
+	static Clock delayTimer;
 	static Clock animationClock;
 	static void attackAnimation();
 
