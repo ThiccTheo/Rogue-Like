@@ -7,7 +7,7 @@
 class GUI {
 public:
 	//UAD - update and draw
-	static void UAD();
+	static void draw();
 	static void init();
 private:
 	static Font VCR_OSD_Mono;
@@ -17,5 +17,5 @@ private:
 	static Texture healthTexture;
 	static Sprite healthSprite;
 	static void initHealth();
-	static void UAD_Health();
+	static void drawHealth();
 };

@@ -10,8 +10,7 @@ Chest::Chest(float& x, float& y){
 	this->isOpen = false;
 }
 
-//Update And Draw - UAD
-void Chest::UAD(){
+void Chest::draw(){
 	for (size_t i = 0; i < chestVector.size(); i++) {
 		//upon collision with player, change its texture to open and set to isOpen
 		if (chestVector[i].sprite.getGlobalBounds().intersects(Player::sprite.getGlobalBounds()) && chestVector[i].isOpen == false) {

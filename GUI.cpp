@@ -14,8 +14,8 @@ void GUI::init() {
 	initHealth();
 }
 
-void GUI::UAD() {
-	UAD_Health();
+void GUI::draw() {
+	drawHealth();
 }
 
 void GUI::initHealth() {
@@ -29,7 +29,7 @@ void GUI::initHealth() {
 	healthTxt.setOutlineThickness(1.f);
 }
 
-void GUI::UAD_Health() {
+void GUI::drawHealth() {
 	healthTxt.setString("   x " + to_string(Player::health));
 	healthTxt.setPosition(Vector2f(Game::window.mapPixelToCoords(Vector2i(0, 3))));
 	healthSprite.setPosition(Vector2f(Game::window.mapPixelToCoords(Vector2i(2, 5))));

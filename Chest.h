@@ -7,7 +7,7 @@
 class Chest {
 public:
 	Chest(float& x, float& y);
-	static void UAD();
+	static void draw();
 	static vector<Chest> chestVector;
 private:
 	Sprite sprite;

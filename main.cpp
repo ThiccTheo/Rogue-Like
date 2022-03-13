@@ -35,10 +35,10 @@ int main(){
         Game::window.setView(Game::view);
         
         Tile::draw();
-        Chest::UAD();
+        Chest::draw();
         Skeleton::draw();
         Player::draw();
-        GUI::UAD();
+        GUI::draw();
         Game::window.display();
 
         Skeleton::update();
