@@ -6,7 +6,6 @@
 
 class GUI {
 public:
-	//UAD - update and draw
 	static void draw();
 	static void init();
 private:

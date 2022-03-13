@@ -12,11 +12,19 @@ Chest::Chest(float& x, float& y){
 
 void Chest::draw(){
 	for (size_t i = 0; i < chestVector.size(); i++) {
-		//upon collision with player, change its texture to open and set to isOpen
-		if (chestVector[i].sprite.getGlobalBounds().intersects(Player::sprite.getGlobalBounds()) && chestVector[i].isOpen == false) {
+		if (chestVector[i].isOpen == false && chestVector[i].sprite.getGlobalBounds().intersects(Player::sprite.getGlobalBounds())) {
 			chestVector[i].isOpen = true;
 			chestVector[i].sprite.setTextureRect(IntRect(16, 0, 16, 16));
+			chestVector[i].dropLoot();
 		}
 		Game::window.draw(chestVector[i].sprite);
 	}
+}
+
+void Chest::dropLoot() {
+	int rnJesus = rand() % 3;
+	if (rnJesus == 0) Player::xp += 2;
+	else if (rnJesus == 1) { if (Sword::damage < Sword::MAX_DAMAGE) Sword::damage++; else Player::xp += 5; }
+	else if (rnJesus == 2) { if (Player::speed < Player::TERMINAL_VELOCITY.x) Player::speed += 0.1; else Player::xp += 5; }
+	
 }

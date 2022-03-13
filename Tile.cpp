@@ -30,7 +30,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	float x = 0.f, y = 0.f;
 
 	/*
-	THESE VALUES ARE SUBJECT TO CHANGE - CURRENTLY USED FOR TESTING NEW ENTITIES
+	THESE VALUES ARE SUBJECT TO CHANGE
 
 	stone: #ff0000 | 255, 0, 0
 	skeleton: #00ff00 | 0, 255, 0
@@ -38,6 +38,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	exit: #ffff00 | 255, 255, 0
 	chest: #ff00ff | 255, 0, 255
 	*/
+
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -51,7 +52,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			}
 			else if (color == Color(0, 255, 0)) {
 				y += 8.f;
-				Skeleton::skeletonVector.push_back(Skeleton(x, y));
+				if (rand() % 5 >= 2) Skeleton::skeletonVector.push_back(Skeleton(x, y));
 			}
 			else if (color == Color(0, 0, 255)) {
 				y += 8.f;
@@ -64,7 +65,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			}
 			else if (color == Color(255, 0, 255)) {
 				y += 8.f;
-				Chest::chestVector.push_back(Chest(x, y));
+				if (rand() % 5 >= 0) Chest::chestVector.push_back(Chest(x, y));
 			}
 		}
 	}

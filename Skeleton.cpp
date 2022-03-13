@@ -101,6 +101,11 @@ void Skeleton::update(){
 			Player::health--;
 			Player::showIFrames = true;
 		}
+
+		if (Sword::showSword == true && Sword::sprite.getGlobalBounds().intersects(skeletonVector[i].sprite.getGlobalBounds())) {
+			skeletonVector.erase(skeletonVector.begin() + i);
+			Player::xp++;
+		}
 	}
 }
 

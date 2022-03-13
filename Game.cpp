@@ -4,8 +4,8 @@ RenderWindow Game::window;
 View Game::view;
 RectangleShape Game::cullingPoint;
 
-const float Game::WIDTH = 320.f;
-const float Game::HEIGHT = 240.f;
+const float Game::WIDTH = 400.f;
+const float Game::HEIGHT = 250.f;
 
 void Game::setup() {
 	window.create(VideoMode(static_cast<unsigned int>(WIDTH), static_cast<unsigned int>(HEIGHT)), "Rouge Like", Style::Default);

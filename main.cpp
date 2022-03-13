@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "GUI.h"
 #include "Chest.h"
+#include "Sword.h"
 
 int main(){
     srand(static_cast<unsigned int>(time(NULL)));
@@ -14,6 +15,7 @@ int main(){
     Game::setup();
     GUI::init();
     Player::init();
+    Sword::init();
     Game::loadLevel();
 
     while (Game::window.isOpen()){
@@ -24,25 +26,35 @@ int main(){
             if (event.type == Event::Closed) {
                 Game::window.close();
             }
-            else if (event.type == Event::KeyReleased) {
+            if (event.type == Event::KeyReleased) {
                 if (event.key.code == Keyboard::W) {
                     Player::jumpCounter = 0;
+                }
+            }
+            if (event.type == Event::MouseButtonReleased) {
+                if (event.mouseButton.button == Mouse::Left) {
+                    Sword::clickCounter = 0;
                 }
             }
         }
 
         Game::window.clear(Color::White);
         Game::window.setView(Game::view);
-        
+
         Tile::draw();
         Chest::draw();
         Skeleton::draw();
+        Sword::draw();
         Player::draw();
         GUI::draw();
         Game::window.display();
 
         Skeleton::update();
         Player::update();
+        Sword::update();
+
+        cout << Player::xp << '\n';
+        
     }
 
     return 0;

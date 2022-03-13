@@ -5,6 +5,7 @@ Texture ResourceManager::backgroundTexture;
 Texture ResourceManager::playerTexture;
 Texture ResourceManager::skeletonTexture;
 Texture ResourceManager::chestTexture;
+Texture ResourceManager::swordTexture;
 
 const int ResourceManager::START_size = 1;
 const int ResourceManager::LR_size = 1;
@@ -27,6 +28,7 @@ void ResourceManager::loadMedia() {
 	playerTexture.loadFromFile("Player/SpriteSheet.png");
 	skeletonTexture.loadFromFile("Skeleton/SpriteSheet.png");
 	chestTexture.loadFromFile("Chest/SpriteSheet.png");
+	swordTexture.loadFromFile("Sword/SpriteSheet.png");
 
 	START_array[0].loadFromFile("Image/START/START1.png");
 	LR_array[0].loadFromFile("Image/LR/LR1.png");

@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Game.h"
 #include "Player.h"
+#include "Sword.h"
 
 class Chest {
 public:
@@ -12,4 +13,5 @@ public:
 private:
 	Sprite sprite;
 	bool isOpen;
+	void dropLoot();
 };

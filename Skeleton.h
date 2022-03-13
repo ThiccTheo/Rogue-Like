@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Tile.h"
 #include "Game.h"
+#include "Sword.h"
 
 class Tile;
 

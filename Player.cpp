@@ -7,9 +7,14 @@ Vector2f Player::velocity, Player::position;
 string Player::animationType = "idle";
 Clock Player::animationClock;
 
+const int Player::iFrameCycleNumber = 15;
+const int Player::iFrameNumber = 5;
+
 const float Player::GRAVITY = 0.025f;
 const float Player::SPRITE_SIZE = 16.f, Player::HITBOX_THICKNESS = 1.f;
-const Vector2f Player::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
+const Vector2f Player::TERMINAL_VELOCITY = Vector2f(1.5f, 1.5f);
+
+const int Player::XP_LIMIT = 10;
 
 int Player::jumpCounter = 0;
 int Player::walkFrame = 0;
@@ -17,6 +22,9 @@ int Player::health = 3;
 int Player::iFrameCycles = 0;
 int Player::iFrameCounter = 0;
 bool Player::showIFrames;
+
+float Player::speed = 1;
+int Player::xp = 0;
 
 void Player::init() {
 	sprite.setTexture(ResourceManager::playerTexture);
@@ -48,12 +56,12 @@ void Player::draw()
 		Game::window.draw(sprite);
 	}
 	else if (showIFrames == true) {
-		if (iFrameCounter >= 5) {
+		if (iFrameCounter >= iFrameNumber) {
 			Game::window.draw(sprite);
 			iFrameCounter = 0;
 			iFrameCycles++;
 		}
-		if (iFrameCycles >= 15) {
+		if (iFrameCycles >= iFrameCycleNumber) {
 			iFrameCycles = 0;
 			iFrameCounter = 0;
 			showIFrames = false;
@@ -106,7 +114,7 @@ void Player::update() {
 			animationType = "walk";
 		}
 		sprite.setScale(1.f, 1.f);
-		position.x += 1.f;
+		position.x += speed;
 		sprite.setPosition(position);
 		tileCollider = isSideColliding(true, "");
 		if (tileCollider != nullptr) {
@@ -119,7 +127,7 @@ void Player::update() {
 			animationType = "walk";
 		}
 		sprite.setScale(-1.f, 1.f);
-		position.x -= 1.f;
+		position.x -= speed;
 		sprite.setPosition(position);
 		tileCollider = isSideColliding(true, "");
 		if (tileCollider != nullptr) {
@@ -156,6 +164,10 @@ void Player::update() {
 
 	if (health <= 0) {
 		health = 0;
+	}
+	if (xp >= XP_LIMIT) {
+		health++;
+		xp -= XP_LIMIT;
 	}
 }
 
