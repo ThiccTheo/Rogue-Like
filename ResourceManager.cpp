@@ -26,6 +26,7 @@ void ResourceManager::loadMedia() {
 	backgroundTexture.loadFromFile("Background/SpriteSheet.png");
 	playerTexture.loadFromFile("Player/SpriteSheet.png");
 	skeletonTexture.loadFromFile("Skeleton/SpriteSheet.png");
+	chestTexture.loadFromFile("Chest/SpriteSheet.png");
 
 	START_array[0].loadFromFile("Image/START/START1.png");
 	LR_array[0].loadFromFile("Image/LR/LR1.png");

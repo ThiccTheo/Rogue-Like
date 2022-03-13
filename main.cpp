@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "Game.h"
 #include "GUI.h"
+#include "Chest.h"
 
 int main(){
     srand(static_cast<unsigned int>(time(NULL)));
@@ -34,6 +35,7 @@ int main(){
         Game::window.setView(Game::view);
         
         Tile::draw();
+        Chest::UAD();
         Skeleton::draw();
         Player::draw();
         GUI::UAD();

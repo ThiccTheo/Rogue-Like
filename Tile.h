@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Skeleton.h"
 #include "ResourceManager.h"
+#include "Chest.h"
 
 class Player;
 

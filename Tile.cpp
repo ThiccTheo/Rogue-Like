@@ -30,10 +30,13 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	float x = 0.f, y = 0.f;
 
 	/*
+	THESE VALUES ARE SUBJECT TO CHANGE - CURRENTLY USED FOR TESTING NEW ENTITIES
+
 	stone: #ff0000 | 255, 0, 0
 	skeleton: #00ff00 | 0, 255, 0
 	start: #0000ff | 0, 0, 255
 	exit: #ffff00 | 255, 255, 0
+	chest: #ff00ff | 255, 0, 255
 	*/
 
 	for (int i = 0; i < 8; i++) {
@@ -58,6 +61,10 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			}
 			else if (color == Color(255, 255, 0)) {
 				tileVector.push_back(Tile(x, y, "exit", false));
+			}
+			else if (color == Color(255, 0, 255)) {
+				y += 8.f;
+				Chest::chestVector.push_back(Chest(x, y));
 			}
 		}
 	}

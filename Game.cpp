@@ -19,6 +19,7 @@ void Game::setup() {
 void Game::loadLevel() {
 	Tile::tileVector.clear();
 	Skeleton::skeletonVector.clear();
+	Chest::chestVector.clear();
 	cout << "\033[H\033[J";
 	Tile::setupBackground();
 	Tile::createLevelPathing();

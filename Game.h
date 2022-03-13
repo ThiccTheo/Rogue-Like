@@ -2,6 +2,7 @@
 #include "Common.h"
 #include "Tile.h"
 #include "Skeleton.h"
+#include "Chest.h"
 
 class Game {
 public:
