@@ -22,6 +22,7 @@ int Player::health = 3;
 int Player::iFrameCycles = 0;
 int Player::iFrameCounter = 0;
 bool Player::showIFrames;
+int Player::meleeFrame = 0;
 
 float Player::speed = 1;
 int Player::xp = 0;
@@ -44,12 +45,16 @@ void Player::draw()
 
 	if (animationType == "idle") {
 		sprite.setTextureRect(IntRect(0, 0, 16, 16));
+		Sword::attackFrame = 0;
 	}
 	else if (animationType == "walk") {
 		walkAnimation();
 	}
 	else if (animationType == "jump") {
 		sprite.setTextureRect(IntRect(48, 0, 16, 16));
+	}
+	else if (animationType == "melee") {
+		meleeAnimation();
 	}
 
 	if (showIFrames == false) {
@@ -110,7 +115,7 @@ void Player::update() {
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
-		if (velocity.y == 0) {
+		if (velocity.y == 0 && animationType != "melee") {
 			animationType = "walk";
 		}
 		sprite.setScale(1.f, 1.f);
@@ -123,7 +128,7 @@ void Player::update() {
 	}
 
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		if (velocity.y == 0) {
+		if (velocity.y == 0 && animationType != "melee") {
 			animationType = "walk";
 		}
 		sprite.setScale(-1.f, 1.f);
@@ -135,19 +140,21 @@ void Player::update() {
 		}
 	}
 
-	if (velocity.y != 0.f && animationType != "jump") {
-		animationType = "idle";
-	}
+	if (animationType != "melee") {
+		if (velocity.y != 0.f && animationType != "jump") {
+			animationType = "idle";
+		}
 
-	if (velocity.y == 0.f) {
-		if (animationType == "jump" && Keyboard::isKeyPressed(Keyboard::W)) {
-			animationType = "idle";
-		}
-		if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::W)) {
-			animationType = "idle";
-		}
-		if (Keyboard::isKeyPressed(Keyboard::W) && animationType == "walk" && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D)) {
-			animationType = "idle";
+		if (velocity.y == 0.f) {
+			if (animationType == "jump" && Keyboard::isKeyPressed(Keyboard::W)) {
+				animationType = "idle";
+			}
+			if (!Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D) && !Keyboard::isKeyPressed(Keyboard::W)) {
+				animationType = "idle";
+			}
+			if (Keyboard::isKeyPressed(Keyboard::W) && animationType == "walk" && !Keyboard::isKeyPressed(Keyboard::A) && !Keyboard::isKeyPressed(Keyboard::D)) {
+				animationType = "idle";
+			}
 		}
 	}
 
@@ -235,6 +242,25 @@ void Player::walkAnimation() {
 		walkFrame++;
 		if (walkFrame > 1) {
 			walkFrame = 0;
+		}
+		animationClock.restart();
+	}
+}
+
+void Player::meleeAnimation() {
+	if (meleeFrame == 0 || meleeFrame == 1) {
+		sprite.setTextureRect(IntRect(0, 16, 16, 16));
+	}
+
+	else if (meleeFrame == 2 || meleeFrame == 3) {
+		sprite.setTextureRect(IntRect(16, 16, 16, 16));
+	}
+
+	if (animationClock.getElapsedTime().asSeconds() > 0.1) {
+		meleeFrame++;
+		if (meleeFrame > 3) {
+			meleeFrame = 0;
+			animationType = "idle";
 		}
 		animationClock.restart();
 	}

@@ -20,10 +20,11 @@ void Sword::init() {
 
 void Sword::update() {
 	sprite.setScale(Player::sprite.getScale());
-	sprite.setPosition((Player::sprite.getPosition().x + (Player::sprite.getScale()).x * 11), Player::sprite.getPosition().y - 3);
+	sprite.setPosition((Player::sprite.getPosition().x + (Player::sprite.getScale()).x * 11), Player::sprite.getPosition().y - 5);
 	if (Mouse::isButtonPressed(Mouse::Left) && clickCounter == 0) {
 		clickCounter++;
 		if (Mouse::isButtonPressed(Mouse::Left)) {
+			Player::animationType = "melee";
 			showSword = true;
 		}
 	}
@@ -56,14 +57,17 @@ void Sword::draw() {
 void Sword::attackAnimation() {
 	if (attackFrame == 0 || attackFrame == 1) {
 		sprite.setTextureRect(IntRect(0, 0, 16, 16));
+		//sprite.move(0.f, -10.f);
 	}
 
 	else if (attackFrame == 2) {
 		sprite.setTextureRect(IntRect(16, 0, 16, 16));
+		sprite.move(Player::sprite.getScale().x * -1.f, 2.f);
 	}
 
 	else if (attackFrame == 3) {
 		sprite.setTextureRect(IntRect(32, 0, 15, 16));
+		sprite.move(Player::sprite.getScale().x * -1.f, 2.f);
 	}
 
 	if (animationClock.getElapsedTime().asSeconds() >= 0.1) {
@@ -71,6 +75,7 @@ void Sword::attackAnimation() {
 		if (attackFrame > 3) {
 			attackFrame = 0;
 			showSword = false;
+			//sprite.move(0.f, -2.f);
 		}
 		animationClock.restart();
 	}
