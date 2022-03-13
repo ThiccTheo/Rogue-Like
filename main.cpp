@@ -52,8 +52,6 @@ int main(){
         Skeleton::update();
         Player::update();
         Sword::update();
-
-        cout << Player::xp << '\n';
         
     }
 

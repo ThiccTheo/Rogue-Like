@@ -52,7 +52,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			}
 			else if (color == Color(0, 255, 0)) {
 				y += 8.f;
-				if (rand() % 5 >= 2) Skeleton::skeletonVector.push_back(Skeleton(x, y));
+				if (rand() % 5 >= 0) Skeleton::skeletonVector.push_back(Skeleton(x, y));
 			}
 			else if (color == Color(0, 0, 255)) {
 				y += 8.f;

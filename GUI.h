@@ -17,4 +17,9 @@ private:
 	static Sprite healthSprite;
 	static void initHealth();
 	static void drawHealth();
+
+	static RectangleShape xpBar;
+	static RectangleShape xpBarOutline;
+	static void initXP();
+	static void drawXP();
 };
