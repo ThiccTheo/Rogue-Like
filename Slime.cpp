@@ -25,7 +25,19 @@ void Slime::update() {
 	Tile* tileCollider = nullptr;
 
 	for (size_t i = 0; i < slimeVector.size(); i++) {
+		slimeVector[i].jumpDelay = rand() % 4;
 		slimeVector[i].position = slimeVector[i].sprite.getPosition();
+
+		if (slimeVector[i].velocity.y < TERMINAL_VELOCITY.y) {
+			slimeVector[i].velocity.y += GRAVITY;
+		}
+		else {
+			slimeVector[i].velocity.y = TERMINAL_VELOCITY.y;
+		}
+		slimeVector[i].position.y += slimeVector[i].velocity.y;
+
+		slimeVector[i].topHitbox.setPosition(slimeVector[i].position.x + 1, slimeVector[i].position.y - 1);
+		slimeVector[i].bottomHitbox.setPosition(slimeVector[i].position.x + 1, slimeVector[i].position.y + 11.f);
 
 		tileCollider = slimeVector[i].isBottomColliding(true, "");
 		if (tileCollider != nullptr) {
@@ -34,40 +46,46 @@ void Slime::update() {
 			tileCollider = slimeVector[i].isTopColliding(true, "");
 		}
 		else if (tileCollider != nullptr) {
-			slimeVector[i].velocity.y = 0.1f;
+			slimeVector[i].velocity.y = 1.f;
 			slimeVector[i].position.y = tileCollider->sprite.getPosition().y + tileCollider->spriteDimensions.y + 1;
 		}
-		else {
-			if (slimeVector[i].velocity.y < TERMINAL_VELOCITY.y) {
-				slimeVector[i].velocity.y += GRAVITY;
-			}
-			else {
-				slimeVector[i].velocity.y = TERMINAL_VELOCITY.y;
-			}
-			slimeVector[i].position.y += slimeVector[i].velocity.y;
+
+		tileCollider = slimeVector[i].isBottomColliding(true, "");
+		if (tileCollider != nullptr && slimeVector[i].jumpTimer.getElapsedTime().asSeconds() >= slimeVector[i].jumpDelay) {
+			slimeVector[i].jumpTimer.restart();
+			slimeVector[i].velocity.y = -1.7f;
+			slimeVector[i].position.y -= 1.f;
 		}
 
-		if (slimeVector[i].dir == 'R') {
+		if (slimeVector[i].dir == 'R' && slimeVector[i].velocity.y != 0.f) {
 			slimeVector[i].sprite.setScale(1.f, 1.f);
 			slimeVector[i].velocity.x = 1.0f;
 		}
-		else if (slimeVector[i].dir == 'L') {
+		else if (slimeVector[i].dir == 'L' && slimeVector[i].velocity.y != 0.f) {
 			slimeVector[i].sprite.setScale(-1.f, 1.f);
 			slimeVector[i].velocity.x = -1.0f;
 		}
 
-		slimeVector[i].position.x += slimeVector[i].velocity.x;
+
+		if (slimeVector[i].velocity.y != 0.f && slimeVector[i].isTopColliding(true, "") == nullptr) {
+			slimeVector[i].position.x += slimeVector[i].velocity.x;
+		}
 
 		tileCollider = slimeVector[i].isSideColliding(true, "");
 		if (tileCollider != nullptr) {
 			if (slimeVector[i].dir == 'R') {
-				slimeVector[i].dir = 'L';
 				slimeVector[i].position.x = tileCollider->sprite.getPosition().x - ((SPRITE_DIMENSIONS.x / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
 			else if (slimeVector[i].dir == 'L') {
-				slimeVector[i].dir = 'R';
 				slimeVector[i].position.x = tileCollider->sprite.getPosition().x + ((SPRITE_DIMENSIONS.x / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
+		}
+
+		if (slimeVector[i].sprite.getPosition().x < Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
+			slimeVector[i].dir = 'R';
+		}
+		else if (slimeVector[i].sprite.getPosition().x > Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
+			slimeVector[i].dir = 'L';
 		}
 
 		slimeVector[i].sprite.setPosition(slimeVector[i].position);
@@ -83,12 +101,20 @@ void Slime::update() {
 			slimeVector.erase(slimeVector.begin() + i);
 			Player::xp++;
 		}
+		else if (Player::bottomHitbox.getGlobalBounds().intersects(slimeVector[i].topHitbox.getGlobalBounds()) && Player::velocity.y > 0) {
+			slimeVector.erase(slimeVector.begin() + i);
+			Player::animationType = "jump";
+			Player::velocity.y = -1.f;
+			Player::xp++;
+		}
 	}
 }
 
 void Slime::draw() {
 	for (size_t i = 0; i < slimeVector.size(); i++) {
-		Game::window.draw(slimeVector[i].sprite);
+		if (Game::cullingPoint.getGlobalBounds().intersects(slimeVector[i].sprite.getGlobalBounds())) {
+			Game::window.draw(slimeVector[i].sprite);
+		}
 	}
 }
 

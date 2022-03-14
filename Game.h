@@ -11,7 +11,7 @@ public:
 	static RectangleShape cullingPoint;
 	static void setup();
 	static void loadLevel();
-private:
 	static const float WIDTH;
 	static const float HEIGHT;
+private:
 };

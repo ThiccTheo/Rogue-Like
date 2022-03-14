@@ -65,7 +65,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 				tileVector.push_back(Tile(x, y, "exit", false));
 			}
 			else if (color == Color(255, 0, 255)) {
-				y += 8.f;
+				y += 12.f;
 				if (rand() % 5 >= 0) Chest::chestVector.push_back(Chest(x, y));
 			}
 			else if (color == Color(128, 0, 128)) {

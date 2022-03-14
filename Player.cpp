@@ -47,14 +47,17 @@ void Player::draw()
 		sprite.setTextureRect(IntRect(0, 0, 16, 16));
 		Sword::attackFrame = 0;
 	}
+	else if (animationType == "melee") {
+		meleeAnimation();
+	}
 	else if (animationType == "walk") {
 		walkAnimation();
 	}
+	if (animationType == "jump" && Sword::showSword == true) {
+		sprite.setTextureRect(IntRect(0, 0, 16, 16));
+	}
 	else if (animationType == "jump") {
 		sprite.setTextureRect(IntRect(48, 0, 16, 16));
-	}
-	else if (animationType == "melee") {
-		meleeAnimation();
 	}
 
 	if (showIFrames == false) {

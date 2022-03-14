@@ -23,15 +23,15 @@ public:
 	static int xp;
 	static const Vector2f TERMINAL_VELOCITY;
 	static string animationType;
+	static Vector2f velocity, position;
+	static RectangleShape topHitbox, bottomHitbox;
 private:
 	static const int XP_LIMIT;
 	static Tile* isSideColliding(bool isSolid, string&& type);
 	static Tile* isTopColliding(bool isSolid, string&& type);
 	static Tile* isBottomColliding(bool isSolid, string&& type);
-	static Vector2f velocity, position;
 	static const float GRAVITY;
 	static const float SPRITE_SIZE, HITBOX_THICKNESS;
-	static RectangleShape topHitbox, bottomHitbox;
 	static Clock animationClock;
 	static void walkAnimation();
 	static void meleeAnimation();

@@ -21,4 +21,6 @@ private:
 	static const float GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
 	Vector2f position, velocity;
+	Clock jumpTimer;
+	int jumpDelay;
 };

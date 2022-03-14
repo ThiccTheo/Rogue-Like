@@ -6,7 +6,7 @@ const Vector2f Skeleton::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 
 vector<Skeleton> Skeleton::skeletonVector;
 
-Skeleton::Skeleton(float& x, float& y){
+Skeleton::Skeleton(float& x, float& y) {
 	this->dir = 'R';
 	this->sprite.setTexture(ResourceManager::skeletonTexture);
 	this->sprite.setTextureRect(IntRect(0, 0, 16, 16));
@@ -23,7 +23,7 @@ Skeleton::Skeleton(float& x, float& y){
 	this->walkFrame = 0;
 }
 
-void Skeleton::draw(){
+void Skeleton::draw() {
 	for (size_t i = 0; i < skeletonVector.size(); i++) {
 		if (skeletonVector[i].sprite.getGlobalBounds().intersects(Game::cullingPoint.getGlobalBounds())) {
 			if (skeletonVector[i].animationType == "idle") {
@@ -37,7 +37,7 @@ void Skeleton::draw(){
 	}
 }
 
-void Skeleton::update(){
+void Skeleton::update() {
 	Tile* tileCollider = nullptr;
 
 	for (size_t i = 0; i < skeletonVector.size(); i++) {
@@ -78,7 +78,7 @@ void Skeleton::update(){
 		if (tileCollider != nullptr) {
 			if (skeletonVector[i].dir == 'R') {
 				skeletonVector[i].dir = 'L';
-				skeletonVector[i].position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE/2) + (tileCollider->spriteDimensions.x /2));
+				skeletonVector[i].position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
 			else if (skeletonVector[i].dir == 'L') {
 				skeletonVector[i].dir = 'R';
@@ -104,6 +104,12 @@ void Skeleton::update(){
 
 		if (Sword::showSword == true && Sword::sprite.getGlobalBounds().intersects(skeletonVector[i].sprite.getGlobalBounds())) {
 			skeletonVector.erase(skeletonVector.begin() + i);
+			Player::xp++;
+		}
+		else if (Player::bottomHitbox.getGlobalBounds().intersects(skeletonVector[i].topHitbox.getGlobalBounds()) && Player::velocity.y > 0){
+			skeletonVector.erase(skeletonVector.begin() + i);
+			Player::animationType = "jump";
+			Player::velocity.y = -1.f;
 			Player::xp++;
 		}
 	}

@@ -22,4 +22,6 @@ private:
 	static RectangleShape xpBarOutline;
 	static void initXP();
 	static void drawXP();
+
+	static Vector2f screenOrigin;
 };

@@ -13,7 +13,7 @@ void Game::setup() {
 	view.setSize(WIDTH, HEIGHT);
 	cullingPoint.setSize(Vector2f(WIDTH, HEIGHT));
 	cullingPoint.setFillColor(Color::Red);
-	cullingPoint.setOrigin(WIDTH / 2.f, HEIGHT / 2.f);
+	cullingPoint.setOrigin(cullingPoint.getSize().x / 2.f, cullingPoint.getSize().y / 2.f);
 }
 
 void Game::loadLevel() {
