@@ -19,6 +19,7 @@ Slime::Slime(float& x, float& y) {
 	this->sprite.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->topHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->bottomHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
+	this->jumpDelay = rand() % 4;
 }
 
 void Slime::update() {
@@ -36,16 +37,13 @@ void Slime::update() {
 		}
 		slimeVector[i].position.y += slimeVector[i].velocity.y;
 
-		slimeVector[i].topHitbox.setPosition(slimeVector[i].position.x + 1, slimeVector[i].position.y - 1);
-		slimeVector[i].bottomHitbox.setPosition(slimeVector[i].position.x + 1, slimeVector[i].position.y + 11.f);
-
 		tileCollider = slimeVector[i].isBottomColliding(true, "");
 		if (tileCollider != nullptr) {
 			slimeVector[i].velocity.y = 0.f;
 			slimeVector[i].position.y = tileCollider->sprite.getPosition().y - SPRITE_DIMENSIONS.y;
-			tileCollider = slimeVector[i].isTopColliding(true, "");
 		}
-		else if (tileCollider != nullptr) {
+		tileCollider = slimeVector[i].isTopColliding(true, "");
+		if (tileCollider != nullptr) {
 			slimeVector[i].velocity.y = 1.f;
 			slimeVector[i].position.y = tileCollider->sprite.getPosition().y + tileCollider->spriteDimensions.y + 1;
 		}
@@ -59,15 +57,14 @@ void Slime::update() {
 
 		if (slimeVector[i].dir == 'R' && slimeVector[i].velocity.y != 0.f) {
 			slimeVector[i].sprite.setScale(1.f, 1.f);
-			slimeVector[i].velocity.x = 1.0f;
+			slimeVector[i].velocity.x = 0.5f;
 		}
 		else if (slimeVector[i].dir == 'L' && slimeVector[i].velocity.y != 0.f) {
 			slimeVector[i].sprite.setScale(-1.f, 1.f);
-			slimeVector[i].velocity.x = -1.0f;
+			slimeVector[i].velocity.x = -0.5f;
 		}
 
-
-		if (slimeVector[i].velocity.y != 0.f && slimeVector[i].isTopColliding(true, "") == nullptr) {
+		if (slimeVector[i].velocity.y != 0.f && slimeVector[i].isSideColliding(true, "") == nullptr) {
 			slimeVector[i].position.x += slimeVector[i].velocity.x;
 		}
 
@@ -81,10 +78,10 @@ void Slime::update() {
 			}
 		}
 
-		if (slimeVector[i].sprite.getPosition().x < Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
+		if (slimeVector[i].sprite.getPosition().x <= Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
 			slimeVector[i].dir = 'R';
 		}
-		else if (slimeVector[i].sprite.getPosition().x > Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
+		else if (slimeVector[i].sprite.getPosition().x >= Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
 			slimeVector[i].dir = 'L';
 		}
 
