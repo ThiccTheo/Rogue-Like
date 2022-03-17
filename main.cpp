@@ -39,9 +39,8 @@ int main(){
             }
         }
 
-        Game::window.clear(Color::White);
+        Game::window.clear(Color::Black);
         Game::window.setView(Game::view);
-
         Tile::draw();
         Chest::draw();
         Skeleton::draw();

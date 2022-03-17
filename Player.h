@@ -11,7 +11,7 @@ public:
 	static int health;
 	static Sprite sprite;
 	static void init();
-	static void draw();
+	static void draw(); //@param 
 	static void update();
 	static int jumpCounter;
 	static bool showIFrames;

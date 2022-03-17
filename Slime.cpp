@@ -19,14 +19,12 @@ Slime::Slime(float& x, float& y) {
 	this->sprite.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->topHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->bottomHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
-	this->jumpDelay = rand() % 4;
 }
 
 void Slime::update() {
 	Tile* tileCollider = nullptr;
 
 	for (size_t i = 0; i < slimeVector.size(); i++) {
-		slimeVector[i].jumpDelay = rand() % 4;
 		slimeVector[i].position = slimeVector[i].sprite.getPosition();
 
 		if (slimeVector[i].velocity.y < TERMINAL_VELOCITY.y) {
@@ -49,8 +47,7 @@ void Slime::update() {
 		}
 
 		tileCollider = slimeVector[i].isBottomColliding(true, "");
-		if (tileCollider != nullptr && slimeVector[i].jumpTimer.getElapsedTime().asSeconds() >= slimeVector[i].jumpDelay) {
-			slimeVector[i].jumpTimer.restart();
+		if (tileCollider != nullptr && rand() % 5 == 2) {
 			slimeVector[i].velocity.y = -1.7f;
 			slimeVector[i].position.y -= 1.f;
 		}
@@ -113,56 +110,4 @@ void Slime::draw() {
 			Game::window.draw(slimeVector[i].sprite);
 		}
 	}
-}
-
-
-Tile* Slime::isSideColliding(bool isSolid, string&& type) {
-	Tile* collider = nullptr;
-	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			if (type != "" && type == Tile::tileVector[i].type) {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-			else if (type == "") {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-		}
-	}
-	return collider;
-}
-
-Tile* Slime::isTopColliding(bool isSolid, string&& type) {
-	Tile* collider = nullptr;
-	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			if (type != "" && type == Tile::tileVector[i].type) {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-			else if (type == "") {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-		}
-	}
-	return collider;
-}
-
-Tile* Slime::isBottomColliding(bool isSolid, string&& type) {
-	Tile* collider = nullptr;
-	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			if (type != "" && type == Tile::tileVector[i].type) {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-			else if (type == "") {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-		}
-	}
-	return collider;
 }
