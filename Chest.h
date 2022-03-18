@@ -1,9 +1,5 @@
 #pragma once
 #include "Common.h"
-#include "ResourceManager.h"
-#include "Game.h"
-#include "Player.h"
-#include "Sword.h"
 
 class Chest {
 public:

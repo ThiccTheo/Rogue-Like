@@ -1,4 +1,7 @@
 #include "GUI.h"
+#include "Game.h"
+#include "ResourceManager.h"
+#include "Player.h"
 
 Font GUI::VCR_OSD_Mono;
 Font GUI::Big_Pixel;

@@ -54,9 +54,6 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Tile</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>ResourceManager</Filter>
     </ClCompile>
@@ -69,6 +66,7 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Skeleton.h">

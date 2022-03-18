@@ -1,4 +1,8 @@
 #include "Chest.h"
+#include "ResourceManager.h"
+#include "Game.h"
+#include "Player.h"
+#include "Sword.h"
 
 vector<Chest> Chest::chestVector;
 

@@ -1,8 +1,5 @@
 #pragma once
 #include "Common.h"
-#include "ResourceManager.h"
-#include "Game.h"
-#include "Player.h"
 
 class Sword {
 public:

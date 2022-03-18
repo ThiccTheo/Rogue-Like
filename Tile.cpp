@@ -1,4 +1,10 @@
 #include "Tile.h"
+#include "Player.h"
+#include "Skeleton.h"
+#include "ResourceManager.h"
+#include "Chest.h"
+#include "Slime.h"
+#include "Game.h"
 
 const float  Tile::POSITION_SCALAR = 24.f, Tile::SCALE = 1.5;
 const int Tile::START_TILE = 1, Tile::DOWN_TILE = 2, Tile::UP_TILE = 3, Tile::UP_AND_DOWN_TILE = 4, Tile::DOOR_TILE = 5;

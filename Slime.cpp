@@ -1,4 +1,9 @@
 #include "Slime.h"
+#include "Game.h"
+#include "Tile.h"
+#include "ResourceManager.h"
+#include "Player.h"
+#include "Sword.h"
 
 vector<Slime> Slime::slimeVector;
 const Vector2f Slime::SPRITE_DIMENSIONS = Vector2f(16.f, 11.f);

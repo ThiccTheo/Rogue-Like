@@ -1,8 +1,5 @@
 #pragma once
 #include "Common.h"
-#include "Game.h"
-#include "ResourceManager.h"
-#include "Player.h"
 
 class GUI {
 public:

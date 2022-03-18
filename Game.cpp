@@ -1,4 +1,8 @@
 #include "Game.h"
+#include "Tile.h"
+#include "Skeleton.h"
+#include "Chest.h"
+#include "Slime.h"
 
 RenderWindow Game::window;
 View Game::view;

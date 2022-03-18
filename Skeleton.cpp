@@ -1,4 +1,9 @@
 #include "Skeleton.h"
+#include "ResourceManager.h"
+#include "Tile.h"
+#include "Game.h"
+#include "Sword.h"
+#include "Player.h"
 
 const float Skeleton::SPRITE_SIZE = 16.f, Skeleton::HITBOX_THICKNESS = 1.f;
 const float Skeleton::GRAVITY = 0.025f;
@@ -20,7 +25,7 @@ Skeleton::Skeleton(float& x, float& y) {
 	this->sprite.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->topHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 	this->bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
-	this->walkFrame = 0;
+	this->animationFrame = 0;
 }
 
 void Skeleton::draw() {
@@ -115,70 +120,19 @@ void Skeleton::update() {
 	}
 }
 
-Tile* Skeleton::isSideColliding(bool isSolid, string&& type) {
-	Tile* collider = nullptr;
-	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if(sprite.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid){
-			if (type != "" && type == Tile::tileVector[i].type) {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-			else if (type == "") {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-		}
-	}
-	return collider;
-}
-
-Tile* Skeleton::isTopColliding(bool isSolid, string&& type) {
-	Tile* collider = nullptr;
-	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (topHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			if (type != "" && type == Tile::tileVector[i].type) {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-			else if (type == "") {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-		}
-	}
-	return collider;
-}
-
-Tile* Skeleton::isBottomColliding(bool isSolid, string&& type) {
-	Tile* collider = nullptr;
-	for (size_t i = 0; i < Tile::tileVector.size(); i++) {
-		if (bottomHitbox.getGlobalBounds().intersects(Tile::tileVector[i].sprite.getGlobalBounds()) && Tile::tileVector[i].isSolid == isSolid) {
-			if (type != "" && type == Tile::tileVector[i].type) {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-			else if (type == "") {
-				collider = &Tile::tileVector[i];
-				return collider;
-			}
-		}
-	}
-	return collider;
-}
-
 void Skeleton::walkAnimation() {
-	if (walkFrame == 0) {
+	if (animationFrame == 0) {
 		sprite.setTextureRect(IntRect(16, 0, 16, 16));
 	}
 
-	else if (walkFrame == 1) {
+	else if (animationFrame == 1) {
 		sprite.setTextureRect(IntRect(32, 0, 16, 16));
 	}
 
 	if (animationClock.getElapsedTime().asSeconds() > 0.15) {
-		walkFrame++;
-		if (walkFrame > 1) {
-			walkFrame = 0;
+		animationFrame++;
+		if (animationFrame > 1) {
+			animationFrame = 0;
 		}
 		animationClock.restart();
 	}

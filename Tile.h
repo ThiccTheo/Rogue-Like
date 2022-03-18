@@ -1,16 +1,5 @@
 #pragma once
 #include "Common.h"
-#include "Player.h"
-#include "Skeleton.h"
-#include "ResourceManager.h"
-#include "Chest.h"
-#include "Slime.h"
-
-class Slime;
-
-class Player;
-
-class Skeleton;
 
 class Tile {
 public:

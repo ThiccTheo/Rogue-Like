@@ -1,8 +1,5 @@
 #pragma once
 #include "Common.h"
-#include "Tile.h"
-#include "ResourceManager.h"
-#include "Game.h"
 
 class Tile;
 
@@ -11,7 +8,7 @@ public:
 	static int health;
 	static Sprite sprite;
 	static void init();
-	static void draw(); //@param 
+	static void draw();
 	static void update();
 	static int jumpCounter;
 	static bool showIFrames;
