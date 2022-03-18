@@ -90,9 +90,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Sword.h">
       <Filter>Weapons</Filter>
     </ClInclude>
@@ -102,5 +99,6 @@
     <ClInclude Include="Entity.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="Common.h" />
   </ItemGroup>
 </Project>

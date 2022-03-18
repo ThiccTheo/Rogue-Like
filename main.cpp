@@ -41,6 +41,7 @@ int main(){
 
         Game::window.clear(Color::Black);
         Game::window.setView(Game::view);
+
         Tile::draw();
         Chest::draw();
         Skeleton::draw();
@@ -48,6 +49,7 @@ int main(){
         Sword::draw();
         Player::draw();
         GUI::draw();
+
         Game::window.display();
 
         Skeleton::update();
