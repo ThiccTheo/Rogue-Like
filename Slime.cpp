@@ -13,7 +13,8 @@ const Vector2f Slime::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 
 Slime::Slime(float& x, float& y) {
 	this->sprite.setTexture(ResourceManager::slimeTexture);
-	this->dir = 'R';
+	this->sprite.setTextureRect(IntRect(0, 0, 16, 11));
+	this->dir = 1;
 	this->sprite.setPosition(x, y);
 	this->topHitbox.setSize(Vector2f(SPRITE_DIMENSIONS.x - 2, 1.f));
 	this->bottomHitbox.setSize(Vector2f(SPRITE_DIMENSIONS.x - 2, 1.f));
@@ -24,6 +25,7 @@ Slime::Slime(float& x, float& y) {
 	this->sprite.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->topHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->bottomHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
+	this->jumpDelay = 0;
 }
 
 void Slime::update() {
@@ -40,6 +42,9 @@ void Slime::update() {
 		}
 		slimeVector[i].position.y += slimeVector[i].velocity.y;
 
+		slimeVector[i].topHitbox.setPosition(slimeVector[i].position.x + 1, slimeVector[i].position.y - 1);
+		slimeVector[i].bottomHitbox.setPosition(slimeVector[i].position.x + 1, slimeVector[i].position.y + SPRITE_DIMENSIONS.y);
+
 		tileCollider = slimeVector[i].isBottomColliding(true, "");
 		if (tileCollider != nullptr) {
 			slimeVector[i].velocity.y = 0.f;
@@ -47,23 +52,23 @@ void Slime::update() {
 		}
 		tileCollider = slimeVector[i].isTopColliding(true, "");
 		if (tileCollider != nullptr) {
-			slimeVector[i].velocity.y = 1.f;
+			slimeVector[i].velocity.y = 0.01f;
 			slimeVector[i].position.y = tileCollider->sprite.getPosition().y + tileCollider->spriteDimensions.y + 1;
 		}
 
 		tileCollider = slimeVector[i].isBottomColliding(true, "");
-		if (tileCollider != nullptr && rand() % 5 == 2) {
-			slimeVector[i].velocity.y = -1.7f;
-			slimeVector[i].position.y -= 1.f;
+		if (tileCollider != nullptr) {
+			slimeVector[i].jumpDelay--;
+			if (slimeVector[i].jumpDelay <= 0) {
+				slimeVector[i].velocity.y = -1.7f;
+				slimeVector[i].position.y -= 1.f;
+				slimeVector[i].jumpDelay = rand() % 360 + 120;
+			}
 		}
 
-		if (slimeVector[i].dir == 'R' && slimeVector[i].velocity.y != 0.f) {
-			slimeVector[i].sprite.setScale(1.f, 1.f);
-			slimeVector[i].velocity.x = 0.5f;
-		}
-		else if (slimeVector[i].dir == 'L' && slimeVector[i].velocity.y != 0.f) {
-			slimeVector[i].sprite.setScale(-1.f, 1.f);
-			slimeVector[i].velocity.x = -0.5f;
+		if (slimeVector[i].velocity.y != 0.f) {
+			slimeVector[i].sprite.setScale(slimeVector[i].dir, 1.f);
+			slimeVector[i].velocity.x = 0.5f * slimeVector[i].dir;
 		}
 
 		if (slimeVector[i].velocity.y != 0.f && slimeVector[i].isSideColliding(true, "") == nullptr) {
@@ -72,19 +77,19 @@ void Slime::update() {
 
 		tileCollider = slimeVector[i].isSideColliding(true, "");
 		if (tileCollider != nullptr) {
-			if (slimeVector[i].dir == 'R') {
+			if (slimeVector[i].dir == 1.f) {
 				slimeVector[i].position.x = tileCollider->sprite.getPosition().x - ((SPRITE_DIMENSIONS.x / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
-			else if (slimeVector[i].dir == 'L') {
+			else if (slimeVector[i].dir == -1.f) {
 				slimeVector[i].position.x = tileCollider->sprite.getPosition().x + ((SPRITE_DIMENSIONS.x / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
 		}
 
 		if (slimeVector[i].sprite.getPosition().x <= Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
-			slimeVector[i].dir = 'R';
+			slimeVector[i].dir = 1.f;
 		}
 		else if (slimeVector[i].sprite.getPosition().x >= Player::sprite.getPosition().x && slimeVector[i].velocity.y == 0.f) {
-			slimeVector[i].dir = 'L';
+			slimeVector[i].dir = -1.f;
 		}
 
 		slimeVector[i].sprite.setPosition(slimeVector[i].position);

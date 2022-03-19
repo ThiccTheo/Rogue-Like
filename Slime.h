@@ -12,4 +12,5 @@ private:
 	static const Vector2f SPRITE_DIMENSIONS;
 	static const float GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
+	int jumpDelay;
 };

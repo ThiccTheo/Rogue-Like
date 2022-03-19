@@ -12,7 +12,7 @@ const Vector2f Skeleton::TERMINAL_VELOCITY = Vector2f(0.f, 1.5f);
 vector<Skeleton> Skeleton::skeletonVector;
 
 Skeleton::Skeleton(float& x, float& y) {
-	this->dir = 'R';
+	this->dir = 1.f;
 	this->sprite.setTexture(ResourceManager::skeletonTexture);
 	this->sprite.setTextureRect(IntRect(0, 0, 16, 16));
 	this->sprite.setPosition(x, y);
@@ -68,25 +68,19 @@ void Skeleton::update() {
 			skeletonVector[i].position.y += skeletonVector[i].velocity.y;
 		}
 
-		if (skeletonVector[i].dir == 'R') {
-			skeletonVector[i].sprite.setScale(1.f, 1.f);
-			skeletonVector[i].velocity.x = 1.0f;
-		}
-		else if (skeletonVector[i].dir == 'L') {
-			skeletonVector[i].sprite.setScale(-1.f, 1.f);
-			skeletonVector[i].velocity.x = -1.0f;
-		}
+		skeletonVector[i].sprite.setScale(skeletonVector[i].dir, 1.f);
+		skeletonVector[i].velocity.x = 1.0f * skeletonVector[i].dir;
 
 		skeletonVector[i].position.x += skeletonVector[i].velocity.x;
 
 		tileCollider = skeletonVector[i].isSideColliding(true, "");
 		if (tileCollider != nullptr) {
-			if (skeletonVector[i].dir == 'R') {
-				skeletonVector[i].dir = 'L';
+			if (skeletonVector[i].dir == 1.f) {
+				skeletonVector[i].dir = -1.f;
 				skeletonVector[i].position.x = tileCollider->sprite.getPosition().x - ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
-			else if (skeletonVector[i].dir == 'L') {
-				skeletonVector[i].dir = 'R';
+			else if (skeletonVector[i].dir == -1.f) {
+				skeletonVector[i].dir = 1.f;
 				skeletonVector[i].position.x = tileCollider->sprite.getPosition().x + ((SPRITE_SIZE / 2) + (tileCollider->spriteDimensions.x / 2));
 			}
 		}
