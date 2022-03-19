@@ -38,12 +38,13 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 	/*
 	THESE VALUES ARE SUBJECT TO CHANGE
 
-	stone: #ff0000 | 255, 0, 0
-	skeleton: #00ff00 | 0, 255, 0
-	start: #0000ff | 0, 0, 255
-	exit: #ffff00 | 255, 255, 0
-	chest: #ff00ff | 255, 0, 255
-	slime: #800080 | 128, 0, 128
+	stone: #000000 | 0, 0, 0
+	skeleton: #FFFF00 | 255, 255, 0
+	start: #00FFFF | 0, 255, 255
+	exit: #FF00FF | 255, 0, 255
+	chest: #643C00 | 100, 60, 0
+	slime: #00FF00 | 0, 255, 0
+	probablity tile: #808080 | 128, 128, 128
 	*/
 
 
@@ -54,29 +55,38 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 
 			color = image.getPixel(j, i);
 
-			if (color == Color(255, 0, 0)) {
+			//tile
+			if (color == Color(0, 0, 0)) {
 				tileVector.push_back(Tile(x, y, "stone", true));
 			}
-			else if (color == Color(0, 255, 0)) {
+			//skeleton
+			else if (color == Color(255, 255, 0)) {
 				y += 8.f;
-				if (rand() % 5 >= 0) Skeleton::skeletonVector.push_back(Skeleton(x, y));
+				if (rand() % 2 == 1) Skeleton::skeletonVector.push_back(Skeleton(x, y));
 			}
-			else if (color == Color(0, 0, 255)) {
+			//start
+			else if (color == Color(0, 255, 255)) {
 				y += 8.f;
 				Player::sprite.setPosition(x, y);
 				y -= 8.f;
 				tileVector.push_back(Tile(x, y, "start", false));
 			}
-			else if (color == Color(255, 255, 0)) {
+			//exit
+			else if (color == Color(255, 0, 255)) {
 				tileVector.push_back(Tile(x, y, "exit", false));
 			}
-			else if (color == Color(255, 0, 255)) {
+			//chest
+			else if (color == Color(100, 60, 0)) {
 				y += 12.f;
-				if (rand() % 5 >= 0) Chest::chestVector.push_back(Chest(x, y));
+				if (rand() % 10 >= 3) Chest::chestVector.push_back(Chest(x, y));
 			}
-			else if (color == Color(128, 0, 128)) {
+			//slime
+			else if (color == Color(0, 255, 0)) {
 				y += 8.f;
-				if (rand() % 5 >= 0) Slime::slimeVector.push_back(Slime(x, y));
+				if (rand() % 2 == 1) Slime::slimeVector.push_back(Slime(x, y));
+			}
+			else if (color == Color(128, 128, 128)) {
+				if (rand() % 10 >= 3) tileVector.push_back(Tile(x, y, "stone", true));
 			}
 		}
 	}
