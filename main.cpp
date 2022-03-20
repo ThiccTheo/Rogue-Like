@@ -39,7 +39,7 @@ int main(){
             }
         }
 
-        Game::window.clear(Color::Black);
+        Game::window.clear(Color::White);
         Game::window.setView(Game::view);
 
         Tile::draw();

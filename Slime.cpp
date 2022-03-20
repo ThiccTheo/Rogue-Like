@@ -22,10 +22,13 @@ Slime::Slime(float& x, float& y) {
 	this->bottomHitbox.setFillColor(Color::Red);
 	this->topHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y - 1);
 	this->bottomHitbox.setPosition(sprite.getPosition().x + 1, sprite.getPosition().y + SPRITE_DIMENSIONS.y);
-	this->sprite.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
+	this->sprite.setOrigin(SPRITE_DIMENSIONS.x / 2.f, 0.f);
 	this->topHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->bottomHitbox.setOrigin(SPRITE_DIMENSIONS.x / 2, 0.f);
 	this->jumpDelay = 0;
+	this->hasJumped = false;
+	this->animationFrame = 0;
+
 }
 
 void Slime::update() {
@@ -58,17 +61,23 @@ void Slime::update() {
 
 		tileCollider = slimeVector[i].isBottomColliding(true, "");
 		if (tileCollider != nullptr) {
+			slimeVector[i].sprite.setTextureRect(IntRect(0, 0, 16, 11));
 			slimeVector[i].jumpDelay--;
 			if (slimeVector[i].jumpDelay <= 0) {
-				slimeVector[i].velocity.y = -1.7f;
-				slimeVector[i].position.y -= 1.f;
-				slimeVector[i].jumpDelay = rand() % 360 + 120;
+				slimeVector[i].animationType = "jump";
+				if (slimeVector[i].hasJumped == true) {
+					slimeVector[i].velocity.y = -1.7f;
+					slimeVector[i].position.y -= 1.f;
+					slimeVector[i].jumpDelay = rand() % 360 + 120;
+					slimeVector[i].animationType = "idle";
+					slimeVector[i].hasJumped = false;
+				}
 			}
 		}
 
 		if (slimeVector[i].velocity.y != 0.f) {
 			slimeVector[i].sprite.setScale(slimeVector[i].dir, 1.f);
-			slimeVector[i].velocity.x = 0.5f * slimeVector[i].dir;
+			slimeVector[i].velocity.x = 0.4f * slimeVector[i].dir;
 		}
 
 		if (slimeVector[i].velocity.y != 0.f && slimeVector[i].isSideColliding(true, "") == nullptr) {
@@ -117,7 +126,38 @@ void Slime::update() {
 void Slime::draw() {
 	for (size_t i = 0; i < slimeVector.size(); i++) {
 		if (Game::cullingPoint.getGlobalBounds().intersects(slimeVector[i].sprite.getGlobalBounds())) {
+			if (slimeVector[i].animationType == "jump") {
+				slimeVector[i].jumpAnimation();
+			}
 			Game::window.draw(slimeVector[i].sprite);
 		}
+	}
+}
+
+void Slime::jumpAnimation() {
+	if (animationFrame == 0) {
+		sprite.setTextureRect(IntRect(0, 0, 16, 11));
+	}
+
+	else if (animationFrame == 1) {
+		sprite.setTextureRect(IntRect(16, 0, 16, 11));
+	}
+	else if (animationFrame == 2) {
+		sprite.setTextureRect(IntRect(32, 0, 16, 11));
+	}
+	else if (animationFrame == 3) {
+		sprite.setTextureRect(IntRect(16, 0, 16, 11));
+	}
+	else if (animationFrame == 4) {
+		sprite.setTextureRect(IntRect(0, 0, 16, 11));
+	}
+
+	if (animationClock.getElapsedTime().asSeconds() > 0.2) {
+		animationFrame++;
+		if (animationFrame > 4) {
+			animationFrame = 0;
+			hasJumped = true;
+		}
+		animationClock.restart();
 	}
 }

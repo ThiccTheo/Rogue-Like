@@ -13,4 +13,9 @@ private:
 	static const float GRAVITY;
 	static const Vector2f TERMINAL_VELOCITY;
 	int jumpDelay;
+	string animationType;
+	Clock animationClock;
+	int animationFrame;
+	void jumpAnimation();
+	bool hasJumped;
 };
