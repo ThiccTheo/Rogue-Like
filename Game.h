@@ -8,6 +8,7 @@ public:
 	static RectangleShape cullingPoint;
 	static void setup();
 	static void loadLevel();
+	static void run();
 	static const float WIDTH;
 	static const float HEIGHT;
 private:
