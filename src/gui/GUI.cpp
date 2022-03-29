@@ -1,9 +1,8 @@
 #include "GUI.h"
-#include "Game.h"
-#include "ResourceManager.h"
-#include "Player.h"
+#include "../game/Game.h"
+#include "../resource/ResourceManager.h"
+#include "../player/Player.h"
 
-Font GUI::VCR_OSD_Mono;
 Font GUI::Big_Pixel;
 
 Text GUI::healthTxt;
@@ -16,8 +15,7 @@ RectangleShape GUI::xpBarOutline;
 Vector2f GUI::screenOrigin;
 
 void GUI::init() {
-	VCR_OSD_Mono.loadFromFile("GUI/VCR_OSD_Mono.ttf");
-	Big_Pixel.loadFromFile("GUI/Big_Pixel.otf");
+	Big_Pixel.loadFromFile("src/gui/Big_Pixel.otf");
 
 	initHealth();
 	initXP();
@@ -30,7 +28,7 @@ void GUI::draw() {
 }
 
 void GUI::initHealth() {
-	healthTexture.loadFromFile("GUI/Health.png");
+	healthTexture.loadFromFile("src/gui/Health.png");
 	healthSprite.setTexture(healthTexture);
 	healthTxt.setFont(Big_Pixel);
 	healthTxt.setCharacterSize(14);

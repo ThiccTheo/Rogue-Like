@@ -1,5 +1,6 @@
 #pragma once
-#include "Common.h"
+#include "../../vendor/Vendor.h"
+#include "../game/Common.h"
 
 class ResourceManager {
 public:

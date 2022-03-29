@@ -1,8 +1,8 @@
 #include "Player.h"
-#include "Tile.h"
-#include "ResourceManager.h"
-#include "Game.h"
-#include "Sword.h"
+#include "../tile/Tile.h"
+#include "../resource/ResourceManager.h"
+#include "../game/Game.h"
+#include "../weapon/sword/Sword.h"
 
 Sprite Player::sprite;
 RectangleShape Player::topHitbox, Player::bottomHitbox;

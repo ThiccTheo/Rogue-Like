@@ -1,9 +1,9 @@
 #include "Skeleton.h"
-#include "ResourceManager.h"
-#include "Tile.h"
-#include "Game.h"
-#include "Sword.h"
-#include "Player.h"
+#include "../../resource/ResourceManager.h"
+#include "../../tile/Tile.h"
+#include "../../game/Game.h"
+#include "../../weapon/sword/Sword.h"
+#include "../../player/Player.h"
 
 const float Skeleton::SPRITE_SIZE = 16.f, Skeleton::HITBOX_THICKNESS = 1.f;
 const float Skeleton::GRAVITY = 0.025f;

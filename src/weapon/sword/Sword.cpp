@@ -1,7 +1,7 @@
 #include "Sword.h"
-#include "ResourceManager.h"
-#include "Game.h"
-#include "Player.h"
+#include "../../resource/ResourceManager.h"
+#include "../../game/Game.h"
+#include "../../player/Player.h"
 
 Clock Sword::animationClock;
 Clock Sword::delayTimer;

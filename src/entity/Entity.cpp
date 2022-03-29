@@ -1,5 +1,5 @@
 #include "Entity.h"
-#include "Tile.h"
+#include "../tile/Tile.h"
 
 Tile* Entity::isSideColliding(bool isSolid, string&& type) {
 	Tile* collider = nullptr;

@@ -1,12 +1,12 @@
 #pragma once
-#include "Common.h"
+#include "../../vendor/Vendor.h"
+#include "../game/Common.h"
 
 class GUI {
 public:
 	static void draw();
 	static void init();
 private:
-	static Font VCR_OSD_Mono;
 	static Font Big_Pixel;
 
 	static Text healthTxt;

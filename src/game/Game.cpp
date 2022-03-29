@@ -1,13 +1,12 @@
-#include "Common.h"
-#include "Player.h"
-#include "Tile.h"
-#include "Skeleton.h"
-#include "ResourceManager.h"
-#include "Game.h"
-#include "GUI.h"
-#include "Chest.h"
-#include "Sword.h"
-#include "Slime.h"
+#include "../player/Player.h"
+#include "../tile/Tile.h"
+#include "../entity/skeleton/Skeleton.h"
+#include "../resource/ResourceManager.h"
+#include "../game/Game.h"
+#include "../gui/GUI.h"
+#include "../chest/Chest.h"
+#include "../weapon/sword/Sword.h"
+#include "../entity/slime/Slime.h"
 
 RenderWindow Game::window;
 View Game::view;

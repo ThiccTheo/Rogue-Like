@@ -146,30 +146,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Chest.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Skeleton.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Slime.cpp" />
-    <ClCompile Include="Sword.cpp" />
-    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="src\chest\Chest.cpp" />
+    <ClCompile Include="src\entity\Entity.cpp" />
+    <ClCompile Include="src\game\Game.cpp" />
+    <ClCompile Include="src\gui\GUI.cpp" />
+    <ClCompile Include="src\resource\ResourceManager.cpp" />
+    <ClCompile Include="src\entity\skeleton\Skeleton.cpp" />
+    <ClCompile Include="src\game\main.cpp" />
+    <ClCompile Include="src\player\Player.cpp" />
+    <ClCompile Include="src\entity\slime\Slime.cpp" />
+    <ClCompile Include="src\weapon\sword\Sword.cpp" />
+    <ClCompile Include="src\tile\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Chest.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Skeleton.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Slime.h" />
-    <ClInclude Include="Sword.h" />
-    <ClInclude Include="Tile.h" />
+    <ClInclude Include="src\chest\Chest.h" />
+    <ClInclude Include="src\game\Common.h" />
+    <ClInclude Include="vendor\Vendor.h" />
+    <ClInclude Include="src\entity\Entity.h" />
+    <ClInclude Include="src\game\Game.h" />
+    <ClInclude Include="src\gui\GUI.h" />
+    <ClInclude Include="src\resource\ResourceManager.h" />
+    <ClInclude Include="src\entity\skeleton\Skeleton.h" />
+    <ClInclude Include="src\player\Player.h" />
+    <ClInclude Include="src\entity\slime\Slime.h" />
+    <ClInclude Include="src\weapon\sword\Sword.h" />
+    <ClInclude Include="src\tile\Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

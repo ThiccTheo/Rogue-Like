@@ -1,6 +1,7 @@
 #pragma once
-#include "Common.h"
-#include "Entity.h"
+#include "../../../vendor/Vendor.h"
+#include "../../game/Common.h"
+#include "../Entity.h"
 
 class Skeleton: public Entity{
 public:
