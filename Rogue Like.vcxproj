@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\boss\paladin\Paladin.cpp" />
     <ClCompile Include="src\chest\Chest.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="src\tile\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\boss\paladin\Paladin.h" />
     <ClInclude Include="src\chest\Chest.h" />
     <ClInclude Include="src\game\Common.h" />
     <ClInclude Include="vendor\Vendor.h" />

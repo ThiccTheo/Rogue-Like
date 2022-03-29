@@ -13,6 +13,7 @@ public:
 	static Texture chestTexture;
 	static Texture swordTexture;
 	static Texture slimeTexture;
+	static Texture paladinTexture;
 
 	static const int START_size;
 	static const int LR_size;
@@ -27,5 +28,6 @@ public:
 	static Image LRU_array[];
 	static Image ALL_array[];
 	static Image EXIT_array[];
+	static Image BLANK;
 
 };

@@ -44,9 +44,7 @@ void Player::init() {
 	bottomHitbox.setOrigin(SPRITE_SIZE / 2, 0.f);
 }
 
-void Player::draw() 
-{
-
+void Player::draw() {
 	if (animationType == "idle") {
 		sprite.setTextureRect(IntRect(0, 0, 16, 16));
 		Sword::attackFrame = 0;

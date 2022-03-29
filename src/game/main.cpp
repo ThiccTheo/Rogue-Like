@@ -2,5 +2,5 @@
 
 int main(){
     Game::run();
-    return 0;
+    return EXIT_SUCCESS;
 }

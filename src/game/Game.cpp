@@ -7,6 +7,7 @@
 #include "../chest/Chest.h"
 #include "../weapon/sword/Sword.h"
 #include "../entity/slime/Slime.h"
+#include "../boss/paladin/Paladin.h"
 
 RenderWindow Game::window;
 View Game::view;
@@ -14,6 +15,8 @@ RectangleShape Game::cullingPoint;
 
 const float Game::WIDTH = 400.f;
 const float Game::HEIGHT = 250.f;
+
+int Game::currentLevel = 3;
 
 void Game::setup() {
 	window.create(VideoMode(static_cast<unsigned int>(WIDTH), static_cast<unsigned int>(HEIGHT)), "Rouge Like", Style::Default);
@@ -25,6 +28,7 @@ void Game::setup() {
 }
 
 void Game::loadLevel() {
+    currentLevel++;
 	Tile::tileVector.clear();
 	Skeleton::skeletonVector.clear();
 	Chest::chestVector.clear();
@@ -71,6 +75,7 @@ void Game::run() {
         Chest::draw();
         Skeleton::draw();
         Slime::draw();
+        Paladin::draw();
         Sword::draw();
         Player::draw();
         GUI::draw();
@@ -79,8 +84,8 @@ void Game::run() {
 
         Skeleton::update();
         Slime::update();
+        Paladin::update();
         Player::update();
         Sword::update();
-
     }
 }

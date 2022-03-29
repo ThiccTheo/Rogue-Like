@@ -5,6 +5,7 @@
 #include "../chest/Chest.h"
 #include "../entity/slime/Slime.h"
 #include "../game/game.h"
+#include "../boss/paladin/Paladin.h"
 
 const float  Tile::POSITION_SCALAR = 24.f, Tile::SCALE = 1.5;
 const int Tile::START_TILE = 1, Tile::DOWN_TILE = 2, Tile::UP_TILE = 3, Tile::UP_AND_DOWN_TILE = 4, Tile::DOOR_TILE = 5;
@@ -84,6 +85,7 @@ void Tile::initTiles(int& levelPosX, int& levelPosY, const Image& image) {
 			else if (color == Color(0, 255, 0)) {
 				y += 8.f;
 				if (rand() % 2 == 1) Slime::slimeVector.push_back(Slime(x, y));
+
 			}
 			else if (color == Color(128, 128, 128)) {
 				if (rand() % 10 >= 3) tileVector.push_back(Tile(x, y, "stone", true));
@@ -110,26 +112,36 @@ void Tile::createLevelPathing() {
 		{0, 0, 0, 0},
 	};
 
-	for (int i = 0; i < 3; i++) {
-		pos = rand() % 4;
-		if (i > 0 && (roomMatrix[i - 1][pos] == DOWN_TILE || roomMatrix[i - 1][pos] == UP_AND_DOWN_TILE)) {
-			roomMatrix[i][pos] = UP_AND_DOWN_TILE;
+	if (Game::currentLevel % 5 != 0) {
+		for (int i = 0; i < 3; i++) {
+			pos = rand() % 4;
+			if (i > 0 && (roomMatrix[i - 1][pos] == DOWN_TILE || roomMatrix[i - 1][pos] == UP_AND_DOWN_TILE)) {
+				roomMatrix[i][pos] = UP_AND_DOWN_TILE;
+			}
+			else {
+				roomMatrix[i][pos] = DOWN_TILE;
+			}
+			roomMatrix[i + 1][pos] = UP_TILE;
 		}
-		else {
-			roomMatrix[i][pos] = DOWN_TILE;
-		}
-		roomMatrix[i + 1][pos] = UP_TILE;
+
+		do {
+			pos = rand() % 4;
+		} while (roomMatrix[0][pos] == 2);
+		roomMatrix[0][pos] = START_TILE;
+
+		do {
+			pos = rand() % 4;
+		} while (roomMatrix[3][pos] == 3);
+		roomMatrix[3][pos] = DOOR_TILE;
 	}
-
-	do {
-		pos = rand() % 4;
-	} while (roomMatrix[0][pos] == 2);
-	roomMatrix[0][pos] = START_TILE;
-
-	do {
-		pos = rand() % 4;
-	} while (roomMatrix[3][pos] == 3);
-	roomMatrix[3][pos] = DOOR_TILE;
+	else {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				roomMatrix[i][j] = 6;
+			}
+		}
+		/*~~~~~~~~~~~~~~~~~~~*/Paladin::init();
+	}
 
 	cout << "Level Layout:\n";
 	for (int i = 0; i < 4; i++) {
@@ -152,7 +164,7 @@ Image Tile::getRoomTemplate(int& templateType) {
 		case 3: image = ResourceManager::LRU_array[rand() % ResourceManager::LRU_size]; break;
 		case 4: image = ResourceManager::ALL_array[rand() % ResourceManager::ALL_size]; break;
 		case 5: image = ResourceManager::EXIT_array[rand() % ResourceManager::EXIT_size]; break;
-		default: image = ResourceManager::LR_array[rand() % ResourceManager::LR_size];
+		default: image = ResourceManager::BLANK;
 	}
 
 	if (rand() % 2 == 1) image.flipHorizontally();

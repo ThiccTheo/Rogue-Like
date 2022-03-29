@@ -12,5 +12,6 @@ public:
 	static void run();
 	static const float WIDTH;
 	static const float HEIGHT;
+	static int currentLevel;
 private:
 };

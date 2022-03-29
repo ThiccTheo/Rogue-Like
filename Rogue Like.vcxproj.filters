@@ -67,6 +67,7 @@
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="src\game\main.cpp" />
+    <ClCompile Include="src\boss\paladin\Paladin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\skeleton\Skeleton.h">
@@ -74,9 +75,6 @@
     </ClInclude>
     <ClInclude Include="src\entity\slime\Slime.h">
       <Filter>Enemies\Slime</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player\Player.h">
-      <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Game.h">
       <Filter>Game</Filter>
@@ -101,5 +99,9 @@
     </ClInclude>
     <ClInclude Include="vendor\Vendor.h" />
     <ClInclude Include="src\game\Common.h" />
+    <ClInclude Include="src\player\Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\boss\paladin\Paladin.h" />
   </ItemGroup>
 </Project>
