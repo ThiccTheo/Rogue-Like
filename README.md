@@ -1,3 +1,4 @@
 # Rogue-Like
-## Endless dungeon-based roguelike inspired by Spelunky's level generation and gameplay.
+## Endless Dungeon-Based Roguelike
 ### Made in C++ w/SFML, with help from Luke Rogez.
+### Inspired by Spelunky's level generation and gameplay.
